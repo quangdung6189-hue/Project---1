@@ -1,0 +1,2764 @@
+8<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco Value – Hành Động Xanh Vì Tương Lai</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ecoGreen: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        ecoBlue: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Supabase JS Client CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Canvas Confetti CDN for Celebration effects -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Custom CSS -->
+    <style>
+        .custom-shape-divider-bottom-1689230000 {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            transform: rotate(180deg);
+        }
+        .custom-shape-divider-bottom-1689230000 svg {
+            relative: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 60px;
+        }
+        .custom-shape-divider-bottom-1689230000 .shape-fill {
+            fill: #FFFFFF;
+        }
+        .hover-scale {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-scale:hover {
+            transform: translateY(-5px);
+        }
+        /* Active nav styling */
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #22c55e;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #22c55e;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #16a34a;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- Header / Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="bg-ecoGreen-100 p-2.5 rounded-full flex items-center justify-center shadow-inner">
+                        <i class="fa-solid fa-recycle text-ecoGreen-600 text-2xl animate-spin-slow"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl font-bold bg-gradient-to-r from-ecoGreen-600 to-ecoBlue-600 bg-clip-text text-transparent">SV TÁI CHẾ</span>
+                        <p class="text-[9px] text-gray-500 tracking-wider font-semibold uppercase leading-3">Hành Động Xanh Vì Tương Lai</p>
+                    </div>
+                </div>
+
+                                <!-- Desktop Nav -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-gray-600">
+                    <a href="#hero" class="nav-link hover:text-ecoGreen-600 transition-colors">Trang Chủ</a>
+                    <a href="#handbook" class="nav-link hover:text-ecoGreen-600 transition-colors">Cẩm Nang</a>
+                    <a href="#vouchers" class="nav-link hover:text-ecoGreen-600 transition-colors">Cửa Hàng</a>
+                    <a href="#b2b" class="nav-link hover:text-ecoGreen-600 transition-colors">Đối Tác B2B</a>
+                    <a href="#roadmap" class="nav-link hover:text-ecoGreen-600 transition-colors">Kế Hoạch</a>
+                    <a href="#team" class="nav-link hover:text-ecoGreen-600 transition-colors">Đội Ngũ</a>
+                    <a href="#contact" class="nav-link hover:text-ecoGreen-600 transition-colors">Liên Hệ</a>
+                </nav>
+
+                <!-- CTA Button Header -->
+                <div class="hidden md:block">
+                    <a href="#contact" class="bg-ecoGreen-600 hover:bg-ecoGreen-700 text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-ecoGreen-500/20 hover:shadow-ecoGreen-500/35 transition-all duration-300">
+                        <i class="fa-solid fa-leaf mr-2"></i>Tham gia ngay
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-ecoGreen-600 focus:outline-none focus:text-ecoGreen-600 transition-colors">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-100 py-4 px-6 space-y-3 shadow-inner">
+            <a href="#hero" class="block font-semibold text-gray-600 hover:text-ecoGreen-600 py-1 border-b border-gray-50">Trang Chủ</a>
+            <a href="#problem" class="block font-semibold text-gray-600 hover:text-ecoGreen-600 py-1 border-b border-gray-50">Thực Trạng</a>
+            <a href="#solution" class="block font-semibold text-gray-600 hover:text-ecoGreen-600 py-1 border-b border-gray-50">Giải Pháp</a>
+            <a href="#roadmap" class="block font-semibold text-gray-600 hover:text-ecoGreen-600 py-1 border-b border-gray-50">Kế Hoạch</a>
+            <a href="#team" class="block font-semibold text-gray-600 hover:text-ecoGreen-600 py-1 border-b border-gray-50">Đội Ngũ</a>
+            <a href="#contact" class="block font-semibold text-gray-600 hover:text-ecoGreen-600 py-1">Liên Hệ</a>
+            <a href="#contact" class="block text-center bg-ecoGreen-600 text-white font-bold py-2.5 rounded-lg">
+                <i class="fa-solid fa-leaf mr-2"></i>Tham Gia Ngay
+            </a>
+        </div>
+    </header>
+
+    <!-- 1. Hero Section -->
+    <section id="hero" class="relative overflow-hidden bg-gradient-to-b from-ecoGreen-50 via-ecoGreen-100/30 to-white pt-16 pb-28 md:pt-24 md:pb-36">
+        <!-- Floating Eco Elements -->
+        <div class="absolute top-12 left-10 text-ecoGreen-200/50 text-7xl animate-bounce" style="animation-duration: 6s;">
+            <i class="fa-solid fa-leaf"></i>
+        </div>
+        <div class="absolute top-1/2 right-12 text-ecoBlue-200/50 text-6xl animate-pulse">
+            <i class="fa-solid fa-seedling"></i>
+        </div>
+        <div class="absolute bottom-20 left-1/4 text-ecoGreen-200/40 text-5xl rotate-45">
+            <i class="fa-solid fa-earth-asia"></i>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Content -->
+                <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+                    <!-- Class & Subject Tag -->
+                    <div class="inline-flex items-center space-x-2 bg-ecoGreen-100/80 border border-ecoGreen-200 text-ecoGreen-800 rounded-full py-1.5 px-4 text-xs sm:text-sm font-semibold shadow-sm">
+                        <span class="bg-ecoGreen-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full mr-1">CMC UNIVERSITY</span>
+                        <span>Môn học: Kỹ Năng Mềm & Tư Duy Khởi Nghiệp</span>
+                    </div>
+
+                    <!-- Headline -->
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 leading-tight">
+                        Sinh Viên Tái Chế – <br class="hidden sm:inline">
+                        <span class="bg-gradient-to-r from-ecoGreen-600 via-ecoGreen-500 to-ecoBlue-500 bg-clip-text text-transparent">Hành Động Xanh</span> <br>
+                        Vì Tương Lai
+                    </h1>
+
+                    <!-- Subheadline -->
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium">
+                        Dự án xã hội hướng tới xây dựng mô hình phân loại và tái chế rác thải bền vững tại khuôn viên trường học, phát huy vai trò chủ động của cộng đồng sinh viên.
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                        <a href="#solution" class="w-full sm:w-auto bg-ecoGreen-600 hover:bg-ecoGreen-700 text-white px-8 py-4 rounded-full text-base font-bold shadow-xl shadow-ecoGreen-500/20 hover:shadow-ecoGreen-500/40 hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center">
+                            Khám phá mô hình <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </a>
+                        <a href="#contact" class="w-full sm:w-auto bg-white hover:bg-gray-50 text-ecoGreen-700 border border-ecoGreen-200 px-8 py-4 rounded-full text-base font-bold shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center">
+                            Tham gia cùng chúng tôi <i class="fa-solid fa-users ml-2 text-ecoGreen-500"></i>
+                        </a>
+                    </div>
+
+                    <!-- Metadata Board -->
+                    <div class="pt-8 border-t border-gray-200/80 max-w-lg mx-auto lg:mx-0">
+                        <div class="grid grid-cols-3 gap-4 text-center lg:text-left">
+                            <div>
+                                <span class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Lớp học</span>
+                                <span class="text-base font-bold text-gray-800">Lớp N04</span>
+                            </div>
+                            <div class="border-x border-gray-200 px-4">
+                                <span class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Nhóm</span>
+                                <span class="text-base font-bold text-gray-800">Group 5</span>
+                            </div>
+                            <div>
+                                <span class="block text-xs font-semibold text-gray-500 uppercase tracking-wider">Địa điểm</span>
+                                <span class="text-base font-bold text-gray-800">CMC Uni</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Visual Hero Card -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto max-w-[420px] lg:max-w-none">
+                        <!-- Decorative glow -->
+                        <div class="absolute -inset-2 bg-gradient-to-r from-ecoGreen-400 to-ecoBlue-400 rounded-3xl blur-2xl opacity-30 animate-pulse"></div>
+                        
+                        <!-- Main Card Dashboard -->
+                        <div class="relative bg-white border border-gray-100 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+                            <div class="flex items-center justify-between border-b border-gray-100 pb-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="bg-ecoGreen-100 text-ecoGreen-600 p-2 rounded-xl">
+                                        <i class="fa-solid fa-chart-line text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-gray-800">Mục tiêu Xanh 2026</h3>
+                                        <p class="text-xs text-ecoGreen-600 font-semibold">Đo lường mức độ ảnh hưởng</p>
+                                    </div>
+                                </div>
+                                <span class="bg-ecoBlue-50 text-ecoBlue-600 text-[10px] font-bold px-2 py-1 rounded-md uppercase">Đang triển khai</span>
+                            </div>
+
+                            <!-- Stat Rings / Bars -->
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-xs font-bold text-gray-700 mb-1.5">
+                                        <span>Rác thải nhựa được phân loại</span>
+                                        <span class="text-ecoGreen-600">85% Mục tiêu</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
+                                        <div class="bg-ecoGreen-500 h-2.5 rounded-full animate-pulse" style="width: 85%"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-xs font-bold text-gray-700 mb-1.5">
+                                        <span>Thu gom giấy văn phòng & carton</span>
+                                        <span class="text-ecoBlue-500">92% Mục tiêu</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
+                                        <div class="bg-ecoBlue-500 h-2.5 rounded-full" style="width: 92%"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-xs font-bold text-gray-700 mb-1.5">
+                                        <span>Nhận thức sinh viên gia tăng</span>
+                                        <span class="text-amber-500 font-bold">100% Cam kết</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
+                                        <div class="bg-amber-500 h-2.5 rounded-full" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Highlights Box -->
+                            <div class="bg-gradient-to-r from-ecoGreen-50 to-ecoBlue-50 border border-ecoGreen-100 rounded-2xl p-4 flex items-center justify-between gap-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="bg-white rounded-full p-2 shadow-sm text-ecoGreen-600 text-lg">
+                                        <i class="fa-solid fa-gift"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500 font-semibold leading-3">Tích lũy điểm xanh</p>
+                                        <h4 class="text-sm font-bold text-gray-800">Đổi quà tái chế độc đáo</h4>
+                                    </div>
+                                </div>
+                                <span class="bg-ecoGreen-600 text-white rounded-lg px-2.5 py-1 text-xs font-bold shadow-sm">Hot</span>
+                            </div>
+
+                            <!-- Footer Quote -->
+                            <div class="text-center text-xs text-gray-400 italic">
+                                "Nhỏ bé nhưng kiên trì, từng vỏ chai đều có một tương lai mới."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Wave Shape Divider -->
+        <div class="custom-shape-divider-bottom-1689230000">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V120H0C51.16,113.62,112.55,94.39,172,78,231.42,61.61,291.4,62.8,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- 2. Vấn đề & Thực trạng (The Problem) -->
+    <section id="problem" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Title -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-ecoGreen-600 text-sm font-bold uppercase tracking-wider bg-ecoGreen-100/50 px-3 py-1 rounded-full"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i> Vấn đề nghiêm trọng</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">Thực Trạng Rác Thải Tại Giảng Đường</h2>
+                <div class="h-1 w-20 bg-ecoGreen-500 mx-auto rounded-full"></div>
+                <p class="text-gray-600 text-lg leading-relaxed font-medium">
+                    Khuôn viên trường đại học năng động nhưng đang đối mặt với bài toán nan giải về rác thải nhựa và giấy dùng một lần từ sự tiện lợi hàng ngày.
+                </p>
+            </div>
+
+            <!-- Comparison / Infographic Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
+                
+                <!-- Left: Problem Statistics Card -->
+                <div class="bg-rose-50/50 border border-rose-100 rounded-3xl p-8 lg:p-10 flex flex-col justify-between hover-scale">
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-rose-100 text-rose-600 p-3 rounded-2xl">
+                                <i class="fa-solid fa-dumpster-fire text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">1. Lượng rác thải ngày càng tăng</h3>
+                                <p class="text-sm text-rose-700 font-semibold">Tăng nhanh tại giảng đường và căn tin</p>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-600 leading-relaxed font-medium">
+                            Mỗi ngày, hàng ngàn ly nhựa, hộp xốp, chai nước và giấy nháp bị thải ra giảng đường, thư viện và nhà ăn. Hệ thống thu gom hiện tại chỉ dồn chung tất cả rác vào một túi nylon đen mà không hề được phân loại, biến mọi tài nguyên tái chế thành rác vô giá trị.
+                        </p>
+
+                        <!-- Highlight Infographics -->
+                        <div class="grid grid-cols-2 gap-4 pt-4">
+                            <div class="bg-white border border-rose-100 p-4 rounded-2xl shadow-sm text-center">
+                                <span class="block text-3xl font-extrabold text-rose-600">80%</span>
+                                <span class="text-xs text-gray-500 font-bold uppercase tracking-wide">Rác có thể tái chế bị chôn lấp</span>
+                            </div>
+                            <div class="bg-white border border-rose-100 p-4 rounded-2xl shadow-sm text-center">
+                                <span class="block text-3xl font-extrabold text-rose-600">500+</span>
+                                <span class="text-xs text-gray-500 font-bold uppercase tracking-wide">Ly nhựa xả ra mỗi ngày</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-rose-100 flex items-center space-x-3 text-rose-700 text-sm font-semibold">
+                        <i class="fa-solid fa-circle-exclamation text-rose-500"></i>
+                        <span>Thùng rác công cộng hiện tại không phân loại rác thải.</span>
+                    </div>
+                </div>
+
+                <!-- Right: Awareness Card -->
+                <div class="bg-amber-50/50 border border-amber-100 rounded-3xl p-8 lg:p-10 flex flex-col justify-between hover-scale">
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="bg-amber-100 text-amber-600 p-3 rounded-2xl">
+                                <i class="fa-solid fa-brain text-2xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-900">2. Ý thức và thói quen phân loại</h3>
+                                <p class="text-sm text-amber-700 font-semibold">Sinh viên thiếu thói quen và hướng dẫn</p>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-600 leading-relaxed font-medium">
+                            Sinh viên tuy có nhận thức tốt về việc bảo vệ môi trường, nhưng lại cực kỳ lúng túng trong hành động thực tế. Lý do chính là thiếu hệ thống thùng rác phân chia rõ rệt cùng các biển chỉ dẫn trực quan, sinh động để tạo động lực phân loại rác ngay tại nguồn.
+                        </p>
+
+                        <!-- Highlight Infographics -->
+                        <div class="grid grid-cols-2 gap-4 pt-4">
+                            <div class="bg-white border border-amber-100 p-4 rounded-2xl shadow-sm text-center">
+                                <span class="block text-3xl font-extrabold text-amber-600">75%</span>
+                                <span class="text-xs text-gray-500 font-bold uppercase tracking-wide">Sinh viên phân loại sai cách</span>
+                            </div>
+                            <div class="bg-white border border-amber-100 p-4 rounded-2xl shadow-sm text-center">
+                                <span class="block text-3xl font-extrabold text-amber-600">90%</span>
+                                <span class="text-xs text-gray-500 font-bold uppercase tracking-wide">Mong muốn có trạm tái chế xanh</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-amber-100 flex items-center space-x-3 text-amber-700 text-sm font-semibold">
+                        <i class="fa-solid fa-lightbulb text-amber-500"></i>
+                        <span>Thói quen nhỏ của mỗi sinh viên sẽ kiến tạo đại dương xanh.</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Visual comparison bar -->
+            <div class="mt-16 bg-gradient-to-r from-rose-500 to-ecoGreen-600 rounded-3xl p-6 sm:p-8 text-white relative overflow-hidden shadow-lg">
+                <div class="absolute inset-0 bg-black opacity-10"></div>
+                <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                    <div>
+                        <h4 class="text-xl font-bold mb-2">Hành trình thay đổi bắt đầu từ hôm nay</h4>
+                        <p class="text-sm text-white/90 font-medium">Chúng ta sẽ cùng biến đổi thói quen vứt rác tùy tiện thành một chu trình tái chế tuần hoàn khép kín, văn minh và ý nghĩa tại trường học.</p>
+                    </div>
+                    <div class="flex justify-start md:justify-end">
+                        <a href="#solution" class="bg-white text-ecoGreen-700 hover:bg-gray-100 px-6 py-3 rounded-full font-bold text-sm shadow-md transition-all">
+                            Xem giải pháp sáng tạo <i class="fa-solid fa-angles-down ml-1.5"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+        <!-- 3. Giải pháp & Tính độc đáo (Our Solution) -->
+    <section id="solution" class="py-24 bg-ecoGreen-50/50 border-y border-ecoGreen-100 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Title -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-ecoGreen-600 text-sm font-bold uppercase tracking-wider bg-ecoGreen-100/50 px-3 py-1 rounded-full"><i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i> Dự án của chúng tôi</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">Giải Pháp & Tính Độc Đáo</h2>
+                <div class="h-1 w-20 bg-ecoGreen-500 mx-auto rounded-full"></div>
+                <p class="text-gray-600 text-lg leading-relaxed font-medium">
+                    Mô hình cốt lõi của chúng tôi là thành lập một hệ thống trạm thu gom phân loại rác và kết nối quy trình tái chế sản phẩm nghệ thuật bán lấy quỹ hoạt động lâu dài.
+                </p>
+            </div>
+
+            <!-- Core Concept Card -->
+            <div class="bg-white border border-ecoGreen-100 rounded-3xl p-8 lg:p-12 shadow-md mb-16">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-4 text-center lg:text-left space-y-4">
+                        <div class="bg-ecoGreen-100 text-ecoGreen-600 w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mx-auto lg:mx-0 shadow-inner">
+                            <i class="fa-solid fa-cubes-stacked"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900">Mô hình cốt lõi</h3>
+                        <p class="text-gray-500 font-semibold text-xs uppercase tracking-wide">Trạm Thu Gom Xanh Bền Vững</p>
+                        <p class="text-gray-600 text-sm leading-relaxed font-medium">
+                            Hệ thống thu gom, phân loại và hỗ trợ tái chế rác thải hoạt động thường xuyên trong khuôn viên trường học, được vận hành trực tiếp bởi các nhóm sinh viên nòng cốt.
+                        </p>
+                    </div>
+                    <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div class="bg-gray-50 border border-gray-100 rounded-2xl p-5 text-center hover-scale">
+                            <div class="bg-white w-12 h-12 rounded-xl flex items-center justify-center text-ecoGreen-500 shadow-sm mx-auto mb-4 text-lg font-bold">1</div>
+                            <h4 class="font-bold text-gray-800 mb-2">Bố trí thông minh</h4>
+                            <p class="text-xs text-gray-500 leading-relaxed font-medium">Đặt các trạm phân loại tại vị trí đắc địa: canteen, cổng ra vào, sảnh chính.</p>
+                        </div>
+                        <div class="bg-gray-50 border border-gray-100 rounded-2xl p-5 text-center hover-scale">
+                            <div class="bg-white w-12 h-12 rounded-xl flex items-center justify-center text-ecoBlue-500 shadow-sm mx-auto mb-4 text-lg font-bold">2</div>
+                            <h4 class="font-bold text-gray-800 mb-2">Đại sứ xanh</h4>
+                            <p class="text-xs text-gray-500 leading-relaxed font-medium">Tình nguyện viên hướng dẫn phân loại trực quan cho sinh viên tại trạm thu gom.</p>
+                        </div>
+                        <div class="bg-gray-50 border border-gray-100 rounded-2xl p-5 text-center hover-scale">
+                            <div class="bg-white w-12 h-12 rounded-xl flex items-center justify-center text-amber-500 shadow-sm mx-auto mb-4 text-lg font-bold">3</div>
+                            <h4 class="font-bold text-gray-800 mb-2">Khép kín chu kỳ</h4>
+                            <p class="text-xs text-gray-500 leading-relaxed font-medium">Rác tái chế chuyển hóa trực tiếp thành đồ lưu niệm, chậu cây nghệ thuật.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3 Pillars of Action -->
+            <h3 class="text-2xl font-bold text-gray-900 text-center mb-10">3 Trụ Cột Hành Động</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+                
+                <!-- Pillar 1 -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 hover-scale shadow-sm flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="bg-emerald-50 text-emerald-600 w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-inner">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-900">Giáo dục & Tuyên truyền</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed font-medium">
+                            Tổ chức định kỳ các buổi workshop chia sẻ kỹ năng tái chế và các chiến dịch truyền thông trực tuyến hấp dẫn, giúp sinh viên hiểu rõ giá trị của rác thải và tự giác phân loại tại nguồn.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex items-center text-xs font-bold text-emerald-600">
+                        <i class="fa-solid fa-circle-check mr-1.5"></i>Workshop 2 tuần/lần
+                    </div>
+                </div>
+
+                <!-- Pillar 2 -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 hover-scale shadow-sm flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="bg-purple-50 text-purple-600 w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-inner">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-900">Nghệ thuật sáng tạo</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed font-medium">
+                            Khuyến khích sinh viên tự thiết kế và biến các vật liệu phế thải thành các tác phẩm nghệ thuật, chậu cây trồng xinh xắn, hộp bút, đồ trang trí nội thất học tập độc đáo.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex items-center text-xs font-bold text-purple-600">
+                        <i class="fa-solid fa-circle-check mr-1.5"></i>Tái chế nghệ thuật 100%
+                    </div>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 hover-scale shadow-sm flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="bg-sky-50 text-sky-600 w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-inner">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-900">Công nghệ & Gây quỹ</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed font-medium">
+                            Số hóa quy trình tích điểm đổi quà thông qua mạng xã hội, chia sẻ rộng rãi sản phẩm và bán đấu giá các món đồ tái chế để duy trì nguồn lực kinh tế tuần hoàn của nhóm.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex items-center text-xs font-bold text-sky-600">
+                        <i class="fa-solid fa-circle-check mr-1.5"></i>Kinh tế tuần hoàn bền vững
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Interactive Educational Game - REDESIGNED -->
+            <div class="bg-gradient-to-br from-ecoGreen-900 via-emerald-800 to-ecoGreen-900 rounded-3xl p-6 sm:p-8 text-white relative overflow-hidden shadow-2xl">
+                <!-- Floating eco bg elements -->
+                <div class="absolute -right-8 -bottom-8 text-white/5 text-[150px] font-bold select-none pointer-events-none">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+                <div class="absolute top-10 left-10 text-white/5 text-6xl animate-pulse">
+                    <i class="fa-solid fa-globe"></i>
+                </div>
+                
+                <div class="relative z-10 max-w-4xl mx-auto">
+                    <div class="text-center mb-6">
+                        <span class="bg-ecoGreen-600/50 border border-ecoGreen-500 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest text-ecoGreen-100">
+                            <i class="fa-solid fa-gamepad mr-1.5"></i>Góc giáo dục tương tác
+                        </span>
+                        <h4 class="text-2xl sm:text-3xl font-bold mt-2">Thử Thách Phân Loại Rác Xanh</h4>
+                        <p class="text-sm text-ecoGreen-200 mt-1 max-w-2xl mx-auto">Chọn chế độ chơi và kiểm tra kiến thức phân loại rác của bạn!</p>
+                    </div>
+
+                    <!-- Game Mode Selector -->
+                    <div class="flex flex-wrap justify-center gap-2 mb-6">
+                        <button onclick="switchGameMode('classic')" id="mode-classic" class="mode-btn px-4 py-2 rounded-full text-xs font-bold border transition-all duration-300 bg-emerald-500 border-emerald-300 text-white shadow-lg">
+                            <i class="fa-solid fa-infinity mr-1"></i>Cổ Điển
+                        </button>
+                        <button onclick="switchGameMode('timeattack')" id="mode-timeattack" class="mode-btn px-4 py-2 rounded-full text-xs font-bold border border-white/30 text-white/80 hover:bg-white/10 transition-all duration-300">
+                            <i class="fa-solid fa-clock mr-1"></i>60 Giây
+                        </button>
+                        <button onclick="switchGameMode('challenge')" id="mode-challenge" class="mode-btn px-4 py-2 rounded-full text-xs font-bold border border-white/30 text-white/80 hover:bg-white/10 transition-all duration-300">
+                            <i class="fa-solid fa-trophy mr-1"></i>Thử Thách
+                        </button>
+                        <button onclick="switchGameMode('learn')" id="mode-learn" class="mode-btn px-4 py-2 rounded-full text-xs font-bold border border-white/30 text-white/80 hover:bg-white/10 transition-all duration-300">
+                            <i class="fa-solid fa-book mr-1"></i>Học Tập
+                        </button>
+                    </div>
+
+                    <!-- Game Stats Bar -->
+                    <div id="game-stats" class="flex flex-wrap items-center justify-between gap-3 mb-4 px-4 py-3 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/10">
+                        <div class="flex items-center gap-4">
+                            <div class="flex items-center gap-1.5">
+                                <i class="fa-solid fa-star text-amber-400 text-sm"></i>
+                                <span class="text-xs font-bold">Điểm: <span id="game-score" class="text-amber-400 text-base">0</span></span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <i class="fa-solid fa-fire text-orange-400 text-sm"></i>
+                                <span class="text-xs font-bold">Combo: <span id="game-streak" class="text-orange-400">0</span>x</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <i class="fa-solid fa-check-circle text-emerald-400 text-sm"></i>
+                                <span class="text-xs font-bold">Đúng: <span id="game-correct" class="text-emerald-400">0</span></span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <i class="fa-solid fa-times-circle text-red-400 text-sm"></i>
+                                <span class="text-xs font-bold">Sai: <span id="game-wrong" class="text-red-400">0</span></span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span id="game-timer-display" class="hidden text-xs font-bold text-cyan-300">
+                                <i class="fa-solid fa-hourglass-half mr-1"></i><span id="game-timer">60</span>s
+                            </span>
+                            <span id="game-progress" class="hidden text-xs font-bold text-purple-300">
+                                <span id="game-current-q">0</span>/<span id="game-total-q">10</span>
+                            </span>
+                            <button onclick="resetGame()" class="text-xs underline text-white/60 hover:text-white font-semibold transition-colors">
+                                <i class="fa-solid fa-rotate-right mr-1"></i>Chơi lại
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Timer Progress Bar (for Time Attack) -->
+                    <div id="timer-bar-container" class="hidden mb-4 w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                        <div id="timer-bar" class="bg-gradient-to-r from-emerald-400 to-cyan-400 h-2 rounded-full transition-all duration-1000" style="width: 100%"></div>
+                    </div>
+
+                    <!-- Game board -->
+                    <div id="game-board" class="space-y-5">
+                        <!-- Object to sort -->
+                        <div id="waste-card" class="flex flex-col items-center justify-center py-8 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 transition-all duration-300">
+                            <p class="text-xs text-ecoGreen-300 uppercase tracking-widest font-semibold mb-2">
+                                <span id="item-counter" class="bg-white/10 px-2 py-0.5 rounded-full">Vật phẩm #1</span>
+                            </p>
+                            <div id="waste-item-container" class="flex flex-col items-center">
+                                <i id="waste-icon" class="fa-solid fa-bottle-water text-6xl text-ecoBlue-300 transition-all duration-300"></i>
+                                <span id="waste-name" class="text-xl font-bold mt-3 tracking-wide text-white">Chai nước nhựa PET</span>
+                                <span id="waste-fact" class="hidden text-xs text-ecoGreen-300 mt-2 max-w-md text-center italic px-4"></span>
+                            </div>
+                        </div>
+
+                        <!-- Waste Bins -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <!-- Recyclable Bin -->
+                            <button onclick="checkSort('recyclable')" id="bin-recyclable" class="bin-btn bg-ecoBlue-600 hover:bg-ecoBlue-700 border-2 border-ecoBlue-400/50 rounded-2xl p-4 flex flex-col items-center space-y-2 shadow-lg transition-all duration-200 active:scale-95 group">
+                                <div class="bg-white/10 p-3 rounded-xl group-hover:scale-110 transition-transform duration-200">
+                                    <i class="fa-solid fa-recycle text-3xl text-white"></i>
+                                </div>
+                                <span class="font-bold text-sm text-white">Rác Tái Chế</span>
+                                <span class="text-[10px] text-ecoBlue-200 font-medium">Nhựa, giấy, carton, kim loại</span>
+                            </button>
+
+                            <!-- Organic Bin -->
+                            <button onclick="checkSort('organic')" id="bin-organic" class="bin-btn bg-ecoGreen-600 hover:bg-ecoGreen-700 border-2 border-ecoGreen-400/50 rounded-2xl p-4 flex flex-col items-center space-y-2 shadow-lg transition-all duration-200 active:scale-95 group">
+                                <div class="bg-white/10 p-3 rounded-xl group-hover:scale-110 transition-transform duration-200">
+                                    <i class="fa-solid fa-seedling text-3xl text-white"></i>
+                                </div>
+                                <span class="font-bold text-sm text-white">Rác Hữu Cơ</span>
+                                <span class="text-[10px] text-ecoGreen-200 font-medium">Thức ăn, hoa quả, lá cây</span>
+                            </button>
+
+                            <!-- Remaining Bin -->
+                            <button onclick="checkSort('remaining')" id="bin-remaining" class="bin-btn bg-gray-600 hover:bg-gray-700 border-2 border-gray-400/50 rounded-2xl p-4 flex flex-col items-center space-y-2 shadow-lg transition-all duration-200 active:scale-95 group">
+                                <div class="bg-white/10 p-3 rounded-xl group-hover:scale-110 transition-transform duration-200">
+                                    <i class="fa-solid fa-trash-can text-3xl text-white"></i>
+                                </div>
+                                <span class="font-bold text-sm text-white">Rác Còn Lại</span>
+                                <span class="text-[10px] text-gray-300 font-medium">Hộp xốp bẩn, túi nylon, gốm sứ</span>
+                            </button>
+                        </div>
+
+                        <!-- Feedback Panel -->
+                        <div id="feedback-panel" class="flex items-center justify-between px-5 py-3 bg-white/5 rounded-xl border border-white/10 text-sm min-h-[48px]">
+                            <div class="flex items-center gap-2">
+                                <span id="game-message" class="text-ecoGreen-200 font-semibold">👆 Chọn chế độ chơi và bắt đầu phân loại rác!</span>
+                            </div>
+                            <div id="feedback-icon" class="hidden text-xl"></div>
+                        </div>
+                    </div>
+
+                    <!-- Game Over Screen -->
+                    <div id="game-over-screen" class="hidden text-center py-8">
+                        <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 max-w-lg mx-auto">
+                            <i id="game-over-icon" class="fa-solid fa-trophy text-6xl text-amber-400 mb-4"></i>
+                            <h3 id="game-over-title" class="text-2xl font-bold mb-2">Trò Chơi Kết Thúc!</h3>
+                            <p id="game-over-subtitle" class="text-sm text-ecoGreen-200 mb-6"></p>
+                            <div class="grid grid-cols-3 gap-4 mb-6">
+                                <div class="bg-white/10 rounded-xl p-3">
+                                    <p class="text-2xl font-bold text-amber-400" id="final-score">0</p>
+                                    <p class="text-[10px] text-white/60">Điểm</p>
+                                </div>
+                                <div class="bg-white/10 rounded-xl p-3">
+                                    <p class="text-2xl font-bold text-emerald-400" id="final-correct">0</p>
+                                    <p class="text-[10px] text-white/60">Đúng</p>
+                                </div>
+                                <div class="bg-white/10 rounded-xl p-3">
+                                    <p class="text-2xl font-bold text-red-400" id="final-wrong">0</p>
+                                    <p class="text-[10px] text-white/60">Sai</p>
+                                </div>
+                            </div>
+                            <div id="high-score-display" class="text-sm text-amber-300 mb-4">
+                                🏆 Kỷ lục: <span id="high-score-value">0</span> điểm
+                            </div>
+                            <button onclick="resetGame()" class="bg-ecoGreen-600 hover:bg-ecoGreen-700 text-white font-bold px-8 py-3 rounded-full transition-all duration-200 shadow-lg">
+                                <i class="fa-solid fa-play mr-2"></i>Chơi Lại
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- NEW: Handbook, Vouchers, and B2B Sections -->
+    <section id="handbook" class="py-20 bg-gradient-to-b from-white to-ecoGreen-50/30 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-14 space-y-4">
+                <span class="text-ecoGreen-600 text-sm font-bold uppercase tracking-wider bg-ecoGreen-100/50 px-3 py-1 rounded-full"><i class="fa-solid fa-newspaper mr-1.5"></i> Cẩm nang & Kiến thức</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">Tin Tức Xanh & Hướng Dẫn</h2>
+                <div class="h-1 w-20 bg-ecoGreen-500 mx-auto rounded-full"></div>
+                <p class="text-gray-600 text-base font-medium">Bài viết chuyên sâu về phân loại rác, tái chế và các hoạt động môi trường tại CMC.</p>
+            </div>
+
+            <!-- Featured Article - Large -->
+            <div onclick="openArticleModal(0)" class="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 mb-10 border border-gray-100 hover:-translate-y-1">
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-0">
+                    <div class="lg:col-span-3 relative h-72 lg:h-auto overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&q=80&w=1200" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 duration-500"
+                             alt="Phân loại rác tại nguồn">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent lg:bg-gradient-to-r lg:from-black/40 lg:via-transparent lg:to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 lg:hidden">
+                            <span class="bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-full">Nổi bật</span>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 p-8 flex flex-col justify-center">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Hướng dẫn</span>
+                            <span class="text-xs text-gray-400"><i class="fa-regular fa-calendar mr-1"></i>15/03/2026</span>
+                            <span class="text-xs text-gray-400"><i class="fa-regular fa-clock mr-1"></i>5 phút đọc</span>
+                        </div>
+                        <h3 class="text-2xl font-extrabold text-gray-900 mb-3 group-hover:text-ecoGreen-600 transition-colors">Quy Tắc Phân Loại Rác Tại Nguồn 2026</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">Hướng dẫn chi tiết cách phân loại rác thải sinh hoạt thành 3 nhóm: rác tái chế, rác hữu cơ và rác còn lại. Áp dụng cho mọi hộ gia đình và khuôn viên trường học.</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-ecoGreen-100 rounded-full flex items-center justify-center text-ecoGreen-600 text-xs font-bold">GV</div>
+                                <span class="text-xs text-gray-500 font-medium">Ban Môi Trường CMC</span>
+                            </div>
+                            <span class="text-ecoGreen-600 text-sm font-bold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                                Đọc tiếp <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid Articles -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Article 1 - Mẹo giảm rác nhựa (NEW - different from featured) -->
+                <div onclick="openArticleModal(3)" class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1">
+                    <div class="relative h-52 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&q=80&w=600&h=400" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                             alt="Giảm rác thải nhựa">
+                        <div class="absolute top-3 left-3">
+                            <span class="bg-amber-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Mẹo hay</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                            <span><i class="fa-regular fa-calendar mr-1"></i>20/03/2026</span>
+                            <span>•</span>
+                            <span><i class="fa-regular fa-clock mr-1"></i>6 phút</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-amber-600 transition-colors">5 Mẹo Giảm Rác Thải Nhựa Trong Sinh Hoạt Hàng Ngày</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed mb-4">Áp dụng 5 thói quen đơn giản để cắt giảm 70% lượng nhựa dùng một lần trong cuộc sống sinh viên.</p>
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <span class="text-xs text-gray-400"><i class="fa-regular fa-user mr-1"></i>Lương Nguyễn Ánh Dương</span>
+                            <span class="text-amber-600 text-xs font-bold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                                Đọc tiếp <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Article 2 -->
+                <div onclick="openArticleModal(1)" class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1">
+                    <div class="relative h-52 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1542601906-973be3883c9d?auto=format&fit=crop&q=80&w=600" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                             alt="Tái chế nhựa">
+                        <div class="absolute top-3 left-3">
+                            <span class="bg-ecoBlue-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Kiến thức</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                            <span><i class="fa-regular fa-calendar mr-1"></i>10/03/2026</span>
+                            <span>•</span>
+                            <span><i class="fa-regular fa-clock mr-1"></i>7 phút</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-ecoBlue-600 transition-colors">Hành Trình Tái Chế Nhựa: Từ Vỏ Chai Đến Sợi Vải</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed mb-4">Khám phá vòng đời của một chai nhựa PET: từ thùng rác đến nhà máy tái chế và trở thành quần áo, túi xách.</p>
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <span class="text-xs text-gray-400"><i class="fa-regular fa-user mr-1"></i>Nguyễn Như Quỳnh</span>
+                            <span class="text-ecoBlue-600 text-xs font-bold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                                Đọc tiếp <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Article 3 -->
+                <div onclick="openArticleModal(2)" class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1">
+                    <div class="relative h-52 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1591193583844-24e101aa1e84?auto=format&fit=crop&q=80&w=600" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                             alt="Sinh viên tình nguyện">
+                        <div class="absolute top-3 left-3">
+                            <span class="bg-purple-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Sự kiện</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                            <span><i class="fa-regular fa-calendar mr-1"></i>28/02/2026</span>
+                            <span>•</span>
+                            <span><i class="fa-regular fa-clock mr-1"></i>4 phút</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">CMC Uni Xanh: Sinh Viên Chung Tay Bảo Vệ Môi Trường</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed mb-4">Chiến dịch "Trường học Xanh" do Đoàn trường CMC phát động thu hút hơn 500 sinh viên tham gia phân loại rác và trồng cây.</p>
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                            <span class="text-xs text-gray-400"><i class="fa-regular fa-user mr-1"></i>Hoàng Mạnh Dũng</span>
+                            <span class="text-purple-600 text-xs font-bold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                                Đọc tiếp <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Modal -->
+    <div id="article-modal" class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="article-modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity" aria-hidden="true" onclick="closeArticleModal()"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            
+            <div class="inline-block align-bottom bg-white rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                <!-- Modal Header Image -->
+                <div class="relative h-64 sm:h-80 overflow-hidden bg-gray-200">
+                    <img id="article-modal-image" class="w-full h-full object-cover" src="" alt="">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                    
+                    <!-- Close button -->
+                    <button onclick="closeArticleModal()" class="absolute top-4 right-4 bg-black/30 hover:bg-black/50 text-white w-10 h-10 rounded-full flex items-center justify-center transition-all backdrop-blur-sm z-10">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                    
+                    <!-- Category badge -->
+                    <div class="absolute bottom-6 left-6">
+                        <span id="article-modal-category" class="bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase">Hướng dẫn</span>
+                        <h3 id="article-modal-title" class="text-2xl sm:text-3xl font-extrabold text-white mt-3 max-w-2xl">Tiêu đề bài viết</h3>
+                    </div>
+                </div>
+                
+                <!-- Modal Content -->
+                <div class="px-6 sm:px-10 py-8">
+                    <!-- Meta info -->
+                    <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-6 pb-6 border-b border-gray-100">
+                        <span><i class="fa-regular fa-user mr-2"></i><span id="article-modal-author">Tác giả</span></span>
+                        <span><i class="fa-regular fa-calendar mr-2"></i><span id="article-modal-date">Ngày</span></span>
+                        <span><i class="fa-regular fa-clock mr-2"></i><span id="article-modal-readtime">5 phút đọc</span></span>
+                    </div>
+                    
+                    <!-- Article body -->
+                    <div id="article-modal-body" class="prose prose-green max-w-none text-gray-700 leading-relaxed space-y-4">
+                        <!-- Content will be injected here -->
+                    </div>
+                    
+                    <!-- Share & Actions -->
+                    <div class="mt-10 pt-6 border-t border-gray-100 flex flex-wrap items-center justify-between gap-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-gray-500 font-medium">Chia sẻ:</span>
+                            <a href="#" class="w-9 h-9 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-full flex items-center justify-center transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" class="w-9 h-9 bg-sky-50 hover:bg-sky-100 text-sky-500 rounded-full flex items-center justify-center transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="#" class="w-9 h-9 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="#" class="w-9 h-9 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-full flex items-center justify-center transition-colors"><i class="fa-solid fa-link"></i></a>
+                        </div>
+                        <button onclick="closeArticleModal()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-6 py-2.5 rounded-full text-sm transition-all">
+                            <i class="fa-solid fa-xmark mr-1.5"></i>Đóng
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="vouchers" class="py-20 bg-ecoBlue-50/30 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-extrabold text-gray-900 mb-4">Cửa Hàng Voucher & Quà Tặng</h2>
+            <p class="text-gray-600 mb-12 font-medium">Đổi điểm thưởng tích lũy từ việc nộp rác sạch lấy voucher mua sắm.</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-ecoBlue-100 text-center">
+                    <i class="fa-solid fa-mug-hot text-3xl text-ecoBlue-500 mb-4"></i>
+                    <h4 class="font-bold">Voucher Coffee</h4>
+                    <p class="text-ecoBlue-600 font-extrabold mt-2">200 Points</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-ecoBlue-100 text-center">
+                    <i class="fa-solid fa-gift text-3xl text-ecoBlue-500 mb-4"></i>
+                    <h4 class="font-bold">Quà tái chế</h4>
+                    <p class="text-ecoBlue-600 font-extrabold mt-2">300 Points</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-ecoBlue-100 text-center">
+                    <i class="fa-solid fa-store text-3xl text-ecoBlue-500 mb-4"></i>
+                    <h4 class="font-bold">Shopee 50k</h4>
+                    <p class="text-ecoBlue-600 font-extrabold mt-2">400 Points</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-ecoBlue-100 text-center">
+                    <i class="fa-solid fa-ticket text-3xl text-ecoBlue-500 mb-4"></i>
+                    <h4 class="font-bold">Voucher CGV</h4>
+                    <p class="text-ecoBlue-600 font-extrabold mt-2">500 Points</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="b2b" class="py-20 bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-10">
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl font-extrabold mb-4">Cổng Đối Tác B2B</h2>
+                    <p class="text-gray-400 font-medium">Nơi đăng ký dành cho Đơn vị thu gom và Nhà máy tái chế. Kết nối trực tiếp nguồn rác sạch từ CMC.</p>
+                </div>
+                <div class="flex justify-end">
+                    <a href="#contact" class="bg-ecoGreen-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-ecoGreen-700 transition-all shadow-lg shadow-ecoGreen-500/20">Đăng ký đối tác</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Kế hoạch triển khai & Gây quỹ (Roadmap & Funding) -->
+    <section id="roadmap" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Title -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-ecoGreen-600 text-sm font-bold uppercase tracking-wider bg-ecoGreen-100/50 px-3 py-1 rounded-full"><i class="fa-solid fa-timeline mr-1.5"></i> Lộ trình & Tài chính</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">Kế Hoạch Triển Khai & Gây Quỹ</h2>
+                <div class="h-1 w-20 bg-ecoGreen-500 mx-auto rounded-full"></div>
+                <p class="text-gray-600 text-lg leading-relaxed font-medium">
+                    Lộ trình rõ ràng của chúng tôi qua 4 giai đoạn cụ thể cùng chiến lược tài chính tự chủ vững vàng để duy trì dự án lâu dài.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                
+                <!-- Left: Timeline (8 cols on lg) -->
+                <div class="lg:col-span-7 space-y-8">
+                    <h3 class="text-2xl font-bold text-gray-900 flex items-center">
+                        <i class="fa-solid fa-route text-ecoGreen-600 mr-3"></i>Timeline 4 Giai Đoạn
+                    </h3>
+
+                    <!-- Timeline Vertical Line Container -->
+                    <div class="relative border-l-2 border-ecoGreen-100 pl-6 ml-4 space-y-8">
+                        
+                        <!-- Step 1 -->
+                        <div class="relative">
+                            <!-- Indicator node -->
+                            <div class="absolute -left-[35px] top-1.5 bg-ecoGreen-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shadow-md ring-4 ring-ecoGreen-100">
+                                1
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-ecoGreen-600 bg-ecoGreen-50 px-2 py-0.5 rounded-full uppercase tracking-wider">Tháng 1 - Nghiên cứu</span>
+                                <h4 class="text-lg font-bold text-gray-900 mt-1">Giai đoạn 1: Nghiên cứu & Phân tích thực trạng</h4>
+                                <p class="text-gray-600 text-sm mt-1 leading-relaxed font-medium">
+                                    Thực hiện các khảo sát khảo sát trực quan hành vi xả rác và nhu cầu phân loại tại các khoa học, căn tin. Thống kê khối lượng rác thải hàng tuần.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="relative">
+                            <!-- Indicator node -->
+                            <div class="absolute -left-[35px] top-1.5 bg-ecoGreen-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shadow-md ring-4 ring-ecoGreen-100">
+                                2
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-ecoGreen-600 bg-ecoGreen-50 px-2 py-0.5 rounded-full uppercase tracking-wider">Tháng 2 - Thiết kế</span>
+                                <h4 class="text-lg font-bold text-gray-900 mt-1">Giai đoạn 2: Thiết kế giải pháp & Bố trí trạm</h4>
+                                <p class="text-gray-600 text-sm mt-1 leading-relaxed font-medium">
+                                    Sản xuất các mẫu thùng rác bắt mắt, dán nhãn decal phân loại trực quan (Rác tái chế, Hữu cơ, Khác). Bố trí thí điểm tại 3 điểm sảnh chính.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="relative">
+                            <!-- Indicator node -->
+                            <div class="absolute -left-[35px] top-1.5 bg-ecoGreen-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shadow-md ring-4 ring-ecoGreen-100">
+                                3
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-ecoGreen-600 bg-ecoGreen-50 px-2 py-0.5 rounded-full uppercase tracking-wider">Tháng 3 & 4 - Hoạt động</span>
+                                <h4 class="text-lg font-bold text-gray-900 mt-1">Giai đoạn 3: Triển khai chiến dịch & Cuộc thi Xanh</h4>
+                                <p class="text-gray-600 text-sm mt-1 leading-relaxed font-medium">
+                                    Kích hoạt đội ngũ đại sứ hướng dẫn tại trạm. Tổ chức cuộc thi sáng tạo sản phẩm tái chế nghệ thuật cấp trường học để sinh viên trực tiếp tham gia tranh tài.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="relative">
+                            <!-- Indicator node -->
+                            <div class="absolute -left-[35px] top-1.5 bg-ecoGreen-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shadow-md ring-4 ring-ecoGreen-100">
+                                4
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-ecoGreen-600 bg-ecoGreen-50 px-2 py-0.5 rounded-full uppercase tracking-wider">Tháng 5 & 6 - Bàn giao</span>
+                                <h4 class="text-lg font-bold text-gray-900 mt-1">Giai đoạn 4: Kiểm thử, đánh giá & Bàn giao vận hành</h4>
+                                <p class="text-gray-600 text-sm mt-1 leading-relaxed font-medium">
+                                    Đánh giá lượng rác thu gom, tổng kết hiệu quả. Bàn giao quy trình, trạm và phối hợp với Đoàn Thanh niên/Hội Sinh viên trường để duy trì hoạt động lâu dài (cam kết tối thiểu 6 tháng tiếp theo).
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Right: Financial / Funding Plan (5 cols on lg) -->
+                <div class="lg:col-span-5 space-y-8 bg-gray-50 border border-gray-100 rounded-3xl p-6 sm:p-8">
+                    <h3 class="text-2xl font-bold text-gray-900 flex items-center">
+                        <i class="fa-solid fa-coins text-ecoGreen-600 mr-3"></i>Phương Án Tài Chính
+                    </h3>
+                    
+                    <p class="text-gray-600 text-sm leading-relaxed font-medium">
+                        Để tự chủ vận hành dự án, chúng tôi xây dựng một dòng vốn thông minh kết hợp giữa nỗ lực tự thân và sự ủng hộ từ cộng đồng yêu môi trường.
+                    </p>
+
+                    <!-- Funding Visualization (CSS Chart) -->
+                    <div class="space-y-6 pt-4">
+                        
+                        <!-- Segment 1: Bán sản phẩm tái chế (70%) -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="font-bold text-gray-800 flex items-center">
+                                    <span class="w-3 h-3 bg-ecoGreen-500 rounded-full mr-2"></span>Gây quỹ bên lề (Bán sản phẩm)
+                                </span>
+                                <span class="font-extrabold text-ecoGreen-600 text-base">70%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 h-4 rounded-full overflow-hidden">
+                                <div class="bg-ecoGreen-500 h-4 rounded-full" style="width: 70%"></div>
+                            </div>
+                            <p class="text-xs text-gray-500 leading-normal pl-5 font-medium">
+                                Tổ chức các quầy hàng lưu niệm xanh, bán chậu cây kiểng làm từ vỏ chai tái chế và các sản phẩm sáng tạo đạt giải trong cuộc thi.
+                            </p>
+                        </div>
+
+                        <!-- Segment 2: Gọi vốn cộng đồng (30%) -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="font-bold text-gray-800 flex items-center">
+                                    <span class="w-3 h-3 bg-ecoBlue-500 rounded-full mr-2"></span>Gọi vốn cộng đồng (Crowdfunding)
+                                </span>
+                                <span class="font-extrabold text-ecoBlue-600 text-base">30%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 h-4 rounded-full overflow-hidden">
+                                <div class="bg-ecoBlue-500 h-4 rounded-full" style="width: 30%"></div>
+                            </div>
+                            <p class="text-xs text-gray-500 leading-normal pl-5 font-medium">
+                                Kêu gọi sự tài trợ, đóng góp hảo tâm từ các giảng viên, doanh nghiệp đối tác yêu môi trường và sinh viên toàn trường thông qua chuyển khoản minh bạch.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <!-- Commitment Box -->
+                    <div class="bg-white border border-ecoGreen-200 p-4 rounded-2xl flex items-start space-x-3 mt-6 shadow-sm">
+                        <div class="bg-ecoGreen-100 text-ecoGreen-600 p-2 rounded-xl mt-0.5">
+                            <i class="fa-solid fa-shield-halved text-sm"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-800 uppercase tracking-wider">Cam kết 6 tháng tối thiểu</h4>
+                            <p class="text-[11px] text-gray-500 leading-normal font-medium mt-0.5">
+                                Đoàn Thanh niên và Hội Sinh viên cam kết hỗ trợ nhân lực túc trực tại trạm và điều phối các chiến dịch truyền thông lâu dài sau khi bàn giao dự án.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 5. Đội ngũ thực hiện (Our Team) -->
+    <section id="team" class="py-24 bg-ecoGreen-50/30 border-t border-gray-100 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Title -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-ecoGreen-600 text-sm font-bold uppercase tracking-wider bg-ecoGreen-100/50 px-3 py-1 rounded-full"><i class="fa-solid fa-users-gear mr-1.5"></i> Nhân sự dự án</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">Đội Ngũ Thực Hiện (Group 5)</h2>
+                <div class="h-1 w-20 bg-ecoGreen-500 mx-auto rounded-full"></div>
+                <p class="text-gray-600 text-lg leading-relaxed font-medium">
+                    Những gương mặt năng động, sáng tạo chịu trách nhiệm thiết kế, nghiên cứu và phát triển để đưa dự án tiếp cận sâu rộng tới mọi sinh viên.
+                </p>
+            </div>
+
+            <!-- Mentor Showcase (Nổi bật) -->
+            <div class="max-w-md mx-auto mb-16 text-center">
+                <div class="bg-white border border-ecoGreen-200 rounded-3xl p-6 shadow-md relative overflow-hidden group hover:shadow-lg transition-all">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-ecoGreen-500 to-ecoBlue-500"></div>
+                    <div class="w-24 h-24 bg-ecoGreen-100 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-ecoGreen-300 shadow-inner">
+                        <i class="fa-solid fa-chalkboard-user text-4xl text-ecoGreen-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900">ThS. Hoàng Thu Phương</h3>
+                    <p class="text-xs text-ecoGreen-600 font-bold uppercase tracking-wider mb-3">Giảng viên hướng dẫn</p>
+                    <p class="text-sm text-gray-500 leading-relaxed font-medium">
+                        Người thắp lửa ý tưởng sáng tạo, định hướng tư duy khởi nghiệp xã hội và đồng hành sát sao cùng nhóm trong suốt quá trình xây dựng đề án.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Members Grid (6 members) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Member 1: Hoàng Mạnh Dũng -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-scale shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-20 h-20 bg-ecoGreen-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-ecoGreen-100 shadow-sm text-ecoGreen-600">
+                            <i class="fa-solid fa-crown text-3xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-900">Hoàng Mạnh Dũng</h4>
+                        <span class="inline-block bg-ecoGreen-50 text-ecoGreen-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full mb-3 uppercase tracking-wide">Trưởng nhóm</span>
+                        <p class="text-xs text-gray-500 leading-relaxed font-medium">
+                            Chịu trách nhiệm điều phối tổng thể các hoạt động, hoạch định tiến độ và kết nối đàm phán hợp tác cùng Đoàn Trường/Hội Sinh viên.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100">
+                        <span class="text-xs text-ecoGreen-600 font-bold"><i class="fa-solid fa-gears mr-1"></i> Điều phối & Đối tác</span>
+                    </div>
+                </div>
+
+                <!-- Member 2: Đặng Quang Dũng -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-scale shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-20 h-20 bg-ecoBlue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-ecoBlue-100 shadow-sm text-ecoBlue-600">
+                            <i class="fa-solid fa-laptop-code text-3xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-900">Đặng Quang Dũng</h4>
+                        <span class="inline-block bg-ecoBlue-50 text-ecoBlue-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full mb-3 uppercase tracking-wide">Kỹ thuật chính</span>
+                        <p class="text-xs text-gray-500 leading-relaxed font-medium">
+                            Xây dựng hướng dẫn kỹ thuật phân loại vật liệu, thiết kế sơ đồ trạm tái chế xanh và phát triển nền tảng số hóa quản lý thông tin.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100">
+                        <span class="text-xs text-ecoBlue-600 font-bold"><i class="fa-solid fa-hammer mr-1"></i> Kỹ thuật & Vật liệu</span>
+                    </div>
+                </div>
+
+                <!-- Member 3: Nguyễn Tùng Dương -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-scale shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-20 h-20 bg-purple-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-purple-100 shadow-sm text-purple-600">
+                            <i class="fa-solid fa-photo-film text-3xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-900">Nguyễn Tùng Dương</h4>
+                        <span class="inline-block bg-purple-50 text-purple-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full mb-3 uppercase tracking-wide">Truyền thông thị giác</span>
+                        <p class="text-xs text-gray-500 leading-relaxed font-medium">
+                            Thiết kế hệ thống poster, banner tuyên truyền tại trường, biên tập và dựng các clip ngắn cuốn hút để duy trì phong trào trực tuyến.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100">
+                        <span class="text-xs text-purple-600 font-bold"><i class="fa-solid fa-palette mr-1"></i> Thiết kế Poster & Video</span>
+                    </div>
+                </div>
+
+                <!-- Member 4: Lương Nguyễn Ánh Dương -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-scale shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-20 h-20 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-amber-100 shadow-sm text-amber-600">
+                            <i class="fa-solid fa-pen-nib text-3xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-900">Lương Nguyễn Ánh Dương</h4>
+                        <span class="inline-block bg-amber-50 text-amber-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full mb-3 uppercase tracking-wide">Sáng tạo nội dung</span>
+                        <p class="text-xs text-gray-500 leading-relaxed font-medium">
+                            Chắp bút viết bài truyền thông, xây dựng kịch bản cho các buổi workshop giáo dục và lan tỏa thông điệp của dự án trên các hội nhóm.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100">
+                        <span class="text-xs text-amber-600 font-bold"><i class="fa-solid fa-newspaper mr-1"></i> Viết bài & Nội dung</span>
+                    </div>
+                </div>
+
+                <!-- Member 5: Nguyễn Như Quỳnh -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-scale shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-20 h-20 bg-rose-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-rose-100 shadow-sm text-rose-600">
+                            <i class="fa-solid fa-wallet text-3xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-900">Nguyễn Như Quỳnh</h4>
+                        <span class="inline-block bg-rose-50 text-rose-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full mb-3 uppercase tracking-wide">Quản lý tài chính</span>
+                        <p class="text-xs text-gray-500 leading-relaxed font-medium">
+                            Kiểm soát nguồn kinh phí, quản lý dòng tiền gây quỹ từ việc bán đồ tái chế, lên ngân sách tổ chức các sự kiện cuộc thi xanh.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100">
+                        <span class="text-xs text-rose-600 font-bold"><i class="fa-solid fa-hand-holding-dollar mr-1"></i> Tài chính & Quản lý quỹ</span>
+                    </div>
+                </div>
+
+                <!-- Member 6: Phạm Duy Anh -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-scale shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-20 h-20 bg-teal-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-teal-100 shadow-sm text-teal-600">
+                            <i class="fa-solid fa-truck-ramp-box text-3xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-900">Phạm Duy Anh</h4>
+                        <span class="inline-block bg-teal-50 text-teal-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full mb-3 uppercase tracking-wide">Quản lý hậu cần</span>
+                        <p class="text-xs text-gray-500 leading-relaxed font-medium">
+                            Giám sát lắp ráp và bảo trì các trạm thu gom rác thực địa, điều phối các ca trực của tình nguyện viên và liên kết vận chuyển rác tái chế.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100">
+                        <span class="text-xs text-teal-600 font-bold"><i class="fa-solid fa-truck mr-1"></i> Hậu cần & Sự kiện</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 6. Quản trị rủi ro & Liên hệ (Footer / Contact) -->
+    <section id="contact" class="py-24 bg-white relative overflow-hidden">
+        
+        <!-- Background decoration -->
+        <div class="absolute -left-16 bottom-0 text-ecoGreen-100/30 text-[200px] select-none pointer-events-none">
+            <i class="fa-solid fa-recycle animate-spin-slow"></i>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                
+                <!-- Left: Risk Management + Contact Info (7 cols on lg) -->
+                <div class="lg:col-span-7 space-y-10">
+                    
+                    <!-- Section title -->
+                    <div class="space-y-4">
+                        <span class="text-ecoGreen-600 text-sm font-bold uppercase tracking-wider bg-ecoGreen-100/50 px-3 py-1 rounded-full"><i class="fa-solid fa-circle-nodes mr-1.5"></i> Dự phòng & Liên kết</span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">Quản Trị Rủi Ro & Đăng Ký</h2>
+                        <div class="h-1 w-20 bg-ecoGreen-500 rounded-full"></div>
+                    </div>
+
+                    <!-- Risk Management Table Matrix -->
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-bold text-gray-900 flex items-center">
+                            <i class="fa-solid fa-shield-virus text-ecoGreen-600 mr-2.5"></i>Ma Trận Rủi Ro & Giải Pháp
+                        </h3>
+                        
+                        <div class="overflow-x-auto rounded-2xl border border-gray-100 shadow-sm">
+                            <table class="w-full text-sm text-left text-gray-500">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-100">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-4 font-bold">Rủi ro tiềm ẩn</th>
+                                        <th scope="col" class="px-6 py-4 font-bold text-center">Mức độ</th>
+                                        <th scope="col" class="px-6 py-4 font-bold">Phương án giải quyết thông minh</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 bg-white">
+                                    <tr>
+                                        <td class="px-6 py-4 font-bold text-gray-900">
+                                            Rủi ro Tài chính
+                                            <p class="text-[10px] font-medium text-gray-400">Không đủ kinh phí ban đầu</p>
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            <span class="bg-amber-50 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded-full">Vừa</span>
+                                        </td>
+                                        <td class="px-6 py-4 text-xs text-gray-600 leading-relaxed font-medium">
+                                            Tận dụng vật liệu phế thải tự chế tạo trạm thu gom thí điểm; họp báo cáo thu chi minh bạch hàng tuần; xin ngân sách Đoàn trường và mở rộng gây quỹ bên lề từ giai đoạn đầu.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 font-bold text-gray-900">
+                                            Rủi ro Nhân sự
+                                            <p class="text-[10px] font-medium text-gray-400">Thành viên nản chí/bận học</p>
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            <span class="bg-rose-50 text-rose-700 text-[10px] font-bold px-2 py-0.5 rounded-full">Cao</span>
+                                        </td>
+                                        <td class="px-6 py-4 text-xs text-gray-600 leading-relaxed font-medium">
+                                            Tổ chức họp mặt định kỳ mỗi tuần để lắng nghe tâm tư và tháo gỡ khó khăn; phân bổ công việc linh hoạt theo thời khóa biểu học tập; xây dựng hệ thống phần thưởng khuyến khích nỗ lực.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 font-bold text-gray-900">
+                                            Rủi ro Thời gian
+                                            <p class="text-[10px] font-medium text-gray-400">Trễ hạn chế tạo lắp đặt</p>
+                                        </td>
+                                        <td class="px-6 py-4 text-center">
+                                            <span class="bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full">Thấp</span>
+                                        </td>
+                                        <td class="px-6 py-4 text-xs text-gray-600 leading-relaxed font-medium">
+                                            Lập kế hoạch dự phòng đệm thêm 1 tuần cho mỗi giai đoạn chính. Thiết lập các mốc bàn giao trung gian để sớm phát hiện trì trệ và điều phối khẩn cấp.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Campus Location Info (Giả định) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 bg-gray-50 border border-gray-100 rounded-3xl p-6">
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-gray-900 flex items-center">
+                                <i class="fa-solid fa-location-dot text-ecoGreen-600 mr-2"></i>Trụ sở liên lạc
+                            </h4>
+                            <p class="text-xs text-gray-600 leading-relaxed font-medium">
+                                Văn phòng Đoàn Thanh niên - Trường Đại học CMC<br>
+                                Cơ sở phía Bắc: Số 84 Đường Nguyễn Thanh Bình, Vạn Phúc, Hà Đông, Hà Nội.
+                            </p>
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-gray-900 flex items-center">
+                                <i class="fa-solid fa-envelope text-ecoGreen-600 mr-2"></i>Hòm thư điện tử
+                            </h4>
+                            <p class="text-xs text-gray-600 leading-relaxed font-medium">
+                                Email dự án: <a href="mailto:svtaiche.cmc@gmail.com" class="text-ecoGreen-600 hover:underline">svtaiche.cmc@gmail.com</a><br>
+                                Hotline: 098.765.4321 (Dũng Trưởng nhóm)
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right: Active Volunteer / Waste Donation Form (5 cols on lg) -->
+                <div class="lg:col-span-5 bg-gradient-to-b from-ecoGreen-50 to-white border border-ecoGreen-200/60 rounded-3xl p-6 sm:p-8 shadow-xl">
+                    <!-- Tab Switcher -->
+                    <div class="flex border-b border-gray-200 mb-6">
+                        <button id="tab-pickup" onclick="switchFormTab('pickup')" class="w-1/2 pb-3 text-sm font-bold text-ecoGreen-600 border-b-2 border-ecoGreen-500 flex items-center justify-center transition-all duration-300">
+                            <i class="fa-solid fa-calendar-plus mr-2"></i>Đặt lịch thu gom
+                        </button>
+                        <button id="tab-volunteer" onclick="switchFormTab('volunteer')" class="w-1/2 pb-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent hover:text-gray-600 flex items-center justify-center transition-all duration-300">
+                            <i class="fa-solid fa-user-plus mr-2"></i>Đăng ký thành viên
+                        </button>
+                    </div>
+
+                    <!-- 1. Form Đặt lịch thu gom rác tái chế (ACTIVE BY DEFAULT) -->
+                    <form id="eco-pickup-form" onsubmit="handlePickupFormSubmit(event)" class="space-y-4">
+                        <p class="text-xs text-gray-500 font-medium pb-2 border-b border-gray-100">
+                            Đặt lịch nhanh để Group 5 thu gom tận nơi, tích luỹ điểm <strong class="text-ecoGreen-600">EcoValue</strong> đổi quà xanh hấp dẫn nhé!
+                        </p>
+                        
+                        <!-- Họ và tên người gửi -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1" for="pickup-name">Họ và tên người gửi *</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                                    <i class="fa-solid fa-user text-xs"></i>
+                                </span>
+                                <input required type="text" id="pickup-name" placeholder="Ví dụ: Nguyễn Văn A" class="w-full border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ecoGreen-500 focus:border-transparent transition-all">
+                            </div>
+                        </div>
+
+                        <!-- SĐT / Email -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1" for="pickup-phone">Số điện thoại *</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                                        <i class="fa-solid fa-phone text-xs"></i>
+                                    </span>
+                                    <input required type="tel" id="pickup-phone" placeholder="Ví dụ: 0987654321" class="w-full border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ecoGreen-500 focus:border-transparent transition-all">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1" for="pickup-email">Email liên hệ *</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                                        <i class="fa-solid fa-envelope text-xs"></i>
+                                    </span>
+                                    <input required type="email" id="pickup-email" placeholder="Ví dụ: user@cmc.edu.vn" class="w-full border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ecoGreen-500 focus:border-transparent transition-all">
+                                </div>
+                            </div>
+                        </div>
+
+                                                <!-- Loại rác thải & Khối lượng -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1" for="pickup-waste-type">Loại rác thải *</label>
+                                <select id="pickup-waste-type" onchange="handleWasteTypeChange(this.value)" class="w-full border border-gray-200 bg-white rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ecoGreen-500 focus:border-transparent transition-all">
+                                    <option value="" disabled selected>Chọn loại rác</option>
+                                    <option value="Chai nhựa">Chai nhựa / Chai PET</option>
+                                    <option value="Giấy in / Carton">Giấy in / Giấy vở / Carton</option>
+                                    <option value="Lon nhôm / Sắt">Lon nhôm / Vỏ lon kim loại</option>
+                                    <option value="Chai thủy tinh">Chai / Lọ thủy tinh</option>
+                                    <option value="Thiết bị điện tử hỏng">Thiết bị điện tử hỏng</option>
+                                    <option value="custom">-- Khác (Nhập thêm ghi chú) --</option>
+                                </select>
+                                <input type="text" id="pickup-waste-custom" placeholder="Nhập tên loại rác khác..." class="hidden mt-2 w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ecoGreen-500 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1" for="pickup-weight">Khối lượng ước tính (kg) *</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                                        <i class="fa-solid fa-weight-hanging text-xs"></i>
+                                    </span>
+                                    <input required type="number" step="0.1" min="0.1" id="pickup-weight" placeholder="Ví dụ: 2.5" class="w-full border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ecoGreen-500 focus:border-transparent transition-all">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Địa điểm thu gom -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1" for="pickup-location">Địa điểm thu gom *</label>
+                            <div class="flex gap-2">
+                                <div class="relative flex-grow">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                                        <i class="fa-solid fa-map-location-dot text-xs"></i>
+                                    </span>
+                                    <select id="pickup-location" class="w-full border border-gray-200 bg-white rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ecoGreen-500 focus:border-transparent transition-all" onchange="toggleCustomLocation(this.value)">
+                                        <option value="Căn tin trường">Căn tin trường (Canteen)</option>
+                                        <option value="Sảnh chính tòa A">Sảnh chính tòa A (Lobby Building A)</option>
+                                        <option value="Giảng đường chính">Giảng đường chính</option>
+                                        <option value="Văn phòng Đoàn">Văn phòng Đoàn trường</option>
+                                        <option value="Ký túc xá">Ký túc xá</option>
+                                        <option value="custom">-- Vị trí khác (Nhập thủ công) --</option>
+                                    </select>
+                                </div>
+                                <button type="button" onclick="getCurrentLocation()" class="bg-ecoBlue-500 hover:bg-ecoBlue-600 text-white px-4 rounded-xl transition-all shadow-sm" title="Lấy vị trí GPS hiện tại">
+                                    <i class="fa-solid fa-location-crosshairs"></i>
+                                </button>
+                            </div>
+                            <!-- Custom location input hidden by default -->
+                            <input type="text" id="pickup-location-custom" placeholder="Nhập chi tiết địa điểm thu gom..." class="hidden mt-2 w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ecoGreen-500 focus:border-transparent transition-all">
+                        </div>
+
+                        <!-- Ghi chú thêm -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1" for="pickup-message">Ghi chú (Thời gian thuận tiện, v.v...)</label>
+                            <textarea id="pickup-message" rows="2" placeholder="Ví dụ: Rác để ở góc bàn, thu gom giờ ra chơi tiết 3..." class="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ecoGreen-500 focus:border-transparent transition-all"></textarea>
+                        </div>
+
+                        <!-- Agreement Check -->
+                        <div class="flex items-start">
+                            <input required type="checkbox" id="pickup-agree" class="mt-1 rounded text-ecoGreen-600 focus:ring-ecoGreen-500 h-4 w-4 border-gray-300">
+                            <label class="ml-2 text-[11px] text-gray-500 leading-normal font-medium" for="pickup-agree">
+                                Tôi cam kết rác đã được phân loại cơ bản và sẵn sàng tại vị trí đã chọn để Group 5 thu gom.
+                            </label>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="w-full bg-ecoGreen-600 hover:bg-ecoGreen-700 text-white font-bold py-3 px-6 rounded-xl text-sm shadow-lg shadow-ecoGreen-500/20 hover:shadow-ecoGreen-500/40 hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center">
+                            <i class="fa-solid fa-circle-check mr-2 animate-pulse"></i> Xác Nhận Đặt Lịch
+                        </button>
+                    </form>
+
+                    <!-- 2. Form Đăng ký thành viên (HIDDEN BY DEFAULT) -->
+                    <form id="eco-registration-form" onsubmit="handleVolunteerFormSubmit(event)" class="space-y-4 hidden">
+                        <p class="text-xs text-gray-500 font-medium pb-2 border-b border-gray-100">
+                            Trở thành đại sứ xanh hoặc nhà đồng hành cùng Group 5 lan toả lối sống xanh CMC!
+                        </p>
+                        
+                        <!-- Full Name -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1" for="user-name">Họ và tên *</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                                    <i class="fa-solid fa-user text-xs"></i>
+                                </span>
+                                <input required type="text" id="user-name" name="name" placeholder="Ví dụ: Nguyễn Văn A" class="w-full border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ecoGreen-500 focus:border-transparent transition-all">
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1" for="user-email">Email sinh viên *</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                                    <i class="fa-solid fa-envelope text-xs"></i>
+                                </span>
+                                <input required type="email" id="user-email" name="email" placeholder="Ví dụ: user@cmc.edu.vn" class="w-full border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ecoGreen-500 focus:border-transparent transition-all">
+                            </div>
+                        </div>
+
+                        <!-- Phone Number -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1" for="user-phone">Số điện thoại liên hệ *</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                                    <i class="fa-solid fa-phone text-xs"></i>
+                                </span>
+                                <input required type="tel" id="user-phone" name="phone" placeholder="Ví dụ: 0912345678" class="w-full border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ecoGreen-500 focus:border-transparent transition-all">
+                            </div>
+                        </div>
+
+                        <!-- Type of Contribution -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1" for="user-type">Hình thức đóng góp *</label>
+                            <select id="user-type" name="type" class="w-full border border-gray-200 bg-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ecoGreen-500 focus:border-transparent transition-all">
+                                <option value="volunteer">Đăng ký làm Đại sứ Tình nguyện viên xanh</option>
+                                <option value="sponsor">Đồng hành gây quỹ / Tài trợ dự án</option>
+                                <option value="other">Sáng kiến xanh đóng góp khác</option>
+                            </select>
+                        </div>
+
+                        <!-- Message -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1" for="user-message">Lời nhắn gửi nhóm *</label>
+                            <textarea required id="user-message" name="message" rows="3" placeholder="Chia sẻ một chút về mong muốn của bạn cùng Group 5..." class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ecoGreen-500 focus:border-transparent transition-all"></textarea>
+                        </div>
+
+                        <!-- Agreement Check -->
+                        <div class="flex items-start">
+                            <input required type="checkbox" id="user-agree" class="mt-1 rounded text-ecoGreen-600 focus:ring-ecoGreen-500 h-4 w-4 border-gray-300">
+                            <label class="ml-2 text-[11px] text-gray-500 leading-normal font-medium" for="user-agree">
+                                Tôi cam kết cung cấp thông tin chính xác và mong muốn đóng góp tinh thần xanh xây dựng CMC văn minh.
+                            </label>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="w-full bg-ecoGreen-600 hover:bg-ecoGreen-700 text-white font-bold py-3 px-6 rounded-xl text-sm shadow-lg shadow-ecoGreen-500/20 hover:shadow-ecoGreen-500/40 hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center">
+                            Gửi Đăng Ký Của Bạn <i class="fa-solid fa-paper-plane ml-2"></i>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Success Modal Popup -->
+    <div id="success-modal" class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="closeModal()"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            
+            <!-- Modal Body -->
+            <div class="inline-block align-bottom bg-white rounded-3xl px-6 pt-5 pb-6 text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full sm:p-8">
+                <div>
+                    <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-ecoGreen-100 text-ecoGreen-600 text-3xl">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div class="mt-3 text-center sm:mt-5">
+                        <h3 class="text-xl leading-6 font-bold text-gray-900" id="modal-title">Đăng ký thành công!</h3>
+                        <div class="mt-3">
+                            <p class="text-sm text-gray-500 leading-relaxed font-medium">
+                                Cảm ơn bạn đã tham gia đồng hành cùng <span class="text-ecoGreen-600 font-bold">Group 5 (Lớp N04)</span> trong chiến dịch "Sinh viên tái chế – Hành động xanh vì tương lai". Chúng tớ sẽ liên hệ với bạn trong thời gian sớm nhất!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <button type="button" onclick="closeModal()" class="inline-flex justify-center w-full rounded-xl border border-transparent shadow-md px-4 py-3 bg-ecoGreen-600 text-base font-bold text-white hover:bg-ecoGreen-700 focus:outline-none transition-all duration-150">
+                        Tuyệt vời, đóng lại nhé!
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                
+                <!-- Left footer column -->
+                <div class="md:col-span-4 space-y-4 text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start space-x-3">
+                        <div class="bg-ecoGreen-950 border border-ecoGreen-800 p-2 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-recycle text-ecoGreen-500 text-xl animate-spin-slow"></i>
+                        </div>
+                        <div>
+                            <span class="text-lg font-bold text-white tracking-wide">SV TÁI CHẾ</span>
+                            <p class="text-[9px] text-ecoGreen-500 tracking-wider font-semibold uppercase leading-3">Hành Động Xanh Vì Tương Lai</p>
+                        </div>
+                    </div>
+                    <p class="text-xs leading-relaxed max-w-sm font-medium">
+                        Dự án xã hội vì môi trường xanh giảng đường. Kiến tạo thói quen tốt cho hôm nay và phát triển mô hình tuần hoàn vì tương lai CMC.
+                    </p>
+                </div>
+
+                <!-- Middle footer column -->
+                <div class="md:col-span-4 text-center">
+                    <p class="text-xs font-bold text-white uppercase tracking-wider mb-2">Môn Học Nền Tảng</p>
+                    <p class="text-sm font-medium text-gray-300">Kỹ Năng Mềm & Tư Duy Khởi Nghiệp</p>
+                    <p class="text-xs text-gray-500 mt-1">Giảng viên hướng dẫn: ThS. Hoàng Thu Phương</p>
+                </div>
+
+                <!-- Right footer column -->
+                <div class="md:col-span-4 text-center md:text-right space-y-2">
+                    <p class="text-xs font-bold text-white uppercase tracking-wider">Cộng đồng sinh viên</p>
+                    <p class="text-xs text-gray-400">Trường Đại học CMC (CMC University)</p>
+                    <div class="flex justify-center md:justify-end space-x-4 pt-2">
+                        <a href="#" class="text-gray-500 hover:text-white transition-colors text-lg"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="text-gray-500 hover:text-white transition-colors text-lg"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" class="text-gray-500 hover:text-white transition-colors text-lg"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#" class="text-gray-500 hover:text-white transition-colors text-lg"><i class="fa-solid fa-earth-americas"></i></a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer Bottom Section -->
+            <div class="mt-12 pt-8 border-t border-gray-800 text-center text-xs text-gray-500 font-medium space-y-1">
+                <p>© 2026 Group 5 - Lớp N04 - CMC University. Tất cả các quyền được bảo lưu.</p>
+                <p class="text-[10px] text-gray-600">Sản phẩm đồ án cuối khóa học của các chiến binh môi trường CMC.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast container -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3"></div>
+
+    <!-- JavaScript logic -->
+    <script>
+        // 1. Mobile Menu Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // 2. Tab Switcher for Pickup / Volunteer Forms
+        const pickupForm = document.getElementById('eco-pickup-form');
+        const volunteerForm = document.getElementById('eco-registration-form');
+        const pickupTab = document.getElementById('tab-pickup');
+        const volunteerTab = document.getElementById('tab-volunteer');
+
+        function switchFormTab(tab) {
+            if (tab === 'pickup') {
+                pickupForm.classList.remove('hidden');
+                volunteerForm.classList.add('hidden');
+                pickupTab.classList.add('text-ecoGreen-600', 'border-ecoGreen-500');
+                pickupTab.classList.remove('text-gray-400', 'border-transparent', 'font-semibold');
+                volunteerTab.classList.remove('text-ecoGreen-600', 'border-ecoGreen-500');
+                volunteerTab.classList.add('text-gray-400', 'border-transparent', 'font-semibold');
+            } else {
+                volunteerForm.classList.remove('hidden');
+                pickupForm.classList.add('hidden');
+                volunteerTab.classList.add('text-ecoGreen-600', 'border-ecoGreen-500');
+                volunteerTab.classList.remove('text-gray-400', 'border-transparent', 'font-semibold');
+                pickupTab.classList.remove('text-ecoGreen-600', 'border-ecoGreen-500');
+                pickupTab.classList.add('text-gray-400', 'border-transparent', 'font-semibold');
+            }
+        }
+
+                function toggleCustomLocation(value) {
+            const customInput = document.getElementById('pickup-location-custom');
+            if (value === 'custom') {
+                customInput.classList.remove('hidden');
+                customInput.required = true;
+            } else {
+                customInput.classList.add('hidden');
+                customInput.required = false;
+            }
+        }
+
+        // --- NEW FUNCTIONS FOR WASTE TYPE & LOCATION ---
+
+        function handleWasteTypeChange(value) {
+            const customInput = document.getElementById('pickup-waste-custom');
+            const weightInput = document.getElementById('pickup-weight');
+            
+            // Show custom input if "Other" is selected
+            if (value === 'custom') {
+                customInput.classList.remove('hidden');
+                customInput.required = true;
+            } else {
+                customInput.classList.add('hidden');
+                customInput.required = false;
+            }
+
+            // Auto-estimate weight based on common types
+            const estimates = {
+                "Chai nhựa": 0.5,
+                "Giấy in / Carton": 3.0,
+                "Lon nhôm / Sắt": 0.2,
+                "Chai thủy tinh": 1.5,
+                "Thiết bị điện tử hỏng": 2.5
+            };
+            
+            if (estimates[value]) {
+                weightInput.value = estimates[value];
+                showToast(`Đã tự động ước tính khối lượng cho: ${value}`, 'info');
+            }
+        }
+
+        function getCurrentLocation() {
+            if (!navigator.geolocation) {
+                showToast('Trình duyệt của bạn không hỗ trợ định vị GPS.', 'error');
+                return;
+            }
+
+            showToast('Đang truy cập vị trí hiện tại...', 'info');
+            
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    const locationSelect = document.getElementById('pickup-location');
+                    const customInput = document.getElementById('pickup-location-custom');
+                    
+                    locationSelect.value = 'custom';
+                    toggleCustomLocation('custom');
+                    
+                    // Try to reverse geocode using Nominatim API (OpenStreetMap - free, no key needed)
+                    try {
+                        showToast('Đang lấy địa chỉ từ tọa độ GPS...', 'info');
+                        const response = await fetch(
+                            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=vi`,
+                            {
+                                headers: {
+                                    'User-Agent': 'SVTaiChe-EcoValue/1.0 (student project)'
+                                }
+                            }
+                        );
+                        
+                        if (!response.ok) throw new Error('API không phản hồi');
+                        
+                        const data = await response.json();
+                        
+                        if (data && data.display_name) {
+                            // Format the address nicely
+                            let address = data.display_name;
+                            
+                            // Try to extract a shorter, more readable address
+                            if (data.address) {
+                                const parts = [];
+                                if (data.address.road) parts.push(data.address.road);
+                                if (data.address.suburb) parts.push(data.address.suburb);
+                                if (data.address.quarter) parts.push(data.address.quarter);
+                                if (data.address.city || data.address.town || data.address.village) {
+                                    parts.push(data.address.city || data.address.town || data.address.village);
+                                }
+                                if (data.address.district) parts.push(data.address.district);
+                                
+                                if (parts.length >= 2) {
+                                    address = parts.join(', ');
+                                } else {
+                                    // Fallback: use shorter version
+                                    const shortAddress = data.display_name.split(',').slice(0, 4).join(',');
+                                    if (shortAddress.length > 10) address = shortAddress;
+                                }
+                            }
+                            
+                            customInput.value = address;
+                            showToast('📍 Đã tìm thấy địa chỉ của bạn!', 'success');
+                        } else {
+                            customInput.value = `Tọa độ GPS: ${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+                            showToast('Đã lấy tọa độ GPS (không tìm được địa chỉ cụ thể).', 'info');
+                        }
+                    } catch (apiError) {
+                        console.warn('Reverse geocoding failed:', apiError);
+                        // Fallback: show coordinates
+                        customInput.value = `Tọa độ GPS: ${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+                        showToast('Đã lấy tọa độ GPS (dịch vụ định vị tạm thời không khả dụng).', 'info');
+                    }
+                },
+                (error) => {
+                    let errorMsg = 'Không thể lấy vị trí. ';
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMsg += 'Bạn đã từ chối quyền truy cập vị trí. Vui lòng cho phép trong cài đặt trình duyệt.';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMsg += 'Thông tin vị trí không khả dụng.';
+                            break;
+                        case error.TIMEOUT:
+                            errorMsg += 'Yêu cầu lấy vị trí đã hết thời gian chờ.';
+                            break;
+                        default:
+                            errorMsg += 'Lỗi không xác định.';
+                    }
+                    showToast(errorMsg, 'error');
+                    console.error(error);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 60000
+                }
+            );
+        }
+
+        // --- END OF NEW FUNCTIONS ---
+
+        // 3. Toast Notification Helper
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = `max-w-sm w-full rounded-2xl px-4 py-3 shadow-xl text-sm font-medium text-white border ${type === 'success' ? 'bg-emerald-600 border-emerald-700' : type === 'error' ? 'bg-rose-600 border-rose-700' : 'bg-slate-700 border-slate-800'}`;
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(12px)';
+            toast.innerHTML = message;
+
+            container.appendChild(toast);
+            requestAnimationFrame(() => {
+                toast.style.transition = 'transform 180ms ease, opacity 180ms ease';
+                toast.style.opacity = '1';
+                toast.style.transform = 'translateY(0)';
+            });
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(12px)';
+                toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+            }, 4200);
+        }
+
+        // 4. Supabase + Admin Webhook - WRAPPED IN TRY-CATCH to prevent crash if CDN fails
+        const supabaseUrl = 'YOUR_SUPABASE_URL';
+        const supabaseAnonKey = 'YOUR_SUPABASE_ANON_KEY';
+        const discordWebhookUrl = 'YOUR_DISCORD_WEBHOOK_URL';
+
+        let supabaseClient = null;
+        try {
+            if (typeof supabase !== 'undefined' && typeof supabase.createClient === 'function') {
+                supabaseClient = supabase.createClient(supabaseUrl, supabaseAnonKey);
+            } else {
+                console.warn('Supabase not available (CDN may not have loaded). Forms will work in offline mode.');
+            }
+        } catch (e) {
+            console.warn('Supabase initialization failed:', e);
+            supabaseClient = null;
+        }
+
+        async function saveScheduleToSupabase(schedule) {
+            if (!supabaseClient) {
+                console.log('Supabase not configured. Running in offline demo mode.');
+                return { data: schedule, error: null };
+            }
+            try {
+                return await supabaseClient.from('collection_schedules').insert([schedule]);
+            } catch (e) {
+                console.warn('Supabase insert failed, using offline mode:', e);
+                return { data: schedule, error: null };
+            }
+        }
+
+        async function sendAdminWebhook(message) {
+            if (!discordWebhookUrl || discordWebhookUrl.includes('YOUR_DISCORD_WEBHOOK_URL')) {
+                console.log('Discord webhook is not configured. Admin alert skipped.');
+                return;
+            }
+            try {
+                await fetch(discordWebhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ content: message })
+                });
+            } catch (error) {
+                console.warn('Không gửi được thông báo Discord:', error);
+            }
+        }
+
+        function celebrate() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 100,
+                    spread: 68,
+                    origin: { y: 0.7 },
+                    colors: ['#22c55e', '#0ea5e9', '#facc15']
+                });
+            }
+        }
+
+        function openSuccessModal(title, description) {
+            const modal = document.getElementById('success-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = modal.querySelector('.text-sm');
+            if (modalTitle) modalTitle.textContent = title;
+            if (modalBody) modalBody.textContent = description;
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('success-modal');
+            modal.classList.add('hidden');
+        }
+
+        async function handlePickupFormSubmit(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('pickup-name').value.trim();
+            const phone = document.getElementById('pickup-phone').value.trim();
+            const email = document.getElementById('pickup-email').value.trim();
+            const wasteType = document.getElementById('pickup-waste-type').value;
+            const weight = parseFloat(document.getElementById('pickup-weight').value);
+            const locationSelect = document.getElementById('pickup-location').value;
+            const customLocation = document.getElementById('pickup-location-custom').value.trim();
+            const note = document.getElementById('pickup-message').value.trim();
+            const location = locationSelect === 'custom' ? customLocation : locationSelect;
+
+            if (!name || !phone || !email || !wasteType || !weight || !location) {
+                showToast('Vui lòng điền đầy đủ tất cả các trường bắt buộc.', 'error');
+                return;
+            }
+
+            const schedule = {
+                submission_type: 'pickup',
+                name,
+                phone,
+                email,
+                waste_type: wasteType,
+                estimated_weight_kg: weight,
+                collection_location: location,
+                note,
+                eco_points: 50,
+                created_at: new Date().toISOString()
+            };
+
+            showToast('Đang gửi yêu cầu đặt lịch. Vui lòng chờ...', 'info');
+
+            try {
+                const { data, error } = await saveScheduleToSupabase(schedule);
+                if (error) {
+                    console.error('Supabase insert error', error);
+                    throw error;
+                }
+
+                const adminMessage = `Có lịch thu gom mới từ sinh viên ${name} tại ${location}!`;
+                await sendAdminWebhook(adminMessage);
+                celebrate();
+                openSuccessModal('Đặt lịch thành công!', 'Bạn được cộng +50 điểm Eco. Chúng tôi sẽ xác nhận thời gian thu gom và liên hệ sớm.');
+                showToast('Đặt lịch thành công! Bạn được cộng +50 điểm Eco.', 'success');
+                document.getElementById('eco-pickup-form').reset();
+                document.getElementById('pickup-location-custom').classList.add('hidden');
+            } catch (error) {
+                showToast('Không thể gửi yêu cầu. Vui lòng thử lại sau.', 'error');
+            }
+        }
+
+        async function handleVolunteerFormSubmit(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('user-name').value.trim();
+            const email = document.getElementById('user-email').value.trim();
+            const phone = document.getElementById('user-phone').value.trim();
+            const type = document.getElementById('user-type').value;
+            const message = document.getElementById('user-message').value.trim();
+
+            if (!name || !email || !phone || !message) {
+                showToast('Vui lòng điền đầy đủ thông tin thành viên.', 'error');
+                return;
+            }
+
+            showToast('Đang gửi thông tin đăng ký thành viên...', 'info');
+
+            const schedule = {
+                submission_type: 'volunteer',
+                name,
+                email,
+                phone,
+                waste_type: type,
+                estimated_weight_kg: null,
+                collection_location: null,
+                note: message,
+                eco_points: 0,
+                created_at: new Date().toISOString()
+            };
+
+            try {
+                const { data, error } = await saveScheduleToSupabase(schedule);
+                if (error) {
+                    console.error('Supabase insert error', error);
+                    throw error;
+                }
+
+                const adminMessage = `Có đăng ký thành viên mới từ ${name}. Email: ${email}`;
+                await sendAdminWebhook(adminMessage);
+                openSuccessModal('Đăng ký thành công!', 'Cảm ơn bạn đã đăng ký thành viên. Chúng tôi sẽ liên hệ bạn sớm.');
+                showToast('Cảm ơn bạn đã đăng ký thành viên! Chúng tôi sẽ liên hệ sớm.', 'success');
+                document.getElementById('eco-registration-form').reset();
+            } catch (error) {
+                showToast('Không thể gửi đăng ký. Vui lòng thử lại.', 'error');
+            }
+        }
+
+        // ============================================================
+        // GAME LOGIC - Góc Tương Tác Giáo Dục (Phân Loại Rác)
+        // ============================================================
+        
+        // --- Waste Items Database (30+ items) ---
+        const wasteItems = [
+            // Recyclable items
+            { name: 'Chai nhựa PET', icon: 'fa-bottle-water', category: 'recyclable', fact: 'Chai nhựa PET mất 450 năm để phân hủy nhưng có thể tái chế thành sợi quần áo!' },
+            { name: 'Giấy báo cũ', icon: 'fa-newspaper', category: 'recyclable', fact: 'Tái chế 1 tấn giấy cứu được 17 cây xanh!' },
+            { name: 'Lon bia nhôm', icon: 'fa-beer-mug-empty', category: 'recyclable', fact: 'Nhôm có thể tái chế vô hạn mà không mất chất lượng!' },
+            { name: 'Hộp carton', icon: 'fa-box', category: 'recyclable', fact: 'Carton tái chế tiết kiệm 70% năng lượng so với sản xuất mới.' },
+            { name: 'Chai thủy tinh', icon: 'fa-wine-bottle', category: 'recyclable', fact: 'Thủy tinh mất 1 triệu năm để phân hủy - hãy tái chế!' },
+            { name: 'Sách vở cũ', icon: 'fa-book', category: 'recyclable', fact: 'Sách cũ có thể tái chế thành giấy vệ sinh và bìa carton.' },
+            { name: 'Lọ nhựa đựng gia vị', icon: 'fa-jar', category: 'recyclable', fact: 'Nhựa số 1 (PET) là loại dễ tái chế nhất.' },
+            { name: 'Vỏ lon nước ngọt', icon: 'fa-can', category: 'recyclable', fact: 'Lon nhôm tái chế tiết kiệm 95% năng lượng!' },
+            { name: 'Báo cũ', icon: 'fa-newspaper', category: 'recyclable', fact: 'Báo cũ có thể tái chế thành bột giấy làm sách vở mới.' },
+            { name: 'Thùng giấy', icon: 'fa-box-open', category: 'recyclable', fact: 'Giấy tái chế giảm 74% ô nhiễm không khí.' },
+            
+            // Organic items
+            { name: 'Vỏ chuối', icon: 'fa-leaf', category: 'organic', fact: 'Vỏ chuối phân hủy trong 2-5 tuần và là phân bón tuyệt vời!' },
+            { name: 'Thức ăn thừa', icon: 'fa-bowl-food', category: 'organic', fact: 'Thức ăn thừa có thể ủ thành phân compost giàu dinh dưỡng.' },
+            { name: 'Lá cây khô', icon: 'fa-tree', category: 'organic', fact: 'Lá khô là nguyên liệu vàng cho phân compost.' },
+            { name: 'Vỏ trứng', icon: 'fa-egg', category: 'organic', fact: 'Vỏ trứng cung cấp canxi cho đất trồng cây.' },
+            { name: 'Bã cà phê', icon: 'fa-mug-saucer', category: 'organic', fact: 'Bã cà phê giàu nitơ - tuyệt vời cho phân compost!' },
+            { name: 'Vỏ cam quýt', icon: 'fa-apple-whole', category: 'organic', fact: 'Vỏ cam mất 6 tháng để phân hủy tự nhiên.' },
+            { name: 'Cỏ cắt từ sân', icon: 'fa-seedling', category: 'organic', fact: 'Cỏ xanh là \"chất xanh\" giàu nitơ cho compost.' },
+            { name: 'Hoa héo', icon: 'fa-flower', category: 'organic', fact: 'Hoa héo phân hủy nhanh và thơm dịu cho khu vườn.' },
+            { name: 'Vỏ khoai tây', icon: 'fa-carrot', category: 'organic', fact: 'Vỏ khoai tây giàu tinh bột - vi sinh vật yêu thích!' },
+            { name: 'Bã trà', icon: 'fa-mug-hot', category: 'organic', fact: 'Bã trà giúp cải thiện cấu trúc đất và giữ ẩm.' },
+
+            // Remaining (non-recyclable / residual)
+            { name: 'Hộp xốp đựng thức ăn', icon: 'fa-box', category: 'remaining', fact: 'Xốp (Styrofoam) mất 500+ năm phân hủy - hạn chế sử dụng!' },
+            { name: 'Túi nilon bẩn', icon: 'fa-bag-shopping', category: 'remaining', fact: 'Túi nilon bẩn không thể tái chế do dính thức ăn.' },
+            { name: 'Bỉm / tã lót', icon: 'fa-child', category: 'remaining', fact: 'Bỉm mất 250-500 năm để phân hủy trong bãi rác.' },
+            { name: 'Gốm sứ vỡ', icon: 'fa-mug-saucer', category: 'remaining', fact: 'Gốm sứ vỡ không thể tái chế - hãy tái sử dụng làm đồ trang trí!' },
+            { name: 'Bóng đèn huỳnh quang', icon: 'fa-lightbulb', category: 'remaining', fact: 'Bóng đèn huỳnh quang chứa thủy ngân - cần xử lý đặc biệt!' },
+            { name: 'Giấy ăn đã dùng', icon: 'fa-toilet-paper', category: 'remaining', fact: 'Giấy ăn đã dùng có vi khuẩn - không thể tái chế được.' },
+            { name: 'Vỏ bánh kẹo nilon', icon: 'fa-candy-cane', category: 'remaining', fact: 'Vỏ bánh kẹo là rác khó tái chế - hãy chọn sản phẩm ít bao bì!' },
+            { name: 'Que tre / đũa dùng 1 lần', icon: 'fa-utensils', category: 'remaining', fact: 'Đũa tre dùng 1 lần gây lãng phí tài nguyên rừng.' },
+            { name: 'Mút xốp đóng gói', icon: 'fa-box', category: 'remaining', fact: 'Mút xốp không phân hủy và gây hại cho động vật biển.' },
+            { name: 'Giấy bạc bẩn', icon: 'fa-film', category: 'remaining', fact: 'Giấy bạc bẩn dính thức ăn không thể tái chế.' },
+        ];
+
+        // --- Game State ---
+        let gameState = {
+            mode: 'classic',
+            score: 0,
+            streak: 0,
+            correct: 0,
+            wrong: 0,
+            currentItem: null,
+            currentIndex: 0,
+            usedIndices: [],
+            isPlaying: true,
+            timer: 60,
+            timerInterval: null,
+            totalQuestions: 10,
+            answeredQuestions: 0,
+            challengeMode: false,
+            learnMode: false,
+            isLocked: false
+        };
+
+        // --- Utility Functions ---
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function getHighScore() {
+            return parseInt(localStorage.getItem('ecoGameHighScore') || '0');
+        }
+
+        function setHighScore(score) {
+            const current = getHighScore();
+            if (score > current) {
+                localStorage.setItem('ecoGameHighScore', score.toString());
+                return true;
+            }
+            return false;
+        }
+
+        // --- Core Game Functions ---
+        function getRandomItem() {
+            // Reset used indices if all items have been used
+            if (gameState.usedIndices.length >= wasteItems.length) {
+                gameState.usedIndices = [];
+            }
+            
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * wasteItems.length);
+            } while (gameState.usedIndices.includes(randomIndex));
+            
+            gameState.usedIndices.push(randomIndex);
+            return wasteItems[randomIndex];
+        }
+
+        function displayItem(item) {
+            const iconEl = document.getElementById('waste-icon');
+            const nameEl = document.getElementById('waste-name');
+            const factEl = document.getElementById('waste-fact');
+            const counterEl = document.getElementById('item-counter');
+            
+            if (!iconEl || !nameEl) return;
+            
+            gameState.currentItem = item;
+            gameState.currentIndex++;
+            
+            // Reset waste card animation
+            const wasteCard = document.getElementById('waste-card');
+            if (wasteCard) {
+                wasteCard.classList.remove('animate-pulse');
+                wasteCard.style.transform = 'scale(1)';
+            }
+            
+            iconEl.className = `fa-solid ${item.icon} text-6xl text-ecoBlue-300 transition-all duration-300`;
+            nameEl.textContent = item.name;
+            
+            // Show fun fact in learn mode
+            if (factEl) {
+                if (gameState.learnMode || (gameState.challengeMode && gameState.mode === 'challenge')) {
+                    factEl.classList.add('hidden');
+                } else {
+                    factEl.classList.remove('hidden');
+                }
+                factEl.textContent = item.fact;
+            }
+            
+            // Update item counter
+            if (counterEl) {
+                if (gameState.mode === 'challenge') {
+                    counterEl.textContent = `Câu ${Math.min(gameState.answeredQuestions + 1, gameState.totalQuestions)}/${gameState.totalQuestions}`;
+                } else {
+                    counterEl.textContent = `Vật phẩm #${gameState.currentIndex}`;
+                }
+            }
+            
+            // Reset feedback
+            document.getElementById('game-message').textContent = 'Chọn thùng rác phù hợp!';
+            const fbIcon = document.getElementById('feedback-icon');
+            if (fbIcon) {
+                fbIcon.classList.add('hidden');
+            }
+            
+            // Reset bin animations
+            document.querySelectorAll('.bin-btn').forEach(b => {
+                b.classList.remove('ring-4', 'ring-emerald-400', 'ring-red-400', 'scale-105');
+                b.style.pointerEvents = 'auto';
+            });
+            
+            gameState.isLocked = false;
+        }
+
+        function checkSort(category) {
+            if (!gameState.isPlaying || gameState.isLocked) return;
+            if (!gameState.currentItem) return;
+            
+            gameState.isLocked = true;
+            const isCorrect = gameState.currentItem.category === category;
+            const binEl = document.getElementById(`bin-${category}`);
+            const messageEl = document.getElementById('game-message');
+            const fbIcon = document.getElementById('feedback-icon');
+            
+            // Disable all bins temporarily
+            document.querySelectorAll('.bin-btn').forEach(b => {
+                b.style.pointerEvents = 'none';
+            });
+            
+            if (isCorrect) {
+                // Combo multiplier
+                gameState.streak++;
+                const comboMultiplier = Math.min(gameState.streak, 5);
+                const points = 10 * comboMultiplier;
+                gameState.score += points;
+                gameState.correct++;
+                
+                // Visual feedback: green glow
+                binEl.classList.add('ring-4', 'ring-emerald-400', 'scale-105');
+                messageEl.textContent = `✅ Chính xác! +${points} điểm${comboMultiplier > 1 ? ` (Combo x${comboMultiplier})` : ''}`;
+                messageEl.className = 'text-emerald-300 font-bold';
+                
+                if (fbIcon) {
+                    fbIcon.className = 'text-2xl text-emerald-400';
+                    fbIcon.textContent = '✓';
+                    fbIcon.classList.remove('hidden');
+                }
+                
+                // Confetti on correct answer
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 20,
+                        spread: 45,
+                        origin: { y: 0.6 },
+                        colors: ['#22c55e', '#10b981']
+                    });
+                }
+            } else {
+                gameState.streak = 0;
+                gameState.wrong++;
+                
+                // Show correct bin
+                const correctBin = document.getElementById(`bin-${gameState.currentItem.category}`);
+                if (correctBin) {
+                    correctBin.classList.add('ring-4', 'ring-amber-400', 'scale-105');
+                }
+                
+                // Red glow on wrong bin
+                binEl.classList.add('ring-4', 'ring-red-400', 'shake');
+                messageEl.textContent = `❌ Sai! "${gameState.currentItem.name}" là ${getCategoryName(gameState.currentItem.category)}`;
+                messageEl.className = 'text-red-300 font-bold';
+                
+                if (fbIcon) {
+                    fbIcon.className = 'text-2xl text-red-400';
+                    fbIcon.textContent = '✗';
+                    fbIcon.classList.remove('hidden');
+                }
+            }
+            
+            updateStats();
+            
+            // Check if game should end (challenge mode)
+            if (gameState.mode === 'challenge') {
+                gameState.answeredQuestions++;
+                if (gameState.answeredQuestions >= gameState.totalQuestions) {
+                    setTimeout(() => endGame(), 1200);
+                    return;
+                }
+            }
+            
+            // Next item after delay
+            setTimeout(() => {
+                if (gameState.isPlaying) {
+                    const nextItem = getRandomItem();
+                    displayItem(nextItem);
+                }
+            }, isCorrect ? 800 : 1500);
+        }
+
+        function getCategoryName(category) {
+            const names = {
+                'recyclable': 'Rác Tái Chế',
+                'organic': 'Rác Hữu Cơ',
+                'remaining': 'Rác Còn Lại'
+            };
+            return names[category] || category;
+        }
+
+        function updateStats() {
+            document.getElementById('game-score').textContent = gameState.score;
+            document.getElementById('game-streak').textContent = gameState.streak;
+            document.getElementById('game-correct').textContent = gameState.correct;
+            document.getElementById('game-wrong').textContent = gameState.wrong;
+            
+            if (gameState.mode === 'challenge') {
+                document.getElementById('game-current-q').textContent = gameState.answeredQuestions;
+            }
+        }
+
+        function switchGameMode(mode) {
+            gameState.mode = mode;
+            
+            // Update UI mode buttons
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('bg-emerald-500', 'border-emerald-300', 'text-white', 'shadow-lg');
+                btn.classList.add('border-white/30', 'text-white/80', 'hover:bg-white/10');
+            });
+            
+            const activeBtn = document.getElementById(`mode-${mode}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-white/30', 'text-white/80', 'hover:bg-white/10');
+                activeBtn.classList.add('bg-emerald-500', 'border-emerald-300', 'text-white', 'shadow-lg');
+            }
+            
+            // Show/hide timer and progress
+            const timerDisplay = document.getElementById('game-timer-display');
+            const timerBarContainer = document.getElementById('timer-bar-container');
+            const progressDisplay = document.getElementById('game-progress');
+            
+            if (mode === 'timeattack') {
+                timerDisplay.classList.remove('hidden');
+                timerBarContainer.classList.remove('hidden');
+                progressDisplay.classList.add('hidden');
+            } else if (mode === 'challenge') {
+                timerDisplay.classList.add('hidden');
+                timerBarContainer.classList.add('hidden');
+                progressDisplay.classList.remove('hidden');
+                document.getElementById('game-total-q').textContent = gameState.totalQuestions;
+            } else {
+                timerDisplay.classList.add('hidden');
+                timerBarContainer.classList.add('hidden');
+                progressDisplay.classList.add('hidden');
+            }
+            
+            // Reset and start game
+            resetGame();
+        }
+
+        function startTimer() {
+            if (gameState.timerInterval) {
+                clearInterval(gameState.timerInterval);
+            }
+            
+            gameState.timer = 60;
+            document.getElementById('game-timer').textContent = gameState.timer;
+            document.getElementById('timer-bar').style.width = '100%';
+            
+            gameState.timerInterval = setInterval(() => {
+                gameState.timer--;
+                document.getElementById('game-timer').textContent = gameState.timer;
+                
+                // Update timer bar
+                const percentage = (gameState.timer / 60) * 100;
+                document.getElementById('timer-bar').style.width = `${percentage}%`;
+                
+                // Color changes as time runs out
+                const timerBar = document.getElementById('timer-bar');
+                if (gameState.timer <= 10) {
+                    timerBar.className = 'bg-gradient-to-r from-red-500 to-red-600 h-2 rounded-full transition-all duration-1000';
+                } else if (gameState.timer <= 30) {
+                    timerBar.className = 'bg-gradient-to-r from-amber-400 to-amber-500 h-2 rounded-full transition-all duration-1000';
+                }
+                
+                if (gameState.timer <= 0) {
+                    clearInterval(gameState.timerInterval);
+                    gameState.timerInterval = null;
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function resetGame() {
+            // Clear timer
+            if (gameState.timerInterval) {
+                clearInterval(gameState.timerInterval);
+                gameState.timerInterval = null;
+            }
+            
+            // Reset state
+            gameState.score = 0;
+            gameState.streak = 0;
+            gameState.correct = 0;
+            gameState.wrong = 0;
+            gameState.currentIndex = 0;
+            gameState.usedIndices = [];
+            gameState.isPlaying = true;
+            gameState.answeredQuestions = 0;
+            gameState.isLocked = false;
+            
+            // Hide game over, show game board
+            document.getElementById('game-over-screen').classList.add('hidden');
+            document.getElementById('game-board').classList.remove('hidden');
+            
+            // Reset stats display
+            updateStats();
+            
+            // Reset message
+            const msgEl = document.getElementById('game-message');
+            msgEl.textContent = gameState.mode === 'learn' 
+                ? '📖 Chế độ Học Tập: Xem giải thích sau mỗi câu trả lời!'
+                : gameState.mode === 'timeattack'
+                ? '⏱️ Chế độ 60 Giây: Phân loại càng nhiều càng tốt!'
+                : gameState.mode === 'challenge'
+                ? '🏆 Chế độ Thử Thách: Trả lời đúng 8/10 câu để chiến thắng!'
+                : '🌱 Chế độ Cổ Điển: Phân loại rác không giới hạn!';
+            msgEl.className = 'text-ecoGreen-200 font-semibold';
+            
+            const fbIcon = document.getElementById('feedback-icon');
+            if (fbIcon) fbIcon.classList.add('hidden');
+            
+            // Reset waste card
+            const wasteCard = document.getElementById('waste-card');
+            if (wasteCard) {
+                wasteCard.classList.remove('animate-pulse');
+                wasteCard.style.transform = 'scale(1)';
+            }
+            
+            // Reset bins
+            document.querySelectorAll('.bin-btn').forEach(b => {
+                b.classList.remove('ring-4', 'ring-emerald-400', 'ring-red-400', 'ring-amber-400', 'scale-105');
+                b.style.pointerEvents = 'auto';
+            });
+            
+            // Enable bins
+            document.querySelectorAll('.bin-btn').forEach(b => {
+                b.style.pointerEvents = 'auto';
+            });
+            
+            // Start timer for time attack
+            if (gameState.mode === 'timeattack') {
+                startTimer();
+            }
+            
+            // First item
+            const firstItem = getRandomItem();
+            displayItem(firstItem);
+        }
+
+        function endGame() {
+            gameState.isPlaying = false;
+            
+            // Hide game board, show game over
+            document.getElementById('game-board').classList.add('hidden');
+            const gameOverScreen = document.getElementById('game-over-screen');
+            gameOverScreen.classList.remove('hidden');
+            
+            // Set game over stats
+            document.getElementById('final-score').textContent = gameState.score;
+            document.getElementById('final-correct').textContent = gameState.correct;
+            document.getElementById('final-wrong').textContent = gameState.wrong;
+            
+            // Check high score
+            const isNewHighScore = setHighScore(gameState.score);
+            document.getElementById('high-score-value').textContent = getHighScore();
+            
+            // Custom messages based on mode and performance
+            const titleEl = document.getElementById('game-over-title');
+            const subtitleEl = document.getElementById('game-over-subtitle');
+            const iconEl = document.getElementById('game-over-icon');
+            
+            if (gameState.mode === 'timeattack') {
+                subtitleEl.textContent = `⏱️ Bạn đã phân loại được ${gameState.correct + gameState.wrong} vật phẩm trong 60 giây!`;
+                if (gameState.score >= 300) {
+                    titleEl.textContent = '🏆 Siêu Phân Loại!';
+                    iconEl.className = 'fa-solid fa-crown text-6xl text-amber-400 mb-4';
+                } else if (gameState.score >= 150) {
+                    titleEl.textContent = '🌟 Xuất Sắc!';
+                } else {
+                    titleEl.textContent = '💪 Cố Gắng Hơn Nữa!';
+                }
+            } else if (gameState.mode === 'challenge') {
+                const passed = gameState.correct >= 8;
+                titleEl.textContent = passed ? '🎉 Bạn Đã Vượt Qua Thử Thách!' : '😔 Chưa Đạt, Thử Lại Nhé!';
+                subtitleEl.textContent = `Đúng ${gameState.correct}/${gameState.totalQuestions} - ${passed ? 'Bạn là chuyên gia phân loại rác!' : 'Cần ôn lại kiến thức phân loại rác!'}`;
+                iconEl.className = passed ? 'fa-solid fa-trophy text-6xl text-amber-400 mb-4' : 'fa-solid fa-face-sad-tear text-6xl text-gray-400 mb-4';
+                
+                if (passed && typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 150,
+                        spread: 80,
+                        origin: { y: 0.6 },
+                        colors: ['#22c55e', '#0ea5e9', '#facc15', '#f97316']
+                    });
+                }
+            } else {
+                subtitleEl.textContent = `Bạn đã phân loại ${gameState.currentIndex} vật phẩm - Đúng ${gameState.correct}, Sai ${gameState.wrong}`;
+                if (gameState.score >= 200) {
+                    titleEl.textContent = '🌍 Nhà Vô Địch Xanh!';
+                } else if (gameState.score >= 100) {
+                    titleEl.textContent = '🌱 Chiến Binh Môi Trường!';
+                } else {
+                    titleEl.textContent = '🌿 Hãy Tập Luyện Thêm!';
+                }
+            }
+            
+            if (isNewHighScore) {
+                const hsDisplay = document.getElementById('high-score-display');
+                hsDisplay.innerHTML = `🎉 Kỷ lục MỚI! <span id="high-score-value" class="text-amber-400 font-bold">${gameState.score}</span> điểm 🎉`;
+                // Extra celebration for high score
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 200,
+                        spread: 90,
+                        origin: { y: 0.5 },
+                        colors: ['#22c55e', '#0ea5e9', '#facc15', '#f97316', '#ec4899']
+                    });
+                    setTimeout(() => {
+                        confetti({
+                            particleCount: 100,
+                            spread: 60,
+                            origin: { y: 0.3 }
+                        });
+                    }, 300);
+                }
+            }
+        }
+
+        // --- Keyboard Shortcuts ---
+        document.addEventListener('keydown', (e) => {
+            if (!gameState.isPlaying) return;
+            switch(e.key) {
+                case '1': checkSort('recyclable'); break;
+                case '2': checkSort('organic'); break;
+                case '3': checkSort('remaining'); break;
+                case 'r': case 'R': resetGame(); break;
+            }
+        });
+
+        // --- Add shake animation ---
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+            .shake {
+                animation: shake 0.3s ease-in-out;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // ============================================================
+        // ARTICLE MODAL - Cẩm Nang & Tin Tức Xanh
+        // ============================================================
+        
+        const articles = [
+            {
+                title: 'Quy Tắc Phân Loại Rác Tại Nguồn 2026',
+                image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&q=80&w=1200',
+                category: 'Hướng dẫn',
+                categoryColor: 'bg-emerald-500',
+                author: 'Ban Môi Trường CMC',
+                date: '15/03/2026',
+                readTime: '5 phút đọc',
+                content: `
+                    <h3 class="text-xl font-bold text-gray-900">Tại sao cần phân loại rác tại nguồn?</h3>
+                    <p>Việt Nam hiện đang phải đối mặt với cuộc khủng hoảng rác thải nghiêm trọng. Mỗi năm, cả nước thải ra khoảng 25 triệu tấn rác thải sinh hoạt, trong đó có tới 80% lượng rác có thể tái chế nhưng lại bị chôn lấp hoặc đốt bỏ. Việc phân loại rác tại nguồn là giải pháp then chốt để giải quyết vấn đề này.</p>
+                    
+                    <h3 class="text-xl font-bold text-gray-900 mt-8">3 nhóm rác cơ bản</h3>
+                    
+                    <div class="bg-ecoBlue-50 border border-ecoBlue-100 rounded-2xl p-5 my-4">
+                        <h4 class="font-bold text-ecoBlue-700 flex items-center"><i class="fa-solid fa-recycle mr-2"></i> Nhóm 1: Rác Tái Chế</h4>
+                        <p class="text-sm text-gray-600 mt-1">Bao gồm: Chai nhựa PET, giấy báo, carton, lon nhôm, chai thủy tinh, sách vở cũ, vỏ lon nước ngọt, thùng giấy.</p>
+                        <p class="text-xs text-ecoBlue-600 mt-2"><i class="fa-solid fa-lightbulb mr-1"></i> Mẹo: Rửa sạch và làm khô trước khi bỏ vào thùng tái chế!</p>
+                    </div>
+                    
+                    <div class="bg-ecoGreen-50 border border-ecoGreen-100 rounded-2xl p-5 my-4">
+                        <h4 class="font-bold text-ecoGreen-700 flex items-center"><i class="fa-solid fa-seedling mr-2"></i> Nhóm 2: Rác Hữu Cơ</h4>
+                        <p class="text-sm text-gray-600 mt-1">Bao gồm: Thức ăn thừa, vỏ trái cây, lá cây, bã cà phê, vỏ trứng, hoa héo, bã trà.</p>
+                        <p class="text-xs text-ecoGreen-600 mt-2"><i class="fa-solid fa-lightbulb mr-1"></i> Mẹo: Rác hữu cơ có thể ủ thành phân compost tuyệt vời cho cây trồng!</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5 my-4">
+                        <h4 class="font-bold text-gray-700 flex items-center"><i class="fa-solid fa-trash-can mr-2"></i> Nhóm 3: Rác Còn Lại</h4>
+                        <p class="text-sm text-gray-600 mt-1">Bao gồm: Hộp xốp bẩn, túi nilon dính thức ăn, bỉm, gốm sứ vỡ, bóng đèn huỳnh quang, giấy ăn đã dùng.</p>
+                        <p class="text-xs text-gray-500 mt-2"><i class="fa-solid fa-lightbulb mr-1"></i> Mẹo: Hạn chế sử dụng đồ nhựa dùng một lần để giảm lượng rác còn lại!</p>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-gray-900 mt-8">Lợi ích của phân loại rác tại nguồn</h3>
+                    <ul class="list-disc pl-5 space-y-2 text-gray-600">
+                        <li><strong>Giảm 80% lượng rác chôn lấp</strong> - Kéo dài tuổi thọ của các bãi rác</li>
+                        <li><strong>Tiết kiệm tài nguyên</strong> - Tái chế 1 tấn giấy cứu được 17 cây xanh</li>
+                        <li><strong>Bảo vệ môi trường</strong> - Giảm phát thải khí nhà kính từ bãi rác</li>
+                        <li><strong>Tạo việc làm xanh</strong> - Phát triển ngành công nghiệp tái chế</li>
+                        <li><strong>Tiết kiệm năng lượng</strong> - Tái chế nhôm tiết kiệm 95% năng lượng so với sản xuất mới</li>
+                    </ul>
+                    
+                    <div class="bg-amber-50 border border-amber-100 rounded-2xl p-5 my-6">
+                        <h4 class="font-bold text-amber-700 flex items-center"><i class="fa-solid fa-quote-left mr-2"></i> Lời khuyên từ chuyên gia</h4>
+                        <p class="text-sm text-gray-600 italic mt-1">"Hãy bắt đầu phân loại rác ngay từ hôm nay, dù chỉ là một chai nhựa hay một tờ giấy. Mỗi hành động nhỏ đều có ý nghĩa lớn cho môi trường!" - ThS. Hoàng Thu Phương</p>
+                    </div>
+                `
+            },
+            {
+                title: 'Hành Trình Tái Chế Nhựa: Từ Vỏ Chai Đến Sợi Vải',
+                image: 'https://images.unsplash.com/photo-1542601906-973be3883c9d?auto=format&fit=crop&q=80&w=1200',
+                category: 'Kiến thức',
+                categoryColor: 'bg-ecoBlue-500',
+                author: 'Nguyễn Như Quỳnh',
+                date: '10/03/2026',
+                readTime: '7 phút đọc',
+                content: `
+                    <h3 class="text-xl font-bold text-gray-900">Vòng đời của một chai nhựa PET</h3>
+                    <p>Bạn có bao giờ tự hỏi, sau khi bạn vứt chai nước nhựa vào thùng rác tái chế, nó sẽ đi đâu và trở thành gì? Hãy cùng khám phá hành trình kỳ diệu của một chai nhựa PET!</p>
+                    
+                    <div class="bg-gradient-to-r from-ecoBlue-50 to-ecoGreen-50 rounded-2xl p-6 my-6 border border-ecoBlue-100">
+                        <h4 class="font-bold text-gray-900 text-center mb-4">🚀 Hành Trình 5 Bước</h4>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3">
+                                <span class="bg-ecoBlue-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">1</span>
+                                <div><strong class="text-gray-900">Thu gom:</strong> Chai nhựa được thu gom từ các trạm phân loại và chuyển đến nhà máy tái chế.</div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="bg-ecoGreen-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</span>
+                                <div><strong class="text-gray-900">Phân loại & Nghiền:</strong> Chai được phân loại theo màu sắc, loại nhựa, sau đó nghiền thành mảnh nhỏ.</div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="bg-amber-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</span>
+                                <div><strong class="text-gray-900">Rửa sạch:</strong> Các mảnh nhựa được rửa sạch để loại bỏ nhãn mác, keo dán và tạp chất.</div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="bg-purple-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">4</span>
+                                <div><strong class="text-gray-900">Nấu chảy & Kéo sợi:</strong> Nhựa được nấu chảy ở nhiệt độ cao và kéo thành sợi mảnh.</div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="bg-rose-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">5</span>
+                                <div><strong class="text-gray-900">Dệt vải:</strong> Sợi nhựa được dệt thành vải polyester - nguyên liệu cho quần áo, túi xách, thảm!</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-gray-900 mt-8">Sự thật thú vị về tái chế nhựa</h3>
+                    <ul class="list-disc pl-5 space-y-2 text-gray-600">
+                        <li>Một chai nhựa PET có thể tái chế thành <strong>1 chiếc áo thun</strong> hoặc <strong>1 túi xách</strong></li>
+                        <li>Tái chế 1 tấn nhựa tiết kiệm <strong>5.774 kWh điện</strong> - đủ cho một gia đình dùng trong 6 tháng</li>
+                        <li>Nhựa PET có thể tái chế <strong>7-9 lần</strong> trước khi chất lượng suy giảm</li>
+                        <li>Mỗi năm, tái chế nhựa giúp giảm <strong>30% lượng khí CO2</strong> so với sản xuất nhựa mới</li>
+                    </ul>
+                    
+                    <div class="bg-ecoGreen-50 border border-ecoGreen-100 rounded-2xl p-5 my-6">
+                        <h4 class="font-bold text-ecoGreen-700 flex items-center"><i class="fa-solid fa-earth-asia mr-2"></i> Tác động môi trường</h4>
+                        <p class="text-sm text-gray-600 mt-1">Mỗi chai nhựa được tái chế thay vì vứt ra môi trường sẽ mất 450 năm để phân hủy. Bằng cách tái chế, chúng ta không chỉ tiết kiệm tài nguyên mà còn bảo vệ đại dương và động vật biển khỏi rác thải nhựa.</p>
+                    </div>
+                `
+            },
+            {
+                title: 'CMC Uni Xanh: Sinh Viên Chung Tay Bảo Vệ Môi Trường',
+                image: 'https://images.unsplash.com/photo-1591193583844-24e101aa1e84?auto=format&fit=crop&q=80&w=1200',
+                category: 'Sự kiện',
+                categoryColor: 'bg-purple-500',
+                author: 'Hoàng Mạnh Dũng',
+                date: '28/02/2026',
+                readTime: '4 phút đọc',
+                content: `
+                    <h3 class="text-xl font-bold text-gray-900">Chiến dịch "Trường học Xanh" tại CMC</h3>
+                    <p>Ngày 28/02/2026, Đoàn trường Đại học CMC đã chính thức phát động chiến dịch "Trường học Xanh" với sự tham gia của hơn 500 sinh viên, giảng viên và cán bộ nhà trường. Đây là một trong những hoạt động trọng tâm của dự án "Sinh Viên Tái Chế - Hành Động Xanh Vì Tương Lai".</p>
+                    
+                    <div class="grid grid-cols-2 gap-4 my-6">
+                        <div class="bg-ecoGreen-50 rounded-2xl p-4 text-center border border-ecoGreen-100">
+                            <span class="block text-3xl font-extrabold text-ecoGreen-600">500+</span>
+                            <span class="text-xs text-gray-500 font-medium">Sinh viên tham gia</span>
+                        </div>
+                        <div class="bg-ecoBlue-50 rounded-2xl p-4 text-center border border-ecoBlue-100">
+                            <span class="block text-3xl font-extrabold text-ecoBlue-600">12</span>
+                            <span class="text-xs text-gray-500 font-medium">Trạm phân loại rác</span>
+                        </div>
+                        <div class="bg-amber-50 rounded-2xl p-4 text-center border border-amber-100">
+                            <span class="block text-3xl font-extrabold text-amber-600">200kg</span>
+                            <span class="text-xs text-gray-500 font-medium">Rác tái chế thu gom</span>
+                        </div>
+                        <div class="bg-purple-50 rounded-2xl p-4 text-center border border-purple-100">
+                            <span class="block text-3xl font-extrabold text-purple-600">50</span>
+                            <span class="text-xs text-gray-500 font-medium">Cây xanh trồng mới</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-gray-900 mt-8">Các hoạt động chính</h3>
+                    
+                    <div class="space-y-4 my-4">
+                        <div class="flex items-start gap-3 bg-white border border-gray-100 rounded-xl p-4">
+                            <div class="bg-ecoGreen-100 text-ecoGreen-600 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Lắp đặt trạm phân loại rác</h4>
+                                <p class="text-sm text-gray-500">12 trạm phân loại rác 3 ngăn (Tái chế - Hữu cơ - Còn lại) được đặt tại các vị trí chiến lược: căn tin, sảnh chính, thư viện và ký túc xá.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3 bg-white border border-gray-100 rounded-xl p-4">
+                            <div class="bg-ecoBlue-100 text-ecoBlue-600 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-hand-holding-heart"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Đội tình nguyện viên xanh</h4>
+                                <p class="text-sm text-gray-500">30 tình nguyện viên được đào tạo để hướng dẫn sinh viên phân loại rác đúng cách trong giờ cao điểm.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3 bg-white border border-gray-100 rounded-xl p-4">
+                            <div class="bg-amber-100 text-amber-600 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-tree"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Trồng cây xanh</h4>
+                                <p class="text-sm text-gray-500">50 cây xanh được trồng mới trong khuôn viên trường, góp phần tạo không gian xanh và cải thiện chất lượng không khí.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-ecoGreen-600 to-ecoBlue-600 rounded-2xl p-6 my-6 text-white">
+                        <h4 class="font-bold text-lg mb-2">📢 Lời kêu gọi</h4>
+                        <p class="text-sm text-white/90">"Mỗi sinh viên CMC hãy là một đại sứ xanh. Hành động nhỏ hôm nay - Thay đổi lớn cho ngày mai. Hãy cùng chung tay xây dựng CMC trở thành trường đại học xanh hàng đầu Việt Nam!"</p>
+                        <p class="text-xs text-white/70 mt-3 text-right">- Hoàng Mạnh Dũng, Trưởng nhóm Group 5</p>
+                    </div>
+                `
+            },
+            {
+                title: '5 Mẹo Giảm Rác Thải Nhựa Trong Sinh Hoạt Hàng Ngày',
+                image: 'https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&q=80&w=1200',
+                category: 'Mẹo hay',
+                categoryColor: 'bg-amber-500',
+                author: 'Lương Nguyễn Ánh Dương',
+                date: '20/03/2026',
+                readTime: '6 phút đọc',
+                content: `
+                    <h3 class="text-xl font-bold text-gray-900">5 thói quen đơn giản giúp giảm 70% rác thải nhựa</h3>
+                    <p>Rác thải nhựa đang trở thành một trong những vấn đề môi trường cấp bách nhất hiện nay. Mỗi năm, thế giới thải ra hơn 300 triệu tấn nhựa, trong đó 8 triệu tấn trôi ra đại dương. Tin vui là mỗi chúng ta đều có thể góp phần giải quyết vấn đề này bằng những thay đổi nhỏ trong thói quen hàng ngày.</p>
+                    
+                    <div class="bg-amber-50 border border-amber-100 rounded-2xl p-5 my-6">
+                        <h4 class="font-bold text-amber-700 flex items-center"><i class="fa-solid fa-lightbulb mr-2"></i> Mẹo 1: Mang theo bình nước cá nhân</h4>
+                        <p class="text-sm text-gray-600 mt-1">Thay vì mua chai nước nhựa mỗi ngày, hãy đầu tư một bình nước inox hoặc thủy tinh có thể tái sử dụng. Mỗi năm, một sinh viên có thể tiết kiệm được 365 chai nhựa chỉ với thói quen này!</p>
+                        <p class="text-xs text-amber-600 mt-2"><i class="fa-solid fa-calculator mr-1"></i> Tiết kiệm: ~365 chai nhựa/năm</p>
+                    </div>
+                    
+                    <div class="bg-ecoGreen-50 border border-ecoGreen-100 rounded-2xl p-5 my-6">
+                        <h4 class="font-bold text-ecoGreen-700 flex items-center"><i class="fa-solid fa-bag-shopping mr-2"></i> Mẹo 2: Sử dụng túi vải khi đi chợ</h4>
+                        <p class="text-sm text-gray-600 mt-1">Luôn mang theo túi vải gấp gọn trong balo. Một túi nilon mất 500-1000 năm để phân hủy, trong khi túi vải có thể dùng hàng trăm lần. Hãy từ chối túi nilon khi mua hàng!</p>
+                        <p class="text-xs text-ecoGreen-600 mt-2"><i class="fa-solid fa-calculator mr-1"></i> Tiết kiệm: ~200 túi nilon/năm</p>
+                    </div>
+                    
+                    <div class="bg-ecoBlue-50 border border-ecoBlue-100 rounded-2xl p-5 my-6">
+                        <h4 class="font-bold text-ecoBlue-700 flex items-center"><i class="fa-solid fa-mug-hot mr-2"></i> Mẹo 3: Tự mang cốc/ca khi mua đồ uống</h4>
+                        <p class="text-sm text-gray-600 mt-1">Nhiều quán cà phê giảm giá khi bạn mang cốc cá nhân. Ly nhựa dùng một lần và nắp nhựa là một trong những rác thải phổ biến nhất tại các trường đại học.</p>
+                        <p class="text-xs text-ecoBlue-600 mt-2"><i class="fa-solid fa-calculator mr-1"></i> Tiết kiệm: ~150 ly nhựa/năm + 10-20% tiền đồ uống</p>
+                    </div>
+                    
+                    <div class="bg-purple-50 border border-purple-100 rounded-2xl p-5 my-6">
+                        <h4 class="font-bold text-purple-700 flex items-center"><i class="fa-solid fa-utensils mr-2"></i> Mẹo 4: Từ chối ống hút nhựa và đồ dùng một lần</h4>
+                        <p class="text-sm text-gray-600 mt-1">Khi mua đồ uống, hãy nói "không ống hút nhé" hoặc mang theo ống hút inox/inox gấp gọn. Sử dụng hộp đựng thức ăn cá nhân thay vì hộp xốp khi mua đồ mang về.</p>
+                        <p class="text-xs text-purple-600 mt-2"><i class="fa-solid fa-calculator mr-1"></i> Tiết kiệm: ~100 ống hút + 50 hộp xốp/năm</p>
+                    </div>
+                    
+                    <div class="bg-rose-50 border border-rose-100 rounded-2xl p-5 my-6">
+                        <h4 class="font-bold text-rose-700 flex items-center"><i class="fa-solid fa-arrows-rotate mr-2"></i> Mẹo 5: Phân loại và tái chế đúng cách</h4>
+                        <p class="text-sm text-gray-600 mt-1">Rửa sạch và phân loại rác nhựa trước khi bỏ vào thùng tái chế. Nhựa bẩn dính thức ăn sẽ không thể tái chế và trở thành rác thải. Tìm hiểu ký hiệu tái chế trên bao bì sản phẩm.</p>
+                        <p class="text-xs text-rose-600 mt-2"><i class="fa-solid fa-calculator mr-1"></i> Tác động: Giúp 80% rác nhựa được tái chế thay vì chôn lấp</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-amber-500 to-amber-600 rounded-2xl p-6 my-6 text-white">
+                        <h4 class="font-bold text-lg mb-2">🌟 Thử thách bản thân</h4>
+                        <p class="text-sm text-white/90">Hãy thử áp dụng 5 mẹo trên trong 30 ngày. Bạn sẽ ngạc nhiên khi thấy lượng rác thải nhựa của mình giảm đến 70%! Chia sẻ kết quả của bạn với Group 5 để cùng lan tỏa lối sống xanh nhé!</p>
+                    </div>
+                `
+            }
+        ];
+
+        function openArticleModal(index) {
+            const article = articles[index];
+            if (!article) return;
+            
+            const modal = document.getElementById('article-modal');
+            if (!modal) return;
+            
+            // Set image
+            const img = document.getElementById('article-modal-image');
+            if (img) img.src = article.image;
+            
+            // Set category
+            const category = document.getElementById('article-modal-category');
+            if (category) {
+                category.textContent = article.category;
+                category.className = `${article.categoryColor} text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase`;
+            }
+            
+            // Set title
+            const title = document.getElementById('article-modal-title');
+            if (title) title.textContent = article.title;
+            
+            // Set meta
+            const author = document.getElementById('article-modal-author');
+            if (author) author.textContent = article.author;
+            
+            const date = document.getElementById('article-modal-date');
+            if (date) date.textContent = article.date;
+            
+            const readTime = document.getElementById('article-modal-readtime');
+            if (readTime) readTime.textContent = article.readTime;
+            
+            // Set content
+            const body = document.getElementById('article-modal-body');
+            if (body) body.innerHTML = article.content;
+            
+            // Show modal
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeArticleModal() {
+            const modal = document.getElementById('article-modal');
+            if (modal) modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeArticleModal();
+        });
+
+        // Initialize UI state
+        switchFormTab('pickup');
+        // Auto-start the educational game in Classic mode
+        setTimeout(() => {
+            switchGameMode('classic');
+        }, 200);
+    </script>
+</body>
+</html>
