@@ -185,6 +185,39 @@
         .animate-reverse-spin {
             animation: reverseSpin 12s infinite linear;
         }
+
+        /* Concept: Dòng Chảy Tuần Hoàn (The Infinite Green Loop) Animations */
+        @keyframes bioHeartbeat {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(16, 185, 129, 0.4); }
+            50% { transform: scale(1.1); box-shadow: 0 0 50px rgba(16, 185, 129, 0.85); }
+        }
+        .animate-bio-heartbeat {
+            animation: bioHeartbeat 2.8s infinite ease-in-out;
+        }
+
+        @keyframes honeycombPulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+        .animate-honeycomb-pulse {
+            animation: honeycombPulse 3.5s infinite ease-in-out;
+        }
+
+        @keyframes mobiusRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .animate-mobius-rotate {
+            animation: mobiusRotate 12s infinite linear;
+        }
+
+        @keyframes pulseParticle {
+            0%, 100% { transform: translateY(0px) scale(0.9); opacity: 0.5; }
+            50% { transform: translateY(-8px) scale(1.15); opacity: 1; }
+        }
+        .animate-pulse-particle {
+            animation: pulseParticle 2s infinite ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
@@ -519,36 +552,131 @@
                 </p>
             </div>
 
-            <!-- Core Concept Card -->
-            <div class="bg-white border border-ecoGreen-100 rounded-3xl p-8 lg:p-12 shadow-md mb-16">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <!-- Concept: "Dòng Chảy Tuần Hoàn" (The Infinite Green Loop) -->
+            <div class="relative bg-gradient-to-br from-emerald-50/90 via-white to-sky-50/90 border border-emerald-200/80 rounded-[40px] p-8 lg:p-12 shadow-[0_20px_50px_-15px_rgba(16,185,129,0.18)] mb-16 backdrop-blur-2xl overflow-hidden">
+                <!-- Pearl White Pearlized Gradient Ambient Background -->
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,_rgba(220,252,231,0.6)_0%,_transparent_60%)] pointer-events-none"></div>
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,_rgba(224,242,254,0.6)_0%,_transparent_60%)] pointer-events-none"></div>
+                
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    
+                    <!-- Left Narrative Header -->
                     <div class="lg:col-span-4 text-center lg:text-left space-y-4">
-                        <div class="bg-ecoGreen-100 text-ecoGreen-600 w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mx-auto lg:mx-0 shadow-inner">
-                            <i class="fa-solid fa-cubes-stacked"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-900">Mô hình cốt lõi</h3>
-                        <p class="text-gray-500 font-semibold text-xs uppercase tracking-wide">Trạm Thu Gom Xanh Bền Vững</p>
+                        <span class="inline-flex items-center gap-1.5 bg-emerald-100 border border-emerald-300 text-ecoGreen-700 text-[11px] font-black uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-sm">
+                            <i class="fa-solid fa-arrows-spin text-ecoGreen-600 animate-spin-slow"></i> Concept: Dòng Chảy Tuần Hoàn
+                        </span>
+                        <h3 class="text-3xl font-black text-gray-900 tracking-tight">Mô Hình Cốt Lõi</h3>
+                        <p class="text-ecoGreen-600 font-bold text-xs uppercase tracking-widest">Trạm Thu Gom Xanh & Chu Kỳ Vô Tận Möbius</p>
                         <p class="text-gray-600 text-sm leading-relaxed font-medium">
-                            Hệ thống thu gom, phân loại và hỗ trợ tái chế rác thải hoạt động thường xuyên trong khuôn viên trường học, được vận hành trực tiếp bởi các nhóm sinh viên nòng cốt.
+                            Hệ thống vận hành phân loại AI thông minh, kết nối trực tiếp với đại sứ tình nguyện và khép kín quy trình tái chế theo vòng lặp Möbius vô tận.
                         </p>
-                    </div>
-                    <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
-                        <div class="bg-gray-50 border border-gray-100 rounded-2xl p-5 text-center hover-scale">
-                            <div class="bg-white w-12 h-12 rounded-xl flex items-center justify-center text-ecoGreen-500 shadow-sm mx-auto mb-4 text-lg font-bold">1</div>
-                            <h4 class="font-bold text-gray-800 mb-2">Bố trí thông minh</h4>
-                            <p class="text-xs text-gray-500 leading-relaxed font-medium">Đặt các trạm phân loại tại vị trí đắc địa: canteen, cổng ra vào, sảnh chính.</p>
-                        </div>
-                        <div class="bg-gray-50 border border-gray-100 rounded-2xl p-5 text-center hover-scale">
-                            <div class="bg-white w-12 h-12 rounded-xl flex items-center justify-center text-ecoBlue-500 shadow-sm mx-auto mb-4 text-lg font-bold">2</div>
-                            <h4 class="font-bold text-gray-800 mb-2">Đại sứ xanh</h4>
-                            <p class="text-xs text-gray-500 leading-relaxed font-medium">Tình nguyện viên hướng dẫn phân loại trực quan cho sinh viên tại trạm thu gom.</p>
-                        </div>
-                        <div class="bg-gray-50 border border-gray-100 rounded-2xl p-5 text-center hover-scale">
-                            <div class="bg-white w-12 h-12 rounded-xl flex items-center justify-center text-amber-500 shadow-sm mx-auto mb-4 text-lg font-bold">3</div>
-                            <h4 class="font-bold text-gray-800 mb-2">Khép kín chu kỳ</h4>
-                            <p class="text-xs text-gray-500 leading-relaxed font-medium">Rác tái chế chuyển hóa trực tiếp thành đồ lưu niệm, chậu cây nghệ thuật.</p>
+
+                        <!-- Loop Status Pills -->
+                        <div class="pt-2 flex flex-wrap gap-2 justify-center lg:justify-start">
+                            <span class="bg-white/80 border border-emerald-200 text-emerald-700 text-[10px] font-bold px-3 py-1 rounded-full shadow-sm flex items-center gap-1">
+                                <span class="w-2 h-2 bg-emerald-500 rounded-full animate-ping"></span> 100% Khép kín
+                            </span>
+                            <span class="bg-white/80 border border-cyan-200 text-cyan-700 text-[10px] font-bold px-3 py-1 rounded-full shadow-sm flex items-center gap-1">
+                                <i class="fa-solid fa-infinity"></i> Vòng lặp Möbius
+                            </span>
                         </div>
                     </div>
+
+                    <!-- Right 3 Functional Blocks connected by Infinite Möbius Ribbon Pipeline -->
+                    <div class="lg:col-span-8 relative">
+                        
+                        <!-- Möbius Loop SVG Connection Pipeline Ribbon Base -->
+                        <div class="hidden sm:block absolute inset-0 pointer-events-none z-0">
+                            <svg class="w-full h-full" viewBox="0 0 600 200" fill="none" preserveAspectRatio="none">
+                                <!-- Infinite Loop Path Line -->
+                                <path d="M 50 100 C 150 20, 250 180, 350 100 C 450 20, 550 180, 450 100 C 350 20, 250 180, 150 100 C 50 20, -50 180, 50 100 Z" 
+                                      stroke="url(#mobiusGradient)" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 6" opacity="0.75" />
+                                <defs>
+                                    <linearGradient id="mobiusGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#10b981" />
+                                        <stop offset="50%" stop-color="#06b6d4" />
+                                        <stop offset="100%" stop-color="#22c55e" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+
+                        <!-- The 3 Functional Glassmorphism Blocks Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 relative z-10">
+                            
+                            <!-- KHỐI 1: Bố Trí Thông Minh (Cảm biến AI Honeycomb) -->
+                            <div class="group bg-white/80 backdrop-blur-xl border border-emerald-200/80 hover:border-emerald-400 rounded-3xl p-6 text-center hover-lift shadow-md hover:shadow-2xl transition-all duration-500 relative overflow-hidden flex flex-col justify-between">
+                                <div class="absolute -top-6 -right-6 w-20 h-20 bg-emerald-100/50 rounded-full blur-xl group-hover:scale-150 transition-transform"></div>
+                                <div>
+                                    <!-- Multi-layered Glassmorphism Honeycomb Icon -->
+                                    <div class="relative w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                                        <div class="absolute inset-0 bg-emerald-100 rounded-2xl rotate-6 animate-honeycomb-pulse"></div>
+                                        <div class="relative bg-gradient-to-br from-emerald-400 to-teal-500 w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-emerald-500/30 group-hover:rotate-12 transition-transform duration-300">
+                                            <i class="fa-solid fa-shapes text-2xl"></i>
+                                        </div>
+                                        <!-- AI Particle Tag -->
+                                        <span class="absolute -top-1 -right-1 bg-emerald-500 w-4 h-4 rounded-full border-2 border-white animate-ping"></span>
+                                    </div>
+                                    <span class="text-[10px] font-black text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Khối 01 • Đầu Vào</span>
+                                    <h4 class="font-extrabold text-gray-900 text-base mt-2 mb-2 group-hover:text-ecoGreen-600 transition-colors">Bố Trí Thông Minh</h4>
+                                    <p class="text-xs text-gray-500 leading-relaxed font-medium">
+                                        Cấu trúc Tổ Ong (Honeycomb) đa tầng kính mờ. Ô cảm biến AI tự động phát sáng và phân loại rác thông minh.
+                                    </p>
+                                </div>
+                                <div class="mt-4 pt-3 border-t border-emerald-100 flex items-center justify-center gap-1.5 text-[11px] font-bold text-emerald-700">
+                                    <i class="fa-solid fa-microchip text-emerald-500"></i> Canteen & Sảnh chính
+                                </div>
+                            </div>
+
+                            <!-- KHỐI 2: Đại Sứ Xanh (Trái Tim Sinh Học Bio-Core) -->
+                            <div class="group bg-white/80 backdrop-blur-xl border border-cyan-200/80 hover:border-cyan-400 rounded-3xl p-6 text-center hover-lift shadow-md hover:shadow-2xl transition-all duration-500 relative overflow-hidden flex flex-col justify-between">
+                                <div class="absolute -top-6 -right-6 w-20 h-20 bg-cyan-100/50 rounded-full blur-xl group-hover:scale-150 transition-transform"></div>
+                                <div>
+                                    <!-- Pulsing Bio-Core Sphere -->
+                                    <div class="relative w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                                        <div class="absolute inset-0 bg-cyan-300/40 rounded-full animate-bio-heartbeat"></div>
+                                        <div class="relative bg-gradient-to-br from-cyan-500 via-teal-500 to-emerald-500 w-14 h-14 rounded-full flex items-center justify-center text-white shadow-lg shadow-cyan-500/30 group-hover:scale-110 transition-transform duration-300">
+                                            <i class="fa-solid fa-heart-pulse text-2xl animate-pulse"></i>
+                                        </div>
+                                        <!-- Particle Beam Rings -->
+                                        <span class="absolute top-0 left-0 text-cyan-500 text-[10px] animate-bounce">✦</span>
+                                    </div>
+                                    <span class="text-[10px] font-black text-cyan-600 bg-cyan-50 border border-cyan-200 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Khối 02 • Lõi Năng Lượng</span>
+                                    <h4 class="font-extrabold text-gray-900 text-base mt-2 mb-2 group-hover:text-cyan-600 transition-colors">Đại Sứ Xanh</h4>
+                                    <p class="text-xs text-gray-500 leading-relaxed font-medium">
+                                        Trái Tim Sinh Học (Bio-Core) đập theo nhịp điệu. Tình nguyện viên lan tỏa nguồn năng lượng xanh trực quan tại trạm.
+                                    </p>
+                                </div>
+                                <div class="mt-4 pt-3 border-t border-cyan-100 flex items-center justify-center gap-1.5 text-[11px] font-bold text-cyan-700">
+                                    <i class="fa-solid fa-users text-cyan-500"></i> Kết nối cộng đồng
+                                </div>
+                            </div>
+
+                            <!-- KHỐI 3: Khép Kín Chu Kỳ (Möbius 360 Loop) -->
+                            <div class="group bg-white/80 backdrop-blur-xl border border-emerald-200/80 hover:border-emerald-400 rounded-3xl p-6 text-center hover-lift shadow-md hover:shadow-2xl transition-all duration-500 relative overflow-hidden flex flex-col justify-between">
+                                <div class="absolute -top-6 -right-6 w-20 h-20 bg-amber-100/50 rounded-full blur-xl group-hover:scale-150 transition-transform"></div>
+                                <div>
+                                    <!-- Rotating Möbius Ribbon Icon -->
+                                    <div class="relative w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                                        <div class="absolute inset-0 bg-emerald-100 rounded-2xl rotate-45 animate-mobius-rotate"></div>
+                                        <div class="relative bg-gradient-to-br from-emerald-500 via-teal-500 to-emerald-600 w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-emerald-500/30 group-hover:rotate-45 transition-transform duration-500">
+                                            <i class="fa-solid fa-infinity text-2xl"></i>
+                                        </div>
+                                    </div>
+                                    <span class="text-[10px] font-black text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Khối 03 • Đầu Ra Vô Tận</span>
+                                    <h4 class="font-extrabold text-gray-900 text-base mt-2 mb-2 group-hover:text-emerald-600 transition-colors">Khép Kín Chu Kỳ</h4>
+                                    <p class="text-xs text-gray-500 leading-relaxed font-medium">
+                                        Dải băng Möbius xoay 360 độ. Vật liệu tái chế được chuyển hóa thành quà tặng xanh và quay ngược lại Khối 1.
+                                    </p>
+                                </div>
+                                <div class="mt-4 pt-3 border-t border-emerald-100 flex items-center justify-center gap-1.5 text-[11px] font-bold text-emerald-700">
+                                    <i class="fa-solid fa-arrows-to-circle text-emerald-500"></i> Tuần hoàn 100%
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
