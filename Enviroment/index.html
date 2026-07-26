@@ -2135,15 +2135,23 @@
                                 </div>
                             </div>
 
-                            <!-- 6-Digit Code Display -->
-                            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-center">
-                                <p class="text-[10px] text-gray-500 uppercase tracking-wider font-bold mb-2">Mã xác thực 6 chữ số của bạn</p>
-                                <div class="flex items-center justify-center gap-2">
-                                    <div id="verification-digits-box" class="flex gap-1.5"></div>
-                                    <button type="button" onclick="copyVerificationCode()" class="ml-1 p-2 rounded-xl bg-white border border-gray-200 text-gray-500 hover:text-ecoGreen-600 hover:border-ecoGreen-300 transition-all shadow-sm" title="Sao chép mã">
-                                        <i id="copy-code-icon" class="fa-solid fa-copy text-sm"></i>
-                                    </button>
+                            <!-- OTP Input - User must type code from Gmail -->
+                            <div class="space-y-3">
+                                <p class="text-xs font-bold text-gray-700 text-center">Nhập mã 6 chữ số từ Gmail của bạn</p>
+                                <div class="flex gap-2 justify-center" id="otp-inputs-row">
+                                    <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="otp-box w-10 h-12 text-center text-lg font-extrabold border-2 border-gray-200 rounded-xl focus:outline-none focus:border-ecoGreen-500 focus:ring-2 focus:ring-ecoGreen-200 transition-all bg-white shadow-sm" />
+                                    <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="otp-box w-10 h-12 text-center text-lg font-extrabold border-2 border-gray-200 rounded-xl focus:outline-none focus:border-ecoGreen-500 focus:ring-2 focus:ring-ecoGreen-200 transition-all bg-white shadow-sm" />
+                                    <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="otp-box w-10 h-12 text-center text-lg font-extrabold border-2 border-gray-200 rounded-xl focus:outline-none focus:border-ecoGreen-500 focus:ring-2 focus:ring-ecoGreen-200 transition-all bg-white shadow-sm" />
+                                    <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="otp-box w-10 h-12 text-center text-lg font-extrabold border-2 border-gray-200 rounded-xl focus:outline-none focus:border-ecoGreen-500 focus:ring-2 focus:ring-ecoGreen-200 transition-all bg-white shadow-sm" />
+                                    <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="otp-box w-10 h-12 text-center text-lg font-extrabold border-2 border-gray-200 rounded-xl focus:outline-none focus:border-ecoGreen-500 focus:ring-2 focus:ring-ecoGreen-200 transition-all bg-white shadow-sm" />
+                                    <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="otp-box w-10 h-12 text-center text-lg font-extrabold border-2 border-gray-200 rounded-xl focus:outline-none focus:border-ecoGreen-500 focus:ring-2 focus:ring-ecoGreen-200 transition-all bg-white shadow-sm" />
                                 </div>
+                                <div id="otp-error-msg" class="hidden text-center text-xs text-red-500 font-semibold">
+                                    <i class="fa-solid fa-circle-xmark mr-1"></i>Mã không đúng. Vui lòng thử lại.
+                                </div>
+                                <button type="button" onclick="verifyOtpCode()" class="w-full bg-gradient-to-r from-ecoGreen-600 to-emerald-600 hover:from-ecoGreen-700 hover:to-emerald-700 text-white font-bold py-2.5 rounded-xl text-sm transition-all shadow-md">
+                                    <i class="fa-solid fa-shield-check mr-2"></i>Xác nhận mã OTP
+                                </button>
                             </div>
 
                             <!-- Instructions & Resend button -->
@@ -2157,9 +2165,9 @@
 
                     </div>
                 </div>
-                <div class="mt-6">
-                    <button type="button" onclick="closeModal()" class="inline-flex justify-center w-full rounded-xl border border-transparent shadow-md px-4 py-3 bg-ecoGreen-600 text-base font-bold text-white hover:bg-ecoGreen-700 focus:outline-none transition-all duration-150">
-                        Tuyệt vời, đóng lại nhé!
+                <div class="mt-6" id="modal-close-btn-wrap">
+                    <button type="button" onclick="closeModal()" id="modal-close-btn" class="inline-flex justify-center w-full rounded-xl border border-transparent shadow-md px-4 py-3 bg-gray-200 text-base font-bold text-gray-600 hover:bg-gray-300 focus:outline-none transition-all duration-150">
+                        <i class="fa-solid fa-xmark mr-2"></i>Đóng lại
                     </button>
                 </div>
             </div>
@@ -2496,7 +2504,6 @@
             const modalDescription = document.getElementById('modal-description');
             const verificationSection = document.getElementById('verification-section');
             const emailText = document.getElementById('verification-email-text');
-            const digitsBox = document.getElementById('verification-digits-box');
 
             if (modalTitle) modalTitle.textContent = title;
             if (modalDescription) modalDescription.innerHTML = description;
@@ -2506,17 +2513,81 @@
 
             if (verificationCode && verificationEmail) {
                 if (emailText) emailText.innerHTML = '<i class="fa-regular fa-envelope mr-1"></i>' + verificationEmail;
-                if (digitsBox) {
-                    digitsBox.innerHTML = verificationCode.split('').map(digit => 
-                        `<span class="w-9 h-11 bg-white border-2 border-ecoGreen-300 rounded-xl flex items-center justify-center text-lg font-extrabold text-gray-900 shadow-sm">${digit}</span>`
-                    ).join('');
+
+                // Reset OTP inputs
+                const boxes = document.querySelectorAll('.otp-box');
+                boxes.forEach(b => { b.value = ''; b.classList.remove('border-red-400', 'border-ecoGreen-500'); });
+                const errMsg = document.getElementById('otp-error-msg');
+                if (errMsg) errMsg.classList.add('hidden');
+
+                // Reset close button to un-verified style
+                const closeBtn = document.getElementById('modal-close-btn');
+                if (closeBtn) {
+                    closeBtn.className = 'inline-flex justify-center w-full rounded-xl border border-transparent shadow-md px-4 py-3 bg-gray-200 text-base font-bold text-gray-600 hover:bg-gray-300 focus:outline-none transition-all duration-150';
+                    closeBtn.innerHTML = '<i class="fa-solid fa-xmark mr-2"></i>Đóng lại';
                 }
+
                 if (verificationSection) verificationSection.classList.remove('hidden');
+
+                // Setup OTP auto-advance
+                setTimeout(() => initOtpInputs(), 50);
             } else {
                 if (verificationSection) verificationSection.classList.add('hidden');
             }
 
             modal.classList.remove('hidden');
+        }
+
+        function initOtpInputs() {
+            const boxes = document.querySelectorAll('.otp-box');
+            boxes.forEach((box, i) => {
+                box.oninput = function () {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                    if (this.value.length === 1 && boxes[i + 1]) boxes[i + 1].focus();
+                };
+                box.onkeydown = function (e) {
+                    if (e.key === 'Backspace' && !this.value && boxes[i - 1]) boxes[i - 1].focus();
+                };
+                box.onpaste = function(e) {
+                    const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
+                    if (pasted.length >= 6) {
+                        boxes.forEach((b, j) => { b.value = pasted[j] || ''; });
+                        boxes[5].focus();
+                        e.preventDefault();
+                    }
+                };
+            });
+            if (boxes[0]) boxes[0].focus();
+        }
+
+        function verifyOtpCode() {
+            const boxes = document.querySelectorAll('.otp-box');
+            const entered = Array.from(boxes).map(b => b.value).join('');
+            const errMsg = document.getElementById('otp-error-msg');
+
+            if (entered.length < 6) {
+                showToast('Vui lòng nhập đủ 6 chữ số.', 'error');
+                return;
+            }
+
+            if (entered === currentVerificationCode) {
+                // Correct!
+                boxes.forEach(b => { b.classList.add('border-ecoGreen-500'); b.classList.remove('border-red-400'); b.disabled = true; });
+                if (errMsg) errMsg.classList.add('hidden');
+                showToast('✅ Xác thực thành công! Đã ghi nhận đơn của bạn.', 'success');
+
+                // Upgrade close button to success style
+                const closeBtn = document.getElementById('modal-close-btn');
+                if (closeBtn) {
+                    closeBtn.className = 'inline-flex justify-center w-full rounded-xl border border-transparent shadow-md px-4 py-3 bg-ecoGreen-600 text-base font-bold text-white hover:bg-ecoGreen-700 focus:outline-none transition-all duration-150';
+                    closeBtn.innerHTML = '<i class="fa-solid fa-circle-check mr-2"></i>Tuyệt vời, đóng lại nhé!';
+                }
+            } else {
+                // Wrong code
+                boxes.forEach(b => { b.classList.add('border-red-400'); b.classList.remove('border-ecoGreen-500'); });
+                if (errMsg) errMsg.classList.remove('hidden');
+                showToast('❌ Mã xác thực không đúng. Vui lòng kiểm tra lại Gmail.', 'error');
+            }
         }
 
         function closeModal() {
@@ -2586,7 +2657,13 @@
         async function resendVerificationCode() {
             if (!currentVerificationEmail) return;
             currentVerificationCode = generate6DigitCode();
-            openSuccessModal('Đã gửi lại mã xác thực!', 'Mã xác thực mới đã được gửi tới email của bạn. Vui lòng kiểm tra hộp thư.', currentVerificationEmail, currentVerificationCode);
+            // Reset OTP input boxes
+            const boxes = document.querySelectorAll('.otp-box');
+            boxes.forEach(b => { b.value = ''; b.disabled = false; b.classList.remove('border-red-400', 'border-ecoGreen-500'); });
+            const errMsg = document.getElementById('otp-error-msg');
+            if (errMsg) errMsg.classList.add('hidden');
+            if (boxes[0]) boxes[0].focus();
+            showToast('📧 Đã gửi lại mã mới tới ' + currentVerificationEmail + '. Vui lòng kiểm tra Gmail!', 'info');
             await sendRealEmailToRecipient(currentVerificationEmail, 'Thành viên', currentVerificationCode, 'Gửi lại mã');
         }
 
