@@ -1,5 +1,5 @@
 export const SITE_CONFIG = {
-  name: 'SV TÁI CHẾ',
+  name: 'EcoValues',
   tagline: 'Hành Động Xanh Vì Tương Lai',
   description: 'Dự án xã hội hướng tới xây dựng mô hình phân loại và tái chế rác thải bền vững tại khuôn viên trường học, phát huy vai trò chủ động của cộng đồng sinh viên.',
   url: 'https://svtaiche.cmc.edu.vn',
