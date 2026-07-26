@@ -2224,8 +2224,382 @@
         </div>
     </footer>
 
+    <!-- =====================================================
+         AUTH MODAL — Đăng nhập / Đăng ký
+    ====================================================== -->
+    <div id="auth-modal" class="hidden fixed inset-0 z-[60] overflow-y-auto" aria-modal="true" role="dialog">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <!-- Backdrop -->
+            <div class="fixed inset-0 bg-gray-900/70 backdrop-blur-sm" onclick="closeAuthModal()"></div>
+            <!-- Panel -->
+            <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all">
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-emerald-600 to-teal-600 p-6 text-white text-center">
+                    <div class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                        <i class="fa-solid fa-leaf text-2xl"></i>
+                    </div>
+                    <h2 class="text-xl font-extrabold">EcoValues</h2>
+                    <p class="text-emerald-100 text-xs mt-1">Hành Động Xanh Vì Tương Lai</p>
+                </div>
+
+                <!-- Tabs -->
+                <div class="flex border-b border-gray-100">
+                    <button id="auth-tab-login" onclick="switchAuthTab('login')"
+                        class="flex-1 py-3 text-sm font-bold text-emerald-600 border-b-2 border-emerald-500 transition-all">
+                        <i class="fa-solid fa-right-to-bracket mr-1.5"></i>Đăng nhập
+                    </button>
+                    <button id="auth-tab-register" onclick="switchAuthTab('register')"
+                        class="flex-1 py-3 text-sm font-bold text-gray-400 border-b-2 border-transparent transition-all">
+                        <i class="fa-solid fa-user-plus mr-1.5"></i>Đăng ký
+                    </button>
+                </div>
+
+                <div class="p-6 space-y-4">
+                    <!-- === LOGIN FORM === -->
+                    <div id="auth-login-form">
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Email</label>
+                                <div class="relative mt-1">
+                                    <i class="fa-regular fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                                    <input id="login-email" type="email" placeholder="email@cmc.edu.vn"
+                                        class="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Mật khẩu</label>
+                                <div class="relative mt-1">
+                                    <i class="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                                    <input id="login-password" type="password" placeholder="••••••••"
+                                        class="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="handleLogin()" id="login-btn"
+                            class="mt-4 w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-lg">
+                            <i class="fa-solid fa-right-to-bracket mr-2"></i>Đăng nhập
+                        </button>
+                        <p class="text-center text-xs text-gray-400 mt-3">
+                            Chưa có tài khoản?
+                            <button onclick="switchAuthTab('register')" class="text-emerald-600 font-bold hover:underline">Đăng ký ngay</button>
+                        </p>
+                    </div>
+
+                    <!-- === REGISTER FORM === -->
+                    <div id="auth-register-form" class="hidden space-y-3">
+                        <!-- Step 1: Basic info -->
+                        <div id="reg-step-1">
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Họ và tên *</label>
+                                    <div class="relative mt-1">
+                                        <i class="fa-solid fa-user absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                                        <input id="reg-name" type="text" placeholder="Nguyễn Văn A"
+                                            class="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Email *</label>
+                                    <div class="relative mt-1">
+                                        <i class="fa-regular fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                                        <input id="reg-email" type="email" placeholder="email@cmc.edu.vn"
+                                            class="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Số điện thoại</label>
+                                    <div class="relative mt-1">
+                                        <i class="fa-solid fa-phone absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                                        <input id="reg-phone" type="tel" placeholder="0912345678"
+                                            class="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Mật khẩu *</label>
+                                    <div class="relative mt-1">
+                                        <i class="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                                        <input id="reg-password" type="password" placeholder="Tối thiểu 6 ký tự"
+                                            class="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
+                                    </div>
+                                </div>
+                            </div>
+                            <button onclick="sendRegisterOTP()" id="reg-send-otp-btn"
+                                class="mt-4 w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-lg">
+                                <i class="fa-solid fa-paper-plane mr-2"></i>Gửi mã xác thực OTP
+                            </button>
+                        </div>
+
+                        <!-- Step 2: OTP Verification -->
+                        <div id="reg-step-2" class="hidden">
+                            <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3 flex items-start gap-3 mb-4">
+                                <i class="fa-solid fa-envelope-circle-check text-emerald-600 mt-0.5"></i>
+                                <div>
+                                    <p class="text-xs font-bold text-emerald-800">Mã OTP đã gửi vào Gmail</p>
+                                    <p id="reg-otp-email-display" class="text-xs text-emerald-600 font-medium break-all"></p>
+                                </div>
+                            </div>
+                            <p class="text-xs font-bold text-gray-700 text-center mb-2">Nhập mã 6 chữ số từ Gmail của bạn</p>
+                            <div class="flex gap-2 justify-center" id="reg-otp-inputs-row">
+                                <input type="text" maxlength="1" inputmode="numeric" class="reg-otp-box w-10 h-12 text-center text-lg font-extrabold border-2 border-gray-200 rounded-xl focus:outline-none focus:border-emerald-500 transition-all bg-white shadow-sm" />
+                                <input type="text" maxlength="1" inputmode="numeric" class="reg-otp-box w-10 h-12 text-center text-lg font-extrabold border-2 border-gray-200 rounded-xl focus:outline-none focus:border-emerald-500 transition-all bg-white shadow-sm" />
+                                <input type="text" maxlength="1" inputmode="numeric" class="reg-otp-box w-10 h-12 text-center text-lg font-extrabold border-2 border-gray-200 rounded-xl focus:outline-none focus:border-emerald-500 transition-all bg-white shadow-sm" />
+                                <input type="text" maxlength="1" inputmode="numeric" class="reg-otp-box w-10 h-12 text-center text-lg font-extrabold border-2 border-gray-200 rounded-xl focus:outline-none focus:border-emerald-500 transition-all bg-white shadow-sm" />
+                                <input type="text" maxlength="1" inputmode="numeric" class="reg-otp-box w-10 h-12 text-center text-lg font-extrabold border-2 border-gray-200 rounded-xl focus:outline-none focus:border-emerald-500 transition-all bg-white shadow-sm" />
+                                <input type="text" maxlength="1" inputmode="numeric" class="reg-otp-box w-10 h-12 text-center text-lg font-extrabold border-2 border-gray-200 rounded-xl focus:outline-none focus:border-emerald-500 transition-all bg-white shadow-sm" />
+                            </div>
+                            <button onclick="verifyAndRegister()" id="reg-verify-btn"
+                                class="mt-4 w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-lg">
+                                <i class="fa-solid fa-shield-check mr-2"></i>Xác thực & Tạo tài khoản
+                            </button>
+                            <button onclick="document.getElementById('reg-step-2').classList.add('hidden'); document.getElementById('reg-step-1').classList.remove('hidden');"
+                                class="mt-2 w-full text-gray-400 hover:text-gray-600 text-xs font-semibold py-1">
+                                ← Quay lại
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Close button -->
+                <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-white/70 hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         MEMBER DASHBOARD — Slide Panel từ phải
+    ====================================================== -->
+    <!-- Overlay -->
+    <div id="dashboard-overlay" class="hidden fixed inset-0 z-[55] bg-gray-900/50 backdrop-blur-sm" onclick="closeDashboard()"></div>
+
+    <!-- Dashboard Panel -->
+    <div id="member-dashboard" class="fixed top-0 right-0 h-full w-full max-w-sm bg-white shadow-2xl z-[56] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        <!-- Dashboard Header -->
+        <div class="bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-600 p-5 text-white flex-shrink-0">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-extrabold text-base">Trang cá nhân</h3>
+                <button onclick="closeDashboard()" class="text-white/70 hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <!-- User info card -->
+            <div class="flex items-center gap-3">
+                <div id="dash-avatar" class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center text-2xl font-extrabold border-2 border-white/30">
+                    ?
+                </div>
+                <div class="min-w-0">
+                    <p id="dash-name" class="font-extrabold text-sm truncate">...</p>
+                    <p id="dash-email" class="text-emerald-100 text-xs truncate">...</p>
+                </div>
+            </div>
+            <!-- Points & Level -->
+            <div class="mt-3 flex items-center gap-3">
+                <div class="bg-white/15 rounded-2xl px-3 py-2 flex items-center gap-2 flex-1">
+                    <i class="fa-solid fa-bolt text-yellow-300 text-sm"></i>
+                    <div>
+                        <p id="dash-points" class="text-lg font-extrabold leading-none">0</p>
+                        <p class="text-emerald-100 text-[10px]">EcoPoints</p>
+                    </div>
+                </div>
+                <div class="bg-white/15 rounded-2xl px-3 py-2 flex items-center gap-2 flex-1">
+                    <span id="dash-level-icon" class="text-base">🌱</span>
+                    <div>
+                        <p id="dash-level" class="text-xs font-bold leading-none">Mầm Xanh</p>
+                        <p class="text-emerald-100 text-[10px]">Cấp độ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Nav -->
+        <div class="flex border-b border-gray-100 flex-shrink-0 bg-white">
+            <button onclick="switchDashTab('overview')" id="dtab-overview"
+                class="flex-1 py-2.5 text-xs font-bold text-emerald-600 border-b-2 border-emerald-500">
+                <i class="fa-solid fa-house block text-base mb-0.5"></i>Tổng quan
+            </button>
+            <button onclick="switchDashTab('submit')" id="dtab-submit"
+                class="flex-1 py-2.5 text-xs font-bold text-gray-400 border-b-2 border-transparent">
+                <i class="fa-solid fa-camera block text-base mb-0.5"></i>Nộp rác
+            </button>
+            <button onclick="switchDashTab('rewards')" id="dtab-rewards"
+                class="flex-1 py-2.5 text-xs font-bold text-gray-400 border-b-2 border-transparent">
+                <i class="fa-solid fa-gift block text-base mb-0.5"></i>Đổi quà
+            </button>
+            <button onclick="switchDashTab('profile')" id="dtab-profile"
+                class="flex-1 py-2.5 text-xs font-bold text-gray-400 border-b-2 border-transparent">
+                <i class="fa-solid fa-user block text-base mb-0.5"></i>Hồ sơ
+            </button>
+        </div>
+
+        <!-- Tab Contents -->
+        <div class="flex-1 overflow-y-auto">
+
+            <!-- OVERVIEW TAB -->
+            <div id="dpanel-overview" class="p-4 space-y-4">
+                <!-- Stats grid -->
+                <div class="grid grid-cols-3 gap-2">
+                    <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-3 text-center">
+                        <p id="stat-submissions" class="text-xl font-extrabold text-emerald-700">0</p>
+                        <p class="text-[10px] text-gray-500 font-semibold">Lần nộp rác</p>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-100 rounded-2xl p-3 text-center">
+                        <p id="stat-weight" class="text-xl font-extrabold text-blue-700">0</p>
+                        <p class="text-[10px] text-gray-500 font-semibold">Kg tái chế</p>
+                    </div>
+                    <div class="bg-amber-50 border border-amber-100 rounded-2xl p-3 text-center">
+                        <p id="stat-rewards" class="text-xl font-extrabold text-amber-700">0</p>
+                        <p class="text-[10px] text-gray-500 font-semibold">Quà đã đổi</p>
+                    </div>
+                </div>
+                <!-- Level progress -->
+                <div class="bg-gray-50 border border-gray-100 rounded-2xl p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-xs font-bold text-gray-700">Tiến trình cấp độ</p>
+                        <p id="level-next-pts" class="text-xs text-gray-400">...</p>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div id="level-progress-bar" class="bg-gradient-to-r from-emerald-500 to-teal-500 h-2 rounded-full transition-all duration-500" style="width:0%"></div>
+                    </div>
+                    <div class="flex justify-between mt-1.5">
+                        <span id="level-current-label" class="text-[10px] text-gray-400">🌱 Mầm Xanh</span>
+                        <span id="level-next-label" class="text-[10px] text-gray-400">⚡ Chiến Binh Xanh</span>
+                    </div>
+                </div>
+                <!-- Recent activity -->
+                <div>
+                    <p class="text-xs font-bold text-gray-700 mb-2">Hoạt động gần đây</p>
+                    <div id="recent-activity" class="space-y-2">
+                        <p class="text-xs text-gray-400 text-center py-4">Chưa có hoạt động nào.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUBMIT RECYCLING TAB -->
+            <div id="dpanel-submit" class="hidden p-4 space-y-4">
+                <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3 text-center">
+                    <p class="text-xs font-bold text-emerald-800">📸 Chụp ảnh rác đã phân loại → Nhận EcoPoints!</p>
+                    <p class="text-[10px] text-emerald-600 mt-0.5">Mỗi lần nộp được duyệt ngay lập tức</p>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Loại rác *</label>
+                    <select id="rec-waste-type" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                        <option value="">-- Chọn loại rác --</option>
+                        <option value="plastic">🧴 Nhựa / Chai lọ (+80 pts)</option>
+                        <option value="paper">📄 Giấy / Bìa các tông (+60 pts)</option>
+                        <option value="metal">🔩 Kim loại / Nhôm (+100 pts)</option>
+                        <option value="glass">🍶 Thủy tinh (+70 pts)</option>
+                        <option value="electronic">💻 Thiết bị điện tử (+150 pts)</option>
+                        <option value="organic">🌿 Rác hữu cơ (+40 pts)</option>
+                        <option value="other">♻️ Khác (+50 pts)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Khối lượng ước tính (kg) *</label>
+                    <input id="rec-weight" type="number" min="0.1" step="0.1" placeholder="Ví dụ: 1.5"
+                        class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                    <p class="text-[10px] text-gray-400 mt-1">Nộp >= 3kg nhận thêm điểm bonus!</p>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Ảnh minh chứng</label>
+                    <div class="mt-1 border-2 border-dashed border-gray-200 rounded-2xl p-4 text-center cursor-pointer hover:border-emerald-400 transition-colors" onclick="document.getElementById('rec-image-input').click()">
+                        <div id="rec-image-preview" class="hidden mb-2">
+                            <img id="rec-preview-img" class="max-h-32 mx-auto rounded-xl object-cover" src="" alt="Preview">
+                        </div>
+                        <div id="rec-image-placeholder">
+                            <i class="fa-solid fa-camera text-gray-300 text-3xl mb-2"></i>
+                            <p class="text-xs text-gray-400">Nhấn để chọn ảnh</p>
+                        </div>
+                        <input id="rec-image-input" type="file" accept="image/*" class="hidden" onchange="previewRecyclingImage(this)">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Ghi chú (tuỳ chọn)</label>
+                    <textarea id="rec-note" rows="2" placeholder="Mô tả thêm về lô rác..."
+                        class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-emerald-500 resize-none"></textarea>
+                </div>
+                <!-- Points preview -->
+                <div id="rec-points-preview" class="hidden bg-amber-50 border border-amber-200 rounded-2xl p-3 text-center">
+                    <p class="text-xs text-amber-700 font-semibold">Bạn sẽ nhận được</p>
+                    <p id="rec-pts-display" class="text-2xl font-extrabold text-amber-600">+0 pts</p>
+                </div>
+                <button onclick="submitRecycling()" id="rec-submit-btn"
+                    class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-lg">
+                    <i class="fa-solid fa-leaf mr-2"></i>Nộp rác nhận điểm!
+                </button>
+                <!-- History -->
+                <div class="border-t border-gray-100 pt-4">
+                    <p class="text-xs font-bold text-gray-700 mb-2">Lịch sử nộp rác</p>
+                    <div id="recycling-history" class="space-y-2">
+                        <p class="text-xs text-gray-400 text-center py-2">Đang tải...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REWARDS TAB -->
+            <div id="dpanel-rewards" class="hidden p-4 space-y-4">
+                <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3 text-center">
+                    <p class="text-sm font-bold text-amber-800">🎁 Kho quà EcoValues</p>
+                    <p class="text-xs text-amber-600 mt-0.5">Dùng EcoPoints để đổi quà hấp dẫn</p>
+                </div>
+                <!-- My points balance -->
+                <div class="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl p-4 text-white text-center">
+                    <p class="text-xs opacity-80">Điểm hiện tại</p>
+                    <p id="reward-pts-balance" class="text-3xl font-extrabold">0</p>
+                    <p class="text-xs opacity-80">EcoPoints</p>
+                </div>
+                <!-- Reward catalog -->
+                <div id="reward-catalog" class="space-y-3">
+                    <!-- Populated by JS -->
+                    <p class="text-xs text-gray-400 text-center py-4">Đang tải danh sách quà...</p>
+                </div>
+                <!-- My redeemed rewards -->
+                <div class="border-t border-gray-100 pt-4">
+                    <p class="text-xs font-bold text-gray-700 mb-2">Quà đã đổi</p>
+                    <div id="my-rewards" class="space-y-2">
+                        <p class="text-xs text-gray-400 text-center py-2">Chưa đổi quà nào.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROFILE TAB -->
+            <div id="dpanel-profile" class="hidden p-4 space-y-4">
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Họ và tên</label>
+                        <input id="profile-name" type="text" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Email</label>
+                        <input id="profile-email" type="email" readonly class="mt-1 w-full border border-gray-100 bg-gray-50 rounded-xl px-3 py-2.5 text-sm text-gray-400 cursor-not-allowed">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Số điện thoại</label>
+                        <input id="profile-phone" type="tel" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                    </div>
+                    <button onclick="saveProfile()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-2.5 rounded-xl text-sm transition-all shadow-md">
+                        <i class="fa-solid fa-floppy-disk mr-2"></i>Lưu thông tin
+                    </button>
+                </div>
+                <div class="border-t border-gray-100 pt-4 space-y-2">
+                    <p class="text-xs font-bold text-gray-600 uppercase tracking-wider">Tài khoản</p>
+                    <div class="bg-gray-50 rounded-xl p-3 text-xs text-gray-500 space-y-1">
+                        <p><i class="fa-solid fa-calendar mr-2"></i>Ngày tham gia: <span id="profile-joined" class="font-semibold text-gray-700">...</span></p>
+                        <p><i class="fa-solid fa-shield-check mr-2 text-emerald-500"></i>Tài khoản đã xác thực</p>
+                    </div>
+                    <button onclick="handleLogout()"
+                        class="w-full bg-red-50 hover:bg-red-100 border border-red-200 text-red-600 font-bold py-2.5 rounded-xl text-sm transition-all">
+                        <i class="fa-solid fa-right-from-bracket mr-2"></i>Đăng xuất
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <!-- Toast container -->
     <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3"></div>
+
 
     <!-- JavaScript logic -->
     <script>
@@ -3592,7 +3966,527 @@
         setTimeout(() => {
             switchGameMode('classic');
         }, 200);
+
+        // ============================================================
+        // MEMBERSHIP SYSTEM — Auth + Dashboard
+        // ============================================================
+
+        // Backend API URL — update after deploying on Render
+        const API_BASE = window.location.hostname === 'localhost'
+            ? 'http://localhost:4000/api'
+            : 'https://ecovalues-backend.onrender.com/api';
+
+        // Local auth state
+        let currentUser = null;
+        let authToken = localStorage.getItem('eco_token') || null;
+
+        // Level config
+        const LEVELS = [
+            { min: 0,    max: 199,  name: 'Mầm Xanh',       icon: '🌱' },
+            { min: 200,  max: 499,  name: 'Chiến Binh Xanh', icon: '⚡' },
+            { min: 500,  max: 999,  name: 'Đại Sứ Xanh',     icon: '🌿' },
+            { min: 1000, max: 1999, name: 'Anh Hùng Tái Chế',icon: '🏆' },
+            { min: 2000, max: Infinity, name: 'Huyền Thoại Xanh', icon: '💎' },
+        ];
+
+        const POINTS_TABLE = { plastic: 80, paper: 60, metal: 100, glass: 70, electronic: 150, organic: 40, other: 50 };
+
+        function getLevel(pts) {
+            return LEVELS.find(l => pts >= l.min && pts <= l.max) || LEVELS[0];
+        }
+
+        // --- API helpers ---
+        async function apiCall(path, method = 'GET', body = null) {
+            const opts = {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+            };
+            if (authToken) opts.headers['Authorization'] = `Bearer ${authToken}`;
+            if (body) opts.body = JSON.stringify(body);
+            const res = await fetch(API_BASE + path, opts);
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'Lỗi server');
+            return data;
+        }
+
+        // --- Init: restore session ---
+        async function initAuth() {
+            if (!authToken) { renderHeaderGuest(); return; }
+            try {
+                const data = await apiCall('/auth/profile');
+                currentUser = data.data;
+                renderHeaderMember();
+            } catch {
+                authToken = null;
+                localStorage.removeItem('eco_token');
+                renderHeaderGuest();
+            }
+        }
+
+        // --- Header render ---
+        function renderHeaderGuest() {
+            const btn = document.getElementById('header-auth-btn');
+            if (!btn) return;
+            btn.innerHTML = `<i class="fa-solid fa-right-to-bracket mr-1.5 text-xs"></i>Đăng nhập`;
+            btn.onclick = () => openAuthModal('login');
+            btn.className = 'bg-gradient-to-r from-ecoGreen-600 to-emerald-600 hover:from-ecoGreen-700 hover:to-emerald-700 text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-1.5';
+        }
+
+        function renderHeaderMember() {
+            if (!currentUser) return;
+            const btn = document.getElementById('header-auth-btn');
+            if (!btn) return;
+            const level = getLevel(currentUser.eco_points || 0);
+            btn.innerHTML = `
+                <span class="text-base">${level.icon}</span>
+                <span class="max-w-[80px] truncate font-bold">${currentUser.full_name.split(' ').pop()}</span>
+                <span class="bg-white/20 px-1.5 py-0.5 rounded-full text-[10px] font-extrabold">⚡${currentUser.eco_points || 0}</span>
+            `;
+            btn.onclick = openDashboard;
+            btn.className = 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-1.5';
+        }
+
+        // --- Auth Modal ---
+        function openAuthModal(tab = 'login') {
+            document.getElementById('auth-modal').classList.remove('hidden');
+            switchAuthTab(tab);
+        }
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
+        function switchAuthTab(tab) {
+            const loginForm = document.getElementById('auth-login-form');
+            const regForm = document.getElementById('auth-register-form');
+            const tabLogin = document.getElementById('auth-tab-login');
+            const tabReg = document.getElementById('auth-tab-register');
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                regForm.classList.add('hidden');
+                tabLogin.className = 'flex-1 py-3 text-sm font-bold text-emerald-600 border-b-2 border-emerald-500 transition-all';
+                tabReg.className = 'flex-1 py-3 text-sm font-bold text-gray-400 border-b-2 border-transparent transition-all';
+            } else {
+                loginForm.classList.add('hidden');
+                regForm.classList.remove('hidden');
+                tabLogin.className = 'flex-1 py-3 text-sm font-bold text-gray-400 border-b-2 border-transparent transition-all';
+                tabReg.className = 'flex-1 py-3 text-sm font-bold text-emerald-600 border-b-2 border-emerald-500 transition-all';
+            }
+        }
+
+        // --- Login ---
+        async function handleLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+            if (!email || !password) { showToast('Vui lòng nhập email và mật khẩu.', 'error'); return; }
+            const btn = document.getElementById('login-btn');
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang đăng nhập...';
+            try {
+                const data = await apiCall('/auth/login', 'POST', { email, password });
+                authToken = data.data.token;
+                currentUser = data.data.user;
+                localStorage.setItem('eco_token', authToken);
+                closeAuthModal();
+                renderHeaderMember();
+                showToast(`🎉 Chào mừng trở lại, ${currentUser.full_name.split(' ').pop()}!`, 'success');
+            } catch (e) {
+                showToast(e.message || 'Email hoặc mật khẩu không đúng.', 'error');
+            } finally {
+                btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-right-to-bracket mr-2"></i>Đăng nhập';
+            }
+        }
+
+        // --- Register: Step 1 — Send OTP ---
+        async function sendRegisterOTP() {
+            const name = document.getElementById('reg-name').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const password = document.getElementById('reg-password').value;
+            if (!name || !email || !password) { showToast('Vui lòng điền đầy đủ thông tin bắt buộc.', 'error'); return; }
+            if (password.length < 6) { showToast('Mật khẩu phải có tối thiểu 6 ký tự.', 'error'); return; }
+            const btn = document.getElementById('reg-send-otp-btn');
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang gửi OTP...';
+            try {
+                await apiCall('/auth/send-otp', 'POST', { email });
+                document.getElementById('reg-otp-email-display').textContent = email;
+                document.getElementById('reg-step-1').classList.add('hidden');
+                document.getElementById('reg-step-2').classList.remove('hidden');
+                initRegOtpInputs();
+                showToast('📧 Mã OTP đã gửi tới Gmail của bạn!', 'success');
+            } catch (e) {
+                showToast(e.message || 'Gửi OTP thất bại.', 'error');
+            } finally {
+                btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane mr-2"></i>Gửi mã xác thực OTP';
+            }
+        }
+
+        function initRegOtpInputs() {
+            const boxes = document.querySelectorAll('.reg-otp-box');
+            boxes.forEach((box, i) => {
+                box.value = '';
+                box.oninput = function() {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                    if (this.value.length === 1 && boxes[i+1]) boxes[i+1].focus();
+                };
+                box.onkeydown = function(e) {
+                    if (e.key === 'Backspace' && !this.value && boxes[i-1]) boxes[i-1].focus();
+                };
+                box.onpaste = function(e) {
+                    const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
+                    if (pasted.length >= 6) { boxes.forEach((b,j) => b.value = pasted[j] || ''); boxes[5].focus(); e.preventDefault(); }
+                };
+            });
+            if (boxes[0]) boxes[0].focus();
+        }
+
+        // --- Register: Step 2 — Verify OTP + Create Account ---
+        async function verifyAndRegister() {
+            const email = document.getElementById('reg-email').value.trim();
+            const name = document.getElementById('reg-name').value.trim();
+            const phone = document.getElementById('reg-phone').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const boxes = document.querySelectorAll('.reg-otp-box');
+            const otpCode = Array.from(boxes).map(b => b.value).join('');
+            if (otpCode.length < 6) { showToast('Vui lòng nhập đủ 6 chữ số OTP.', 'error'); return; }
+            const btn = document.getElementById('reg-verify-btn');
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang xác thực...';
+            try {
+                // Verify OTP
+                await apiCall('/auth/verify-otp', 'POST', { email, otpCode });
+                // Register
+                const data = await apiCall('/auth/register', 'POST', { email, password, fullName: name, phone });
+                authToken = data.data.token;
+                currentUser = data.data.user;
+                localStorage.setItem('eco_token', authToken);
+                closeAuthModal();
+                renderHeaderMember();
+                showToast(`🎉 Chào mừng bạn gia nhập EcoValues, ${name.split(' ').pop()}! +50 điểm khởi đầu!`, 'success');
+                // Award welcome points
+                setTimeout(() => openDashboard(), 800);
+            } catch (e) {
+                showToast(e.message || 'Xác thực thất bại. Kiểm tra lại mã OTP.', 'error');
+                boxes.forEach(b => b.classList.add('border-red-400'));
+            } finally {
+                btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-shield-check mr-2"></i>Xác thực & Tạo tài khoản';
+            }
+        }
+
+        // --- Logout ---
+        function handleLogout() {
+            authToken = null;
+            currentUser = null;
+            localStorage.removeItem('eco_token');
+            closeDashboard();
+            renderHeaderGuest();
+            showToast('Đã đăng xuất thành công.', 'info');
+        }
+
+        // --- Dashboard ---
+        function openDashboard() {
+            if (!currentUser) { openAuthModal('login'); return; }
+            document.getElementById('member-dashboard').classList.remove('translate-x-full');
+            document.getElementById('dashboard-overlay').classList.remove('hidden');
+            populateDashboard();
+            switchDashTab('overview');
+        }
+        function closeDashboard() {
+            document.getElementById('member-dashboard').classList.add('translate-x-full');
+            document.getElementById('dashboard-overlay').classList.add('hidden');
+        }
+
+        function switchDashTab(tab) {
+            ['overview','submit','rewards','profile'].forEach(t => {
+                document.getElementById(`dpanel-${t}`).classList.add('hidden');
+                const btn = document.getElementById(`dtab-${t}`);
+                btn.className = 'flex-1 py-2.5 text-xs font-bold text-gray-400 border-b-2 border-transparent';
+            });
+            document.getElementById(`dpanel-${tab}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`dtab-${tab}`);
+            activeBtn.className = 'flex-1 py-2.5 text-xs font-bold text-emerald-600 border-b-2 border-emerald-500';
+
+            if (tab === 'submit') loadRecyclingHistory();
+            if (tab === 'rewards') loadRewardCatalog();
+        }
+
+        async function populateDashboard() {
+            if (!currentUser) return;
+            // Refresh profile from server
+            try {
+                const data = await apiCall('/auth/profile');
+                currentUser = data.data;
+            } catch {}
+
+            const pts = currentUser.eco_points || 0;
+            const level = getLevel(pts);
+            const nextLevel = LEVELS[LEVELS.indexOf(level) + 1];
+
+            document.getElementById('dash-name').textContent = currentUser.full_name;
+            document.getElementById('dash-email').textContent = currentUser.email;
+            document.getElementById('dash-points').textContent = pts;
+            document.getElementById('dash-level').textContent = level.name;
+            document.getElementById('dash-level-icon').textContent = level.icon;
+            document.getElementById('dash-avatar').textContent = currentUser.full_name.charAt(0).toUpperCase();
+            document.getElementById('reward-pts-balance').textContent = pts;
+
+            // Level progress
+            if (nextLevel) {
+                const progress = Math.round(((pts - level.min) / (nextLevel.min - level.min)) * 100);
+                document.getElementById('level-progress-bar').style.width = `${Math.min(progress, 100)}%`;
+                document.getElementById('level-next-pts').textContent = `${nextLevel.min - pts} pts nữa`;
+                document.getElementById('level-current-label').textContent = `${level.icon} ${level.name}`;
+                document.getElementById('level-next-label').textContent = `${nextLevel.icon} ${nextLevel.name}`;
+            } else {
+                document.getElementById('level-progress-bar').style.width = '100%';
+                document.getElementById('level-next-pts').textContent = 'Cấp tối đa!';
+            }
+
+            // Profile tab
+            document.getElementById('profile-name').value = currentUser.full_name;
+            document.getElementById('profile-email').value = currentUser.email;
+            document.getElementById('profile-phone').value = currentUser.phone || '';
+            if (currentUser.created_at) {
+                document.getElementById('profile-joined').textContent = new Date(currentUser.created_at).toLocaleDateString('vi-VN');
+            }
+
+            // Load overview stats
+            loadOverviewStats();
+        }
+
+        async function loadOverviewStats() {
+            try {
+                const data = await apiCall('/recycling/history?limit=5');
+                const { submissions, pagination, totalPointsEarned } = data.data;
+                document.getElementById('stat-submissions').textContent = pagination.total;
+                const totalWeight = submissions.reduce((s, r) => s + parseFloat(r.estimated_weight || 0), 0).toFixed(1);
+                document.getElementById('stat-weight').textContent = totalWeight;
+
+                // Recent activity
+                const container = document.getElementById('recent-activity');
+                if (submissions.length === 0) {
+                    container.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">Chưa có hoạt động nào.</p>';
+                } else {
+                    const icons = { plastic:'🧴', paper:'📄', metal:'🔩', glass:'🍶', electronic:'💻', organic:'🌿', other:'♻️' };
+                    container.innerHTML = submissions.map(s => `
+                        <div class="flex items-center gap-3 bg-gray-50 rounded-xl p-2.5">
+                            <span class="text-xl">${icons[s.waste_type] || '♻️'}</span>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-xs font-semibold text-gray-700 truncate">${s.waste_type} · ${s.estimated_weight}kg</p>
+                                <p class="text-[10px] text-gray-400">${new Date(s.created_at).toLocaleDateString('vi-VN')}</p>
+                            </div>
+                            <span class="text-xs font-extrabold text-emerald-600">+${s.points_awarded}</span>
+                        </div>
+                    `).join('');
+                }
+            } catch {}
+        }
+
+        // --- Recycling Submit ---
+        let recyclingImageBase64 = null;
+
+        function previewRecyclingImage(input) {
+            const file = input.files[0];
+            if (!file) return;
+            // Compress to max 800px wide
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const MAX = 800;
+                    const ratio = Math.min(MAX / img.width, MAX / img.height, 1);
+                    canvas.width = img.width * ratio;
+                    canvas.height = img.height * ratio;
+                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                    recyclingImageBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                    document.getElementById('rec-preview-img').src = recyclingImageBase64;
+                    document.getElementById('rec-image-preview').classList.remove('hidden');
+                    document.getElementById('rec-image-placeholder').classList.add('hidden');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Live points preview
+        document.getElementById('rec-waste-type')?.addEventListener('change', updateRecyclingPreview);
+        document.getElementById('rec-weight')?.addEventListener('input', updateRecyclingPreview);
+        function updateRecyclingPreview() {
+            const wt = document.getElementById('rec-waste-type')?.value;
+            const kg = parseFloat(document.getElementById('rec-weight')?.value) || 0;
+            if (!wt || !kg) { document.getElementById('rec-points-preview').classList.add('hidden'); return; }
+            const base = POINTS_TABLE[wt] || 50;
+            const multi = Math.min(3, Math.max(1, Math.floor(kg / 3)));
+            const pts = base * multi;
+            document.getElementById('rec-pts-display').textContent = `+${pts} EcoPoints`;
+            document.getElementById('rec-points-preview').classList.remove('hidden');
+        }
+
+        async function submitRecycling() {
+            if (!currentUser) { openAuthModal('login'); return; }
+            const wasteType = document.getElementById('rec-waste-type').value;
+            const weight = document.getElementById('rec-weight').value;
+            const note = document.getElementById('rec-note').value.trim();
+            if (!wasteType || !weight) { showToast('Vui lòng chọn loại rác và khối lượng.', 'error'); return; }
+            const btn = document.getElementById('rec-submit-btn');
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang gửi...';
+            try {
+                const data = await apiCall('/recycling/submit', 'POST', {
+                    wasteType, estimatedWeight: parseFloat(weight),
+                    imageUrl: recyclingImageBase64 || null, note,
+                });
+                const { pointsAwarded, newTotal } = data.data;
+                currentUser.eco_points = newTotal;
+                renderHeaderMember();
+                showToast(`🎉 +${pointsAwarded} EcoPoints! Tổng: ${newTotal} điểm`, 'success');
+                // Reset form
+                document.getElementById('rec-waste-type').value = '';
+                document.getElementById('rec-weight').value = '';
+                document.getElementById('rec-note').value = '';
+                document.getElementById('rec-image-preview').classList.add('hidden');
+                document.getElementById('rec-image-placeholder').classList.remove('hidden');
+                document.getElementById('rec-image-input').value = '';
+                document.getElementById('rec-points-preview').classList.add('hidden');
+                recyclingImageBase64 = null;
+                populateDashboard();
+                loadRecyclingHistory();
+            } catch (e) {
+                showToast(e.message || 'Nộp rác thất bại.', 'error');
+            } finally {
+                btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-leaf mr-2"></i>Nộp rác nhận điểm!';
+            }
+        }
+
+        async function loadRecyclingHistory() {
+            const container = document.getElementById('recycling-history');
+            container.innerHTML = '<p class="text-xs text-gray-400 text-center py-2">Đang tải...</p>';
+            try {
+                const data = await apiCall('/recycling/history?limit=10');
+                const { submissions } = data.data;
+                const icons = { plastic:'🧴', paper:'📄', metal:'🔩', glass:'🍶', electronic:'💻', organic:'🌿', other:'♻️' };
+                if (submissions.length === 0) {
+                    container.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">Chưa có lần nộp rác nào.</p>';
+                    return;
+                }
+                container.innerHTML = submissions.map(s => `
+                    <div class="flex items-center gap-3 bg-gray-50 rounded-xl p-2.5 border border-gray-100">
+                        <span class="text-xl flex-shrink-0">${icons[s.waste_type] || '♻️'}</span>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs font-bold text-gray-700">${s.waste_type} · ${s.estimated_weight}kg</p>
+                            <p class="text-[10px] text-gray-400">${new Date(s.created_at).toLocaleString('vi-VN')}</p>
+                            ${s.note ? `<p class="text-[10px] text-gray-400 truncate">${s.note}</p>` : ''}
+                        </div>
+                        <span class="text-xs font-extrabold text-emerald-600 flex-shrink-0">+${s.points_awarded}</span>
+                    </div>
+                `).join('');
+            } catch {
+                container.innerHTML = '<p class="text-xs text-red-400 text-center py-2">Không thể tải lịch sử.</p>';
+            }
+        }
+
+        // --- Reward Catalog (offline data — replace with API when voucher backend is ready) ---
+        const REWARD_CATALOG = [
+            { id: 'r1', title: '🧋 Voucher Trà Sữa 30K', points: 100, desc: 'Đổi lấy voucher trà sữa CMC Canteen', stock: 50 },
+            { id: 'r2', title: '🖨️ In ấn miễn phí 20 trang', points: 80, desc: 'Dùng tại phòng in của trường', stock: 100 },
+            { id: 'r3', title: '☕ Cà phê miễn phí', points: 60, desc: 'Cà phê căng-tin trường CMC', stock: 80 },
+            { id: 'r4', title: '📖 Sách giáo trình miễn phí', points: 300, desc: 'Nhận sách tại thư viện CMC', stock: 20 },
+            { id: 'r5', title: '🏅 Huy hiệu CMC Xanh', points: 500, desc: 'Huy hiệu danh dự sinh viên tái chế', stock: 15 },
+            { id: 'r6', title: '🎓 Chứng nhận Đại Sứ Xanh', points: 1000, desc: 'Chứng chỉ chính thức từ nhà trường', stock: 5 },
+        ];
+
+        function loadRewardCatalog() {
+            const pts = currentUser?.eco_points || 0;
+            const redeemedIds = JSON.parse(localStorage.getItem(`eco_redeemed_${currentUser?.id}`) || '[]');
+            const catalog = document.getElementById('reward-catalog');
+            catalog.innerHTML = REWARD_CATALOG.map(r => {
+                const canAfford = pts >= r.points;
+                const isRedeemed = redeemedIds.includes(r.id);
+                return `
+                    <div class="border ${isRedeemed ? 'border-emerald-200 bg-emerald-50' : canAfford ? 'border-amber-200 bg-amber-50' : 'border-gray-100 bg-gray-50'} rounded-2xl p-3 flex items-center gap-3">
+                        <div class="text-2xl flex-shrink-0">${r.title.split(' ')[0]}</div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs font-bold text-gray-800">${r.title.substring(r.title.indexOf(' ')+1)}</p>
+                            <p class="text-[10px] text-gray-500">${r.desc}</p>
+                            <p class="text-xs font-extrabold ${canAfford ? 'text-amber-600' : 'text-gray-400'} mt-0.5">⚡ ${r.points} pts</p>
+                        </div>
+                        ${isRedeemed
+                            ? `<span class="text-xs text-emerald-600 font-bold flex-shrink-0"><i class="fa-solid fa-check-circle mr-1"></i>Đã đổi</span>`
+                            : `<button onclick="redeemReward('${r.id}', ${r.points}, '${r.title}')" ${!canAfford ? 'disabled' : ''}
+                                class="flex-shrink-0 text-xs font-bold py-1.5 px-3 rounded-xl transition-all ${canAfford ? 'bg-amber-500 hover:bg-amber-600 text-white' : 'bg-gray-200 text-gray-400 cursor-not-allowed'}">
+                                Đổi ngay
+                               </button>`
+                        }
+                    </div>
+                `;
+            }).join('');
+
+            // My rewards
+            const myContainer = document.getElementById('my-rewards');
+            if (redeemedIds.length === 0) {
+                myContainer.innerHTML = '<p class="text-xs text-gray-400 text-center py-2">Chưa đổi quà nào.</p>';
+            } else {
+                const redeemed = REWARD_CATALOG.filter(r => redeemedIds.includes(r.id));
+                myContainer.innerHTML = redeemed.map(r => `
+                    <div class="flex items-center gap-2 bg-emerald-50 border border-emerald-100 rounded-xl p-2.5">
+                        <span class="text-lg">${r.title.split(' ')[0]}</span>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs font-bold text-gray-700 truncate">${r.title.substring(r.title.indexOf(' ')+1)}</p>
+                        </div>
+                        <i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i>
+                    </div>
+                `).join('');
+            }
+        }
+
+        async function redeemReward(rewardId, pointsCost, title) {
+            if (!currentUser) return;
+            if ((currentUser.eco_points || 0) < pointsCost) { showToast('Không đủ điểm để đổi quà này.', 'error'); return; }
+            if (!confirm(`Đổi "${title}" với ${pointsCost} EcoPoints?`)) return;
+
+            // For now deduct locally + mark redeemed (replace with API call when voucher endpoint ready)
+            currentUser.eco_points = (currentUser.eco_points || 0) - pointsCost;
+            const redeemedKey = `eco_redeemed_${currentUser.id}`;
+            const redeemed = JSON.parse(localStorage.getItem(redeemedKey) || '[]');
+            redeemed.push(rewardId);
+            localStorage.setItem(redeemedKey, JSON.stringify(redeemed));
+
+            renderHeaderMember();
+            document.getElementById('reward-pts-balance').textContent = currentUser.eco_points;
+            document.getElementById('stat-rewards').textContent = redeemed.length;
+            loadRewardCatalog();
+            showToast(`🎁 Đã đổi thành công: ${title}! Còn lại ${currentUser.eco_points} pts`, 'success');
+        }
+
+        // --- Save Profile ---
+        async function saveProfile() {
+            const fullName = document.getElementById('profile-name').value.trim();
+            const phone = document.getElementById('profile-phone').value.trim();
+            if (!fullName) { showToast('Họ tên không được để trống.', 'error'); return; }
+            try {
+                const data = await apiCall('/auth/profile', 'PUT', { fullName, phone });
+                currentUser = { ...currentUser, ...data.data };
+                renderHeaderMember();
+                showToast('✅ Đã lưu thông tin thành công!', 'success');
+            } catch (e) {
+                showToast(e.message || 'Lưu thất bại.', 'error');
+            }
+        }
+
+        // --- Update Header HTML to have the auth button ---
+        (function injectAuthButton() {
+            // Replace the "Tham gia ngay" desktop button
+            const desktopCtaWrap = document.querySelector('header .hidden.md\\:block');
+            if (desktopCtaWrap) {
+                desktopCtaWrap.innerHTML = `
+                    <button id="header-auth-btn"
+                        class="bg-gradient-to-r from-ecoGreen-600 to-emerald-600 hover:from-ecoGreen-700 hover:to-emerald-700 text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-1.5">
+                        <i class="fa-solid fa-right-to-bracket mr-1.5 text-xs"></i>Đăng nhập
+                    </button>`;
+            }
+        })();
+
+        // Initialize on load
+        initAuth();
+
     </script>
+
+
 
     <!-- Floating Scroll-to-Top Button -->
     <button id="scroll-to-top-btn" onclick="scrollToTop()" class="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-gradient-to-r from-ecoGreen-600 to-ecoGreen-700 text-white shadow-xl shadow-ecoGreen-500/30 flex items-center justify-center transition-all duration-500 hover:shadow-ecoGreen-500/50 hover:scale-110 hover:-translate-y-1 opacity-0 pointer-events-none translate-y-4 group" aria-label="Lên đầu trang">

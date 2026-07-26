@@ -5,6 +5,7 @@ import teamRoutes from './teamRoutes.js';
 import partnerRoutes from './partnerRoutes.js';
 import voucherRoutes from './voucherRoutes.js';
 import authRoutes from './authRoutes.js';
+import recyclingRoutes from './recyclingRoutes.js';
 
 const router = Router();
 
@@ -26,6 +27,7 @@ router.use('/team', teamRoutes);
 router.use('/partners', partnerRoutes);
 router.use('/vouchers', voucherRoutes);
 router.use('/auth', authRoutes);
+router.use('/recycling', recyclingRoutes);
 
 export default router;
 

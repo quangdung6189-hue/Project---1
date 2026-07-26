@@ -6,6 +6,8 @@ config();
 const { Pool } = pkg;
 
 const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false,
   host: process.env.DB_HOST || 'localhost',
   port: parseInt(process.env.DB_PORT || '5432'),
   database: process.env.DB_NAME || 'svtaiche',
@@ -22,4 +24,3 @@ pool.on('error', (err) => {
 });
 
 export default pool;
-
