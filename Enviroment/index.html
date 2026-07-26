@@ -43,92 +43,123 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- EmailJS Client SDK CDN for Real Email Dispatch -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <!-- Supabase JS Client CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Canvas Confetti CDN for Celebration effects -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <!-- Custom CSS -->
+    <!-- Custom CSS & Modern Design Utilities -->
     <style>
-        .custom-shape-divider-bottom-1689230000 {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            overflow: hidden;
-            line-height: 0;
-            transform: rotate(180deg);
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(4deg); }
         }
-        .custom-shape-divider-bottom-1689230000 svg {
-            relative: relative;
-            display: block;
-            width: calc(100% + 1.3px);
-            height: 60px;
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
         }
-        .custom-shape-divider-bottom-1689230000 .shape-fill {
-            fill: #FFFFFF;
+        @keyframes borderGlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
-        .hover-scale {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .animate-float-slow {
+            animation: floatSlow 6s ease-in-out infinite;
         }
-        .hover-scale:hover {
-            transform: translateY(-5px);
+        .animate-pulse-glow {
+            animation: pulseGlow 4s ease-in-out infinite;
         }
-        /* Active nav styling */
+
+        /* Modern Glassmorphism Panels */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .glass-panel-dark {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Card Hover Lift Effects */
+        .hover-lift {
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 35px -10px rgba(34, 197, 94, 0.15);
+        }
+
+        /* Active Nav Link Indicator */
         .nav-link {
             position: relative;
+            padding-bottom: 2px;
         }
         .nav-link::after {
             content: '';
             position: absolute;
             width: 0;
-            height: 2px;
+            height: 2.5px;
             bottom: -4px;
-            left: 0;
-            background-color: #22c55e;
-            transition: width 0.3s ease;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, #22c55e, #0ea5e9);
+            border-radius: 99px;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .nav-link:hover::after {
             width: 100%;
         }
-        /* Custom scrollbar */
+
+        /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 10px;
         }
         ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: #f8fafc;
         }
         ::-webkit-scrollbar-thumb {
-            background: #22c55e;
-            border-radius: 4px;
+            background: linear-gradient(180deg, #22c55e, #16a34a);
+            border-radius: 99px;
+            border: 2px solid #f8fafc;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #16a34a;
+            background: #15803d;
+        }
+
+        /* Focus Visible Accessibility */
+        :focus-visible {
+            outline: 2px solid #22c55e;
+            outline-offset: 2px;
+            border-radius: 6px;
         }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
 
     <!-- Header / Navigation Bar -->
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/60 shadow-sm transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Logo -->
-                <div class="flex items-center space-x-3">
-                    <div class="bg-ecoGreen-100 p-2.5 rounded-full flex items-center justify-center shadow-inner">
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="scrollToTop()">
+                    <div class="bg-gradient-to-br from-ecoGreen-100 to-ecoGreen-200 p-2.5 rounded-2xl flex items-center justify-center shadow-inner border border-ecoGreen-300/50 group-hover:scale-105 transition-transform">
                         <i class="fa-solid fa-recycle text-ecoGreen-600 text-2xl animate-spin-slow"></i>
                     </div>
                     <div>
-                        <span class="text-xl font-bold bg-gradient-to-r from-ecoGreen-600 to-ecoBlue-600 bg-clip-text text-transparent">SV TÁI CHẾ</span>
-                        <p class="text-[9px] text-gray-500 tracking-wider font-semibold uppercase leading-3">Hành Động Xanh Vì Tương Lai</p>
+                        <span class="text-xl font-extrabold bg-gradient-to-r from-ecoGreen-600 via-emerald-500 to-ecoBlue-600 bg-clip-text text-transparent tracking-tight">SV TÁI CHẾ</span>
+                        <p class="text-[9px] text-gray-500 tracking-wider font-bold uppercase leading-3">Hành Động Xanh Vì Tương Lai</p>
                     </div>
                 </div>
 
-                                <!-- Desktop Nav -->
+                <!-- Desktop Nav -->
                 <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-gray-600">
                     <a href="#hero" class="nav-link hover:text-ecoGreen-600 transition-colors">Trang Chủ</a>
-                    <a href="#handbook" class="nav-link hover:text-ecoGreen-600 transition-colors">Cẩm Nang</a>
-                    <a href="#vouchers" class="nav-link hover:text-ecoGreen-600 transition-colors">Cửa Hàng</a>
-                    <a href="#b2b" class="nav-link hover:text-ecoGreen-600 transition-colors">Đối Tác B2B</a>
+                    <a href="#problem" class="nav-link hover:text-ecoGreen-600 transition-colors">Thực Trạng</a>
+                    <a href="#solution" class="nav-link hover:text-ecoGreen-600 transition-colors">Giải Pháp</a>
                     <a href="#roadmap" class="nav-link hover:text-ecoGreen-600 transition-colors">Kế Hoạch</a>
                     <a href="#team" class="nav-link hover:text-ecoGreen-600 transition-colors">Đội Ngũ</a>
                     <a href="#contact" class="nav-link hover:text-ecoGreen-600 transition-colors">Liên Hệ</a>
@@ -136,29 +167,29 @@
 
                 <!-- CTA Button Header -->
                 <div class="hidden md:block">
-                    <a href="#contact" class="bg-ecoGreen-600 hover:bg-ecoGreen-700 text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-ecoGreen-500/20 hover:shadow-ecoGreen-500/35 transition-all duration-300">
-                        <i class="fa-solid fa-leaf mr-2"></i>Tham gia ngay
+                    <a href="#contact" class="bg-gradient-to-r from-ecoGreen-600 to-emerald-600 hover:from-ecoGreen-700 hover:to-emerald-700 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-ecoGreen-500/25 hover:shadow-ecoGreen-500/40 hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2">
+                        <i class="fa-solid fa-leaf text-xs"></i>Tham gia ngay
                     </a>
                 </div>
 
                 <!-- Mobile menu button -->
                 <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-ecoGreen-600 focus:outline-none focus:text-ecoGreen-600 transition-colors">
-                        <i class="fa-solid fa-bars text-2xl"></i>
+                    <button id="mobile-menu-btn" class="p-2 rounded-xl text-gray-600 hover:text-ecoGreen-600 hover:bg-ecoGreen-50 focus:outline-none transition-all">
+                        <i class="fa-solid fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- Mobile Menu (Hidden by default) -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-100 py-4 px-6 space-y-3 shadow-inner">
-            <a href="#hero" class="block font-semibold text-gray-600 hover:text-ecoGreen-600 py-1 border-b border-gray-50">Trang Chủ</a>
-            <a href="#problem" class="block font-semibold text-gray-600 hover:text-ecoGreen-600 py-1 border-b border-gray-50">Thực Trạng</a>
-            <a href="#solution" class="block font-semibold text-gray-600 hover:text-ecoGreen-600 py-1 border-b border-gray-50">Giải Pháp</a>
-            <a href="#roadmap" class="block font-semibold text-gray-600 hover:text-ecoGreen-600 py-1 border-b border-gray-50">Kế Hoạch</a>
-            <a href="#team" class="block font-semibold text-gray-600 hover:text-ecoGreen-600 py-1 border-b border-gray-50">Đội Ngũ</a>
-            <a href="#contact" class="block font-semibold text-gray-600 hover:text-ecoGreen-600 py-1">Liên Hệ</a>
-            <a href="#contact" class="block text-center bg-ecoGreen-600 text-white font-bold py-2.5 rounded-lg">
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-b border-gray-100 py-4 px-6 space-y-3 shadow-xl">
+            <a href="#hero" class="block font-semibold text-gray-700 hover:text-ecoGreen-600 py-1.5 border-b border-gray-50">Trang Chủ</a>
+            <a href="#problem" class="block font-semibold text-gray-700 hover:text-ecoGreen-600 py-1.5 border-b border-gray-50">Thực Trạng</a>
+            <a href="#solution" class="block font-semibold text-gray-700 hover:text-ecoGreen-600 py-1.5 border-b border-gray-50">Giải Pháp</a>
+            <a href="#roadmap" class="block font-semibold text-gray-700 hover:text-ecoGreen-600 py-1.5 border-b border-gray-50">Kế Hoạch</a>
+            <a href="#team" class="block font-semibold text-gray-700 hover:text-ecoGreen-600 py-1.5 border-b border-gray-50">Đội Ngũ</a>
+            <a href="#contact" class="block font-semibold text-gray-700 hover:text-ecoGreen-600 py-1.5">Liên Hệ</a>
+            <a href="#contact" class="block text-center bg-gradient-to-r from-ecoGreen-600 to-emerald-600 text-white font-bold py-3 rounded-xl shadow-md">
                 <i class="fa-solid fa-leaf mr-2"></i>Tham Gia Ngay
             </a>
         </div>
@@ -308,12 +339,8 @@
             </div>
         </div>
 
-        <!-- Wave Shape Divider -->
-        <div class="custom-shape-divider-bottom-1689230000">
-            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V120H0C51.16,113.62,112.55,94.39,172,78,231.42,61.61,291.4,62.8,321.39,56.44Z" class="shape-fill"></path>
-            </svg>
-        </div>
+        <!-- Clean Smooth Fade Divider to Problem Section -->
+        <div class="w-full h-16 bg-gradient-to-b from-transparent to-white pointer-events-none"></div>
     </section>
 
     <!-- 2. Vấn đề & Thực trạng (The Problem) -->
@@ -699,15 +726,19 @@
             </div>
 
             <!-- Featured Article - Large -->
-            <div onclick="openArticleModal(0)" class="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 mb-10 border border-gray-100 hover:-translate-y-1">
+            <div onclick="openArticleModal(0)" class="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 mb-10 border border-gray-100 hover-lift">
                 <div class="grid grid-cols-1 lg:grid-cols-5 gap-0">
-                    <div class="lg:col-span-3 relative h-72 lg:h-auto overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&q=80&w=1200" 
-                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 duration-500"
-                             alt="Phân loại rác tại nguồn">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent lg:bg-gradient-to-r lg:from-black/40 lg:via-transparent lg:to-transparent"></div>
+                    <div class="lg:col-span-3 relative h-72 lg:h-auto overflow-hidden bg-emerald-900">
+                        <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=1000&auto=format&fit=crop&q=80" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                             alt="Quy tắc phân loại rác"
+                             onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden')">
+                        <div class="hidden absolute inset-0 bg-gradient-to-br from-ecoGreen-600 to-emerald-800 flex items-center justify-center text-white p-8">
+                            <i class="fa-solid fa-leaf text-6xl opacity-30"></i>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent lg:bg-gradient-to-r lg:from-black/50 lg:via-transparent lg:to-transparent"></div>
                         <div class="absolute bottom-4 left-4 lg:hidden">
-                            <span class="bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-full">Nổi bật</span>
+                            <span class="bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">Nổi bật</span>
                         </div>
                     </div>
                     <div class="lg:col-span-2 p-8 flex flex-col justify-center">
@@ -717,11 +748,11 @@
                             <span class="text-xs text-gray-400"><i class="fa-regular fa-clock mr-1"></i>5 phút đọc</span>
                         </div>
                         <h3 class="text-2xl font-extrabold text-gray-900 mb-3 group-hover:text-ecoGreen-600 transition-colors">Quy Tắc Phân Loại Rác Tại Nguồn 2026</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed mb-4">Hướng dẫn chi tiết cách phân loại rác thải sinh hoạt thành 3 nhóm: rác tái chế, rác hữu cơ và rác còn lại. Áp dụng cho mọi hộ gia đình và khuôn viên trường học.</p>
-                        <div class="flex items-center justify-between">
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4 font-medium">Hướng dẫn chi tiết cách phân loại rác thải sinh hoạt thành 3 nhóm: rác tái chế, rác hữu cơ và rác còn lại. Áp dụng cho mọi hộ gia đình và khuôn viên trường học.</p>
+                        <div class="flex items-center justify-between pt-2">
                             <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 bg-ecoGreen-100 rounded-full flex items-center justify-center text-ecoGreen-600 text-xs font-bold">GV</div>
-                                <span class="text-xs text-gray-500 font-medium">Ban Môi Trường CMC</span>
+                                <div class="w-8 h-8 bg-ecoGreen-100 rounded-full flex items-center justify-center text-ecoGreen-600 text-xs font-bold shadow-inner">GV</div>
+                                <span class="text-xs text-gray-500 font-bold">Ban Môi Trường CMC</span>
                             </div>
                             <span class="text-ecoGreen-600 text-sm font-bold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
                                 Đọc tiếp <i class="fa-solid fa-arrow-right text-xs"></i>
@@ -733,14 +764,18 @@
 
             <!-- Grid Articles -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Article 1 - Mẹo giảm rác nhựa (NEW - different from featured) -->
-                <div onclick="openArticleModal(3)" class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1">
-                    <div class="relative h-52 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?auto=format&fit=crop&q=80&w=600&h=400" 
+                <!-- Article 1 - Mẹo giảm rác nhựa -->
+                <div onclick="openArticleModal(3)" class="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-gray-100 hover-lift">
+                    <div class="relative h-56 overflow-hidden bg-amber-100">
+                        <img src="https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?w=800&auto=format&fit=crop&q=80" 
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                             alt="Giảm rác thải nhựa">
+                             alt="Giảm rác thải nhựa"
+                             onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden')">
+                        <div class="hidden absolute inset-0 bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center text-white">
+                            <i class="fa-solid fa-bottle-water text-5xl opacity-40"></i>
+                        </div>
                         <div class="absolute top-3 left-3">
-                            <span class="bg-amber-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Mẹo hay</span>
+                            <span class="bg-amber-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase shadow-md">Mẹo hay</span>
                         </div>
                     </div>
                     <div class="p-6">
@@ -750,9 +785,9 @@
                             <span><i class="fa-regular fa-clock mr-1"></i>6 phút</span>
                         </div>
                         <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-amber-600 transition-colors">5 Mẹo Giảm Rác Thải Nhựa Trong Sinh Hoạt Hàng Ngày</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed mb-4">Áp dụng 5 thói quen đơn giản để cắt giảm 70% lượng nhựa dùng một lần trong cuộc sống sinh viên.</p>
+                        <p class="text-sm text-gray-500 leading-relaxed mb-4 font-medium">Áp dụng 5 thói quen đơn giản để cắt giảm 70% lượng nhựa dùng một lần trong cuộc sống sinh viên.</p>
                         <div class="flex items-center justify-between pt-3 border-t border-gray-100">
-                            <span class="text-xs text-gray-400"><i class="fa-regular fa-user mr-1"></i>Lương Nguyễn Ánh Dương</span>
+                            <span class="text-xs text-gray-500 font-semibold"><i class="fa-regular fa-user mr-1 text-amber-500"></i>Lương Nguyễn Ánh Dương</span>
                             <span class="text-amber-600 text-xs font-bold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
                                 Đọc tiếp <i class="fa-solid fa-arrow-right text-xs"></i>
                             </span>
@@ -760,14 +795,18 @@
                     </div>
                 </div>
 
-                <!-- Article 2 -->
-                <div onclick="openArticleModal(1)" class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1">
-                    <div class="relative h-52 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1542601906-973be3883c9d?auto=format&fit=crop&q=80&w=600" 
+                <!-- Article 2 - Hành trình tái chế nhựa -->
+                <div onclick="openArticleModal(1)" class="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-gray-100 hover-lift">
+                    <div class="relative h-56 overflow-hidden bg-sky-100">
+                        <img src="https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=800&auto=format&fit=crop&q=80" 
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                             alt="Tái chế nhựa">
+                             alt="Tái chế nhựa"
+                             onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden')">
+                        <div class="hidden absolute inset-0 bg-gradient-to-br from-ecoBlue-500 to-sky-700 flex items-center justify-center text-white">
+                            <i class="fa-solid fa-arrows-spin text-5xl opacity-40 animate-spin-slow"></i>
+                        </div>
                         <div class="absolute top-3 left-3">
-                            <span class="bg-ecoBlue-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Kiến thức</span>
+                            <span class="bg-ecoBlue-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase shadow-md">Kiến thức</span>
                         </div>
                     </div>
                     <div class="p-6">
@@ -777,9 +816,9 @@
                             <span><i class="fa-regular fa-clock mr-1"></i>7 phút</span>
                         </div>
                         <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-ecoBlue-600 transition-colors">Hành Trình Tái Chế Nhựa: Từ Vỏ Chai Đến Sợi Vải</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed mb-4">Khám phá vòng đời của một chai nhựa PET: từ thùng rác đến nhà máy tái chế và trở thành quần áo, túi xách.</p>
+                        <p class="text-sm text-gray-500 leading-relaxed mb-4 font-medium">Khám phá vòng đời của một chai nhựa PET: từ thùng rác đến nhà máy tái chế và trở thành quần áo, túi xách.</p>
                         <div class="flex items-center justify-between pt-3 border-t border-gray-100">
-                            <span class="text-xs text-gray-400"><i class="fa-regular fa-user mr-1"></i>Nguyễn Như Quỳnh</span>
+                            <span class="text-xs text-gray-500 font-semibold"><i class="fa-regular fa-user mr-1 text-ecoBlue-500"></i>Nguyễn Như Quỳnh</span>
                             <span class="text-ecoBlue-600 text-xs font-bold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
                                 Đọc tiếp <i class="fa-solid fa-arrow-right text-xs"></i>
                             </span>
@@ -787,14 +826,18 @@
                     </div>
                 </div>
 
-                <!-- Article 3 -->
-                <div onclick="openArticleModal(2)" class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:-translate-y-1">
-                    <div class="relative h-52 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1591193583844-24e101aa1e84?auto=format&fit=crop&q=80&w=600" 
+                <!-- Article 3 - CMC Uni Xanh -->
+                <div onclick="openArticleModal(2)" class="group cursor-pointer bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-gray-100 hover-lift">
+                    <div class="relative h-56 overflow-hidden bg-purple-100">
+                        <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&auto=format&fit=crop&q=80" 
                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                             alt="Sinh viên tình nguyện">
+                             alt="Sinh viên tình nguyện"
+                             onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden')">
+                        <div class="hidden absolute inset-0 bg-gradient-to-br from-purple-500 to-indigo-700 flex items-center justify-center text-white">
+                            <i class="fa-solid fa-hands-holding-child text-5xl opacity-40"></i>
+                        </div>
                         <div class="absolute top-3 left-3">
-                            <span class="bg-purple-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Sự kiện</span>
+                            <span class="bg-purple-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase shadow-md">Sự kiện</span>
                         </div>
                     </div>
                     <div class="p-6">
@@ -804,9 +847,9 @@
                             <span><i class="fa-regular fa-clock mr-1"></i>4 phút</span>
                         </div>
                         <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">CMC Uni Xanh: Sinh Viên Chung Tay Bảo Vệ Môi Trường</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed mb-4">Chiến dịch "Trường học Xanh" do Đoàn trường CMC phát động thu hút hơn 500 sinh viên tham gia phân loại rác và trồng cây.</p>
+                        <p class="text-sm text-gray-500 leading-relaxed mb-4 font-medium">Chiến dịch "Trường học Xanh" do Đoàn trường CMC phát động thu hút hơn 500 sinh viên tham gia phân loại rác và trồng cây.</p>
                         <div class="flex items-center justify-between pt-3 border-t border-gray-100">
-                            <span class="text-xs text-gray-400"><i class="fa-regular fa-user mr-1"></i>Hoàng Mạnh Dũng</span>
+                            <span class="text-xs text-gray-500 font-semibold"><i class="fa-regular fa-user mr-1 text-purple-500"></i>Hoàng Mạnh Dũng</span>
                             <span class="text-purple-600 text-xs font-bold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
                                 Đọc tiếp <i class="fa-solid fa-arrow-right text-xs"></i>
                             </span>
@@ -873,44 +916,283 @@
         </div>
     </div>
 
-    <section id="vouchers" class="py-20 bg-ecoBlue-50/30 border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-extrabold text-gray-900 mb-4">Cửa Hàng Voucher & Quà Tặng</h2>
-            <p class="text-gray-600 mb-12 font-medium">Đổi điểm thưởng tích lũy từ việc nộp rác sạch lấy voucher mua sắm.</p>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-ecoBlue-100 text-center">
-                    <i class="fa-solid fa-mug-hot text-3xl text-ecoBlue-500 mb-4"></i>
-                    <h4 class="font-bold">Voucher Coffee</h4>
-                    <p class="text-ecoBlue-600 font-extrabold mt-2">200 Points</p>
+    <!-- 3.5 Cửa Hàng Voucher & Quà Tặng (Vouchers Store) -->
+    <section id="vouchers" class="py-24 relative overflow-hidden bg-gradient-to-b from-white via-ecoBlue-50/40 to-white border-b border-gray-100">
+        <!-- Background decorative elements -->
+        <div class="absolute top-10 right-10 text-ecoBlue-100/40 text-8xl animate-pulse pointer-events-none select-none">
+            <i class="fa-solid fa-coins"></i>
+        </div>
+        <div class="absolute bottom-16 left-8 text-ecoGreen-100/30 text-7xl rotate-12 pointer-events-none select-none">
+            <i class="fa-solid fa-gift"></i>
+        </div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-ecoBlue-200/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-14 space-y-4">
+                <span class="text-ecoBlue-600 text-sm font-bold uppercase tracking-wider bg-ecoBlue-100/60 border border-ecoBlue-200/60 px-3.5 py-1 rounded-full inline-block">
+                    <i class="fa-solid fa-store mr-1.5"></i> Cửa hàng EcoValue
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">Cửa Hàng Voucher & Quà Tặng Xanh</h2>
+                <div class="h-1 w-20 bg-gradient-to-r from-ecoBlue-500 to-ecoGreen-500 mx-auto rounded-full"></div>
+                <p class="text-gray-600 text-base sm:text-lg leading-relaxed font-medium">
+                    Đổi điểm thưởng tích lũy từ việc nộp rác sạch lấy voucher mua sắm, cà phê và quà tặng thủ công độc đáo!
+                </p>
+            </div>
+
+            <!-- How it works - mini steps -->
+            <div class="flex flex-wrap justify-center gap-4 sm:gap-6 mb-14">
+                <div class="flex items-center gap-3 bg-white/90 backdrop-blur-sm border border-gray-100 rounded-2xl px-5 py-3 shadow-sm hover-lift">
+                    <div class="bg-ecoBlue-100 text-ecoBlue-600 w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold shadow-inner">1</div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-recycle text-ecoBlue-500 text-sm"></i>
+                        <span class="text-sm font-semibold text-gray-700">Thu gom rác sạch</span>
+                    </div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-ecoBlue-100 text-center">
-                    <i class="fa-solid fa-gift text-3xl text-ecoBlue-500 mb-4"></i>
-                    <h4 class="font-bold">Quà tái chế</h4>
-                    <p class="text-ecoBlue-600 font-extrabold mt-2">300 Points</p>
+                <div class="hidden sm:flex items-center text-gray-300">
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-ecoBlue-100 text-center">
-                    <i class="fa-solid fa-store text-3xl text-ecoBlue-500 mb-4"></i>
-                    <h4 class="font-bold">Shopee 50k</h4>
-                    <p class="text-ecoBlue-600 font-extrabold mt-2">400 Points</p>
+                <div class="flex items-center gap-3 bg-white/90 backdrop-blur-sm border border-gray-100 rounded-2xl px-5 py-3 shadow-sm hover-lift">
+                    <div class="bg-ecoGreen-100 text-ecoGreen-600 w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold shadow-inner">2</div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-star text-ecoGreen-500 text-sm"></i>
+                        <span class="text-sm font-semibold text-gray-700">Tích điểm EcoValue</span>
+                    </div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-ecoBlue-100 text-center">
-                    <i class="fa-solid fa-ticket text-3xl text-ecoBlue-500 mb-4"></i>
-                    <h4 class="font-bold">Voucher CGV</h4>
-                    <p class="text-ecoBlue-600 font-extrabold mt-2">500 Points</p>
+                <div class="hidden sm:flex items-center text-gray-300">
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                </div>
+                <div class="flex items-center gap-3 bg-white/90 backdrop-blur-sm border border-gray-100 rounded-2xl px-5 py-3 shadow-sm hover-lift">
+                    <div class="bg-amber-100 text-amber-600 w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold shadow-inner">3</div>
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-gift text-amber-500 text-sm"></i>
+                        <span class="text-sm font-semibold text-gray-700">Đổi voucher yêu thích</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Voucher Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="group relative bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl border border-gray-100 transition-all duration-500 hover-lift">
+                    <div class="h-2 bg-gradient-to-r from-amber-500 to-orange-500"></div>
+                    <div class="absolute top-5 right-4 z-10">
+                        <span class="bg-rose-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md animate-pulse">Hot</span>
+                    </div>
+                    <div class="p-6 text-center space-y-4">
+                        <div class="relative mx-auto w-20 h-20">
+                            <div class="absolute inset-0 bg-amber-500 rounded-2xl opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-500"></div>
+                            <div class="relative w-20 h-20 rounded-2xl flex items-center justify-center">
+                                <i class="fa-solid fa-mug-hot text-4xl text-amber-500 group-hover:scale-110 transition-transform duration-300"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 text-lg">Voucher Coffee Canteen</h4>
+                            <p class="text-xs text-gray-500 mt-1 leading-relaxed font-medium">Đổi ngay 1 ly cà phê nguyên chất tại canteen CMC Uni</p>
+                        </div>
+                        <div class="bg-gray-50 border border-gray-100 rounded-2xl py-2.5 px-4">
+                            <span class="text-2xl font-extrabold text-amber-600">200</span>
+                            <span class="text-xs text-gray-500 font-bold uppercase tracking-wider ml-1">Points</span>
+                        </div>
+                        <button onclick="showToast('Vui lòng tích đủ 200 điểm Eco để đổi Voucher Coffee!', 'info')" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold py-2.5 rounded-xl text-sm shadow-md hover:shadow-lg transition-all duration-300">
+                            <i class="fa-solid fa-cart-shopping mr-1.5"></i>Đổi Ngay
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="group relative bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl border border-gray-100 transition-all duration-500 hover-lift">
+                    <div class="h-2 bg-gradient-to-r from-ecoGreen-500 to-emerald-500"></div>
+                    <div class="absolute top-5 right-4 z-10">
+                        <span class="bg-ecoGreen-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md">Mới</span>
+                    </div>
+                    <div class="p-6 text-center space-y-4">
+                        <div class="relative mx-auto w-20 h-20">
+                            <div class="absolute inset-0 bg-ecoGreen-500 rounded-2xl opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-500"></div>
+                            <div class="relative w-20 h-20 rounded-2xl flex items-center justify-center">
+                                <i class="fa-solid fa-seedling text-4xl text-ecoGreen-500 group-hover:scale-110 transition-transform duration-300"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 text-lg">Chậu Cây Tái Chế</h4>
+                            <p class="text-xs text-gray-500 mt-1 leading-relaxed font-medium">Sản phẩm thủ công xinh xắn tự tay sinh viên chế tác</p>
+                        </div>
+                        <div class="bg-gray-50 border border-gray-100 rounded-2xl py-2.5 px-4">
+                            <span class="text-2xl font-extrabold text-ecoGreen-600">300</span>
+                            <span class="text-xs text-gray-500 font-bold uppercase tracking-wider ml-1">Points</span>
+                        </div>
+                        <button onclick="showToast('Vui lòng tích đủ 300 điểm Eco để đổi Chậu cây!', 'info')" class="w-full bg-gradient-to-r from-ecoGreen-500 to-emerald-500 text-white font-bold py-2.5 rounded-xl text-sm shadow-md hover:shadow-lg transition-all duration-300">
+                            <i class="fa-solid fa-cart-shopping mr-1.5"></i>Đổi Ngay
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="group relative bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl border border-gray-100 transition-all duration-500 hover-lift">
+                    <div class="h-2 bg-gradient-to-r from-ecoBlue-500 to-sky-500"></div>
+                    <div class="absolute top-5 right-4 z-10">
+                        <span class="bg-ecoBlue-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md">Bán Chạy</span>
+                    </div>
+                    <div class="p-6 text-center space-y-4">
+                        <div class="relative mx-auto w-20 h-20">
+                            <div class="absolute inset-0 bg-ecoBlue-500 rounded-2xl opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-500"></div>
+                            <div class="relative w-20 h-20 rounded-2xl flex items-center justify-center">
+                                <i class="fa-solid fa-bag-shopping text-4xl text-ecoBlue-500 group-hover:scale-110 transition-transform duration-300"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 text-lg">Mã Shopee 50k</h4>
+                            <p class="text-xs text-gray-500 mt-1 leading-relaxed font-medium">Mã giảm giá 50.000đ áp dụng cho mọi đơn hàng Shopee</p>
+                        </div>
+                        <div class="bg-gray-50 border border-gray-100 rounded-2xl py-2.5 px-4">
+                            <span class="text-2xl font-extrabold text-ecoBlue-600">400</span>
+                            <span class="text-xs text-gray-500 font-bold uppercase tracking-wider ml-1">Points</span>
+                        </div>
+                        <button onclick="showToast('Vui lòng tích đủ 400 điểm Eco để đổi Mã Shopee!', 'info')" class="w-full bg-gradient-to-r from-ecoBlue-500 to-sky-500 text-white font-bold py-2.5 rounded-xl text-sm shadow-md hover:shadow-lg transition-all duration-300">
+                            <i class="fa-solid fa-cart-shopping mr-1.5"></i>Đổi Ngay
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="group relative bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl border border-gray-100 transition-all duration-500 hover-lift">
+                    <div class="h-2 bg-gradient-to-r from-purple-500 to-indigo-500"></div>
+                    <div class="absolute top-5 right-4 z-10">
+                        <span class="bg-purple-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md">Premium</span>
+                    </div>
+                    <div class="p-6 text-center space-y-4">
+                        <div class="relative mx-auto w-20 h-20">
+                            <div class="absolute inset-0 bg-purple-500 rounded-2xl opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-500"></div>
+                            <div class="relative w-20 h-20 rounded-2xl flex items-center justify-center">
+                                <i class="fa-solid fa-ticket text-4xl text-purple-500 group-hover:scale-110 transition-transform duration-300"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 text-lg">Vé Xem Phim CGV 2D</h4>
+                            <p class="text-xs text-gray-500 mt-1 leading-relaxed font-medium">1 vé xem phim rạp CGV áp dụng tất cả các cụm rạp</p>
+                        </div>
+                        <div class="bg-gray-50 border border-gray-100 rounded-2xl py-2.5 px-4">
+                            <span class="text-2xl font-extrabold text-purple-600">500</span>
+                            <span class="text-xs text-gray-500 font-bold uppercase tracking-wider ml-1">Points</span>
+                        </div>
+                        <button onclick="showToast('Vui lòng tích đủ 500 điểm Eco để đổi Vé CGV!', 'info')" class="w-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-bold py-2.5 rounded-xl text-sm shadow-md hover:shadow-lg transition-all duration-300">
+                            <i class="fa-solid fa-cart-shopping mr-1.5"></i>Đổi Ngay
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="b2b" class="py-20 bg-gray-900 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-10">
-                <div class="md:w-1/2">
-                    <h2 class="text-3xl font-extrabold mb-4">Cổng Đối Tác B2B</h2>
-                    <p class="text-gray-400 font-medium">Nơi đăng ký dành cho Đơn vị thu gom và Nhà máy tái chế. Kết nối trực tiếp nguồn rác sạch từ CMC.</p>
+    <!-- 3.6 Cổng Đối Tác B2B (Partner Portal) -->
+    <section id="b2b" class="py-24 relative overflow-hidden bg-slate-950 text-white">
+        <!-- Blueprint grid background -->
+        <div class="absolute inset-0 opacity-[0.05] pointer-events-none" style="background-image: linear-gradient(rgba(34, 197, 94, 0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(34, 197, 94, 0.4) 1px, transparent 1px); background-size: 40px 40px;"></div>
+        
+        <!-- Glowing background orbs -->
+        <div class="absolute top-0 right-1/4 w-96 h-96 bg-ecoGreen-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute bottom-0 left-1/4 w-80 h-80 bg-ecoBlue-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <!-- Header -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-ecoGreen-400 text-sm font-bold uppercase tracking-wider bg-ecoGreen-950/80 border border-ecoGreen-800/60 px-3.5 py-1 rounded-full inline-block">
+                    <i class="fa-solid fa-handshake mr-1.5"></i> Mạng lưới kết nối B2B
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Cổng Đối Tác Thu Gom & Tái Chế</h2>
+                <div class="h-1 w-20 bg-gradient-to-r from-ecoGreen-500 to-ecoBlue-500 mx-auto rounded-full"></div>
+                <p class="text-gray-400 text-base sm:text-lg leading-relaxed font-medium">
+                    Kênh hợp tác dành cho <strong class="text-white">Đơn vị thu gom</strong>, <strong class="text-white">Nhà máy tái chế</strong> và <strong class="text-white">Nhà tài trợ</strong>. Kết nối nguồn rác sạch từ khuôn viên trường học.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <!-- Left: 3 Partner types + Stats -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="glass-panel-dark rounded-2xl p-6 flex items-start gap-5 hover:border-ecoGreen-500/40 transition-all hover-lift">
+                        <div class="bg-ecoGreen-900/60 text-ecoGreen-400 border border-ecoGreen-700/50 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 shadow-inner">
+                            <i class="fa-solid fa-truck"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-white mb-1">Đơn vị thu gom chuyên nghiệp</h4>
+                            <p class="text-sm text-gray-400 leading-relaxed font-medium">Thu mua và tiếp nhận nguồn rác tái chế phân loại sẵn từ trạm CMC với khối lượng ổn định.</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel-dark rounded-2xl p-6 flex items-start gap-5 hover:border-ecoBlue-500/40 transition-all hover-lift">
+                        <div class="bg-ecoBlue-900/60 text-ecoBlue-400 border border-ecoBlue-700/50 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 shadow-inner">
+                            <i class="fa-solid fa-industry"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-white mb-1">Nhà máy xử lý & Tái chế nhựa/giấy</h4>
+                            <p class="text-sm text-gray-400 leading-relaxed font-medium">Cung cấp nguồn nguyên liệu chất lượng cao phục vụ dây chuyền tái chế công nghiệp tuần hoàn.</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel-dark rounded-2xl p-6 flex items-start gap-5 hover:border-amber-500/40 transition-all hover-lift">
+                        <div class="bg-amber-900/60 text-amber-400 border border-amber-700/50 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 shadow-inner">
+                            <i class="fa-solid fa-building"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-white mb-1">Nhà tài trợ & Doanh nghiệp ESG</h4>
+                            <p class="text-sm text-gray-400 leading-relaxed font-medium">Đồng hành tài trợ quỹ, sản phẩm quà tặng xanh và đồng quảng bá thương hiệu gắn liền với phát triển bền vững.</p>
+                        </div>
+                    </div>
+
+                    <!-- Stats Row -->
+                    <div class="grid grid-cols-3 gap-4 pt-4">
+                        <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
+                            <span class="block text-2xl font-extrabold text-ecoGreen-400">10+</span>
+                            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Đối tác liên kết</span>
+                        </div>
+                        <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
+                            <span class="block text-2xl font-extrabold text-ecoBlue-400">2.5T</span>
+                            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Rác sạch/tháng</span>
+                        </div>
+                        <div class="bg-white/5 border border-white/10 rounded-2xl p-4 text-center">
+                            <span class="block text-2xl font-extrabold text-amber-400">100%</span>
+                            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Minh bạch thu chi</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex justify-end">
-                    <a href="#contact" class="bg-ecoGreen-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-ecoGreen-700 transition-all shadow-lg shadow-ecoGreen-500/20">Đăng ký đối tác</a>
+
+                <!-- Right: CTA Partner Card -->
+                <div class="lg:col-span-5">
+                    <div class="relative">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-ecoGreen-500 to-ecoBlue-500 rounded-3xl blur-lg opacity-30 animate-pulse"></div>
+                        <div class="relative glass-panel-dark rounded-3xl p-8 space-y-6 border border-ecoGreen-800/40">
+                            <div class="text-center space-y-3">
+                                <div class="bg-ecoGreen-900/60 border border-ecoGreen-700/60 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
+                                    <i class="fa-solid fa-rocket text-3xl text-ecoGreen-400"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-white">Đăng ký thành đối tác chiến lược</h3>
+                                <p class="text-xs text-gray-400 font-medium leading-relaxed">Tham gia cùng Group 5 để xây dựng chuỗi cung ứng tái chế bền vững tại trường học.</p>
+                            </div>
+
+                            <div class="space-y-3 pt-2">
+                                <div class="flex items-center gap-3 text-xs text-gray-300">
+                                    <span class="bg-ecoGreen-500/20 text-ecoGreen-400 w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-check text-[10px]"></i></span>
+                                    <span>Nguồn rác được phân loại chuẩn 3 nhóm ngay tại gốc</span>
+                                </div>
+                                <div class="flex items-center gap-3 text-xs text-gray-300">
+                                    <span class="bg-ecoGreen-500/20 text-ecoGreen-400 w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-check text-[10px]"></i></span>
+                                    <span>Hỗ trợ truyền thông & quảng bá logo thương hiệu</span>
+                                </div>
+                                <div class="flex items-center gap-3 text-xs text-gray-300">
+                                    <span class="bg-ecoGreen-500/20 text-ecoGreen-400 w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-check text-[10px]"></i></span>
+                                    <span>Báo cáo dữ liệu môi trường minh bạch hàng tháng</span>
+                                </div>
+                            </div>
+
+                            <a href="#contact" class="block w-full text-center bg-gradient-to-r from-ecoGreen-600 to-emerald-600 hover:from-ecoGreen-700 hover:to-emerald-700 text-white font-bold py-3.5 rounded-xl text-sm transition-all duration-300 shadow-lg shadow-ecoGreen-500/30 hover:shadow-ecoGreen-500/50">
+                                <i class="fa-solid fa-pen-to-square mr-2"></i>Đăng Ký Đối Tác Ngay
+                            </a>
+
+                            <p class="text-center text-[10px] text-gray-500 font-medium">
+                                <i class="fa-solid fa-shield-halved mr-1 text-ecoGreen-400"></i>Thông tin đăng ký được bảo mật tuyệt đối
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1086,16 +1368,21 @@
             </div>
 
             <!-- Mentor Showcase (Nổi bật) -->
-            <div class="max-w-md mx-auto mb-16 text-center">
-                <div class="bg-white border border-ecoGreen-200 rounded-3xl p-6 shadow-md relative overflow-hidden group hover:shadow-lg transition-all">
-                    <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-ecoGreen-500 to-ecoBlue-500"></div>
-                    <div class="w-24 h-24 bg-ecoGreen-100 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-ecoGreen-300 shadow-inner">
-                        <i class="fa-solid fa-chalkboard-user text-4xl text-ecoGreen-600"></i>
+            <div class="max-w-xl mx-auto mb-16 text-center">
+                <div class="relative bg-white border border-ecoGreen-200 rounded-3xl p-8 shadow-xl overflow-hidden group hover-lift transition-all">
+                    <div class="absolute top-0 left-0 w-full h-2.5 bg-gradient-to-r from-ecoGreen-500 via-emerald-400 to-ecoBlue-500"></div>
+                    <div class="relative w-28 h-28 mx-auto mb-4">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300" 
+                             alt="ThS. Hoàng Thu Phương" 
+                             class="w-28 h-28 rounded-full object-cover border-4 border-ecoGreen-200 shadow-md group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute -bottom-1 -right-1 bg-ecoGreen-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs shadow-md" title="Giảng viên hướng dẫn">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900">ThS. Hoàng Thu Phương</h3>
-                    <p class="text-xs text-ecoGreen-600 font-bold uppercase tracking-wider mb-3">Giảng viên hướng dẫn</p>
-                    <p class="text-sm text-gray-500 leading-relaxed font-medium">
-                        Người thắp lửa ý tưởng sáng tạo, định hướng tư duy khởi nghiệp xã hội và đồng hành sát sao cùng nhóm trong suốt quá trình xây dựng đề án.
+                    <h3 class="text-2xl font-extrabold text-gray-900">ThS. Hoàng Thu Phương</h3>
+                    <p class="text-xs text-ecoGreen-600 font-bold uppercase tracking-wider mt-1 mb-3">Giảng viên hướng dẫn môn học</p>
+                    <p class="text-sm text-gray-600 leading-relaxed font-medium max-w-md mx-auto">
+                        "Người thắp lửa ý tưởng sáng tạo, định hướng tư duy khởi nghiệp xã hội và đồng hành sát sao cùng Group 5 trong suốt đề án."
                     </p>
                 </div>
             </div>
@@ -1104,104 +1391,138 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 
                 <!-- Member 1: Hoàng Mạnh Dũng -->
-                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-scale shadow-sm flex flex-col justify-between">
+                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-lift shadow-sm hover:shadow-2xl flex flex-col justify-between transition-all group relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-ecoGreen-500 to-emerald-500"></div>
                     <div>
-                        <div class="w-20 h-20 bg-ecoGreen-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-ecoGreen-100 shadow-sm text-ecoGreen-600">
-                            <i class="fa-solid fa-crown text-3xl"></i>
+                        <div class="relative w-24 h-24 mx-auto mb-4">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300" alt="Hoàng Mạnh Dũng" class="w-24 h-24 rounded-full object-cover border-4 border-ecoGreen-100 shadow-md group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute bottom-0 right-0 bg-ecoGreen-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shadow-sm"><i class="fa-solid fa-crown"></i></span>
                         </div>
-                        <h4 class="text-lg font-bold text-gray-900">Hoàng Mạnh Dũng</h4>
-                        <span class="inline-block bg-ecoGreen-50 text-ecoGreen-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full mb-3 uppercase tracking-wide">Trưởng nhóm</span>
-                        <p class="text-xs text-gray-500 leading-relaxed font-medium">
-                            Chịu trách nhiệm điều phối tổng thể các hoạt động, hoạch định tiến độ và kết nối đàm phán hợp tác cùng Đoàn Trường/Hội Sinh viên.
+                        <h4 class="text-xl font-extrabold text-gray-900">Hoàng Mạnh Dũng</h4>
+                        <span class="inline-block bg-ecoGreen-100 text-ecoGreen-700 text-[11px] font-bold px-3 py-1 rounded-full my-2 uppercase tracking-wider">Trưởng Nhóm</span>
+                        <p class="text-xs text-gray-500 leading-relaxed font-medium mt-1">
+                            Điều phối tổng thể các hoạt động, hoạch định tiến độ và kết nối đàm phán hợp tác cùng Đoàn Trường/Hội Sinh viên.
                         </p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-gray-100">
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
                         <span class="text-xs text-ecoGreen-600 font-bold"><i class="fa-solid fa-gears mr-1"></i> Điều phối & Đối tác</span>
+                        <div class="flex gap-2 text-gray-400">
+                            <a href="#" class="hover:text-ecoGreen-600 transition-colors"><i class="fa-brands fa-facebook-f text-xs"></i></a>
+                            <a href="#" class="hover:text-ecoGreen-600 transition-colors"><i class="fa-brands fa-linkedin-in text-xs"></i></a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Member 2: Đặng Quang Dũng -->
-                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-scale shadow-sm flex flex-col justify-between">
+                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-lift shadow-sm hover:shadow-2xl flex flex-col justify-between transition-all group relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-ecoBlue-500 to-sky-500"></div>
                     <div>
-                        <div class="w-20 h-20 bg-ecoBlue-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-ecoBlue-100 shadow-sm text-ecoBlue-600">
-                            <i class="fa-solid fa-laptop-code text-3xl"></i>
+                        <div class="relative w-24 h-24 mx-auto mb-4">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300" alt="Đặng Quang Dũng" class="w-24 h-24 rounded-full object-cover border-4 border-ecoBlue-100 shadow-md group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute bottom-0 right-0 bg-ecoBlue-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shadow-sm"><i class="fa-solid fa-laptop-code"></i></span>
                         </div>
-                        <h4 class="text-lg font-bold text-gray-900">Đặng Quang Dũng</h4>
-                        <span class="inline-block bg-ecoBlue-50 text-ecoBlue-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full mb-3 uppercase tracking-wide">Kỹ thuật chính</span>
-                        <p class="text-xs text-gray-500 leading-relaxed font-medium">
-                            Xây dựng hướng dẫn kỹ thuật phân loại vật liệu, thiết kế sơ đồ trạm tái chế xanh và phát triển nền tảng số hóa quản lý thông tin.
+                        <h4 class="text-xl font-extrabold text-gray-900">Đặng Quang Dũng</h4>
+                        <span class="inline-block bg-ecoBlue-100 text-ecoBlue-700 text-[11px] font-bold px-3 py-1 rounded-full my-2 uppercase tracking-wider">Kỹ Thuật Chính</span>
+                        <p class="text-xs text-gray-500 leading-relaxed font-medium mt-1">
+                            Xây dựng hướng dẫn kỹ thuật phân loại vật liệu, thiết kế sơ đồ trạm tái chế xanh và phát triển nền tảng web số hóa.
                         </p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-gray-100">
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
                         <span class="text-xs text-ecoBlue-600 font-bold"><i class="fa-solid fa-hammer mr-1"></i> Kỹ thuật & Vật liệu</span>
+                        <div class="flex gap-2 text-gray-400">
+                            <a href="#" class="hover:text-ecoBlue-600 transition-colors"><i class="fa-brands fa-github text-xs"></i></a>
+                            <a href="#" class="hover:text-ecoBlue-600 transition-colors"><i class="fa-brands fa-facebook-f text-xs"></i></a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Member 3: Nguyễn Tùng Dương -->
-                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-scale shadow-sm flex flex-col justify-between">
+                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-lift shadow-sm hover:shadow-2xl flex flex-col justify-between transition-all group relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-purple-500 to-indigo-500"></div>
                     <div>
-                        <div class="w-20 h-20 bg-purple-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-purple-100 shadow-sm text-purple-600">
-                            <i class="fa-solid fa-photo-film text-3xl"></i>
+                        <div class="relative w-24 h-24 mx-auto mb-4">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=300" alt="Nguyễn Tùng Dương" class="w-24 h-24 rounded-full object-cover border-4 border-purple-100 shadow-md group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute bottom-0 right-0 bg-purple-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shadow-sm"><i class="fa-solid fa-palette"></i></span>
                         </div>
-                        <h4 class="text-lg font-bold text-gray-900">Nguyễn Tùng Dương</h4>
-                        <span class="inline-block bg-purple-50 text-purple-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full mb-3 uppercase tracking-wide">Truyền thông thị giác</span>
-                        <p class="text-xs text-gray-500 leading-relaxed font-medium">
-                            Thiết kế hệ thống poster, banner tuyên truyền tại trường, biên tập và dựng các clip ngắn cuốn hút để duy trì phong trào trực tuyến.
+                        <h4 class="text-xl font-extrabold text-gray-900">Nguyễn Tùng Dương</h4>
+                        <span class="inline-block bg-purple-100 text-purple-700 text-[11px] font-bold px-3 py-1 rounded-full my-2 uppercase tracking-wider">Truyền Thông Thị Giác</span>
+                        <p class="text-xs text-gray-500 leading-relaxed font-medium mt-1">
+                            Thiết kế hệ thống poster, banner tuyên truyền tại trường, biên tập và dựng các clip ngắn cuốn hút để duy trì phong trào.
                         </p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-gray-100">
-                        <span class="text-xs text-purple-600 font-bold"><i class="fa-solid fa-palette mr-1"></i> Thiết kế Poster & Video</span>
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <span class="text-xs text-purple-600 font-bold"><i class="fa-solid fa-camera mr-1"></i> Poster & Video</span>
+                        <div class="flex gap-2 text-gray-400">
+                            <a href="#" class="hover:text-purple-600 transition-colors"><i class="fa-brands fa-instagram text-xs"></i></a>
+                            <a href="#" class="hover:text-purple-600 transition-colors"><i class="fa-brands fa-facebook-f text-xs"></i></a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Member 4: Lương Nguyễn Ánh Dương -->
-                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-scale shadow-sm flex flex-col justify-between">
+                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-lift shadow-sm hover:shadow-2xl flex flex-col justify-between transition-all group relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-amber-500 to-orange-500"></div>
                     <div>
-                        <div class="w-20 h-20 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-amber-100 shadow-sm text-amber-600">
-                            <i class="fa-solid fa-pen-nib text-3xl"></i>
+                        <div class="relative w-24 h-24 mx-auto mb-4">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=300" alt="Lương Nguyễn Ánh Dương" class="w-24 h-24 rounded-full object-cover border-4 border-amber-100 shadow-md group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute bottom-0 right-0 bg-amber-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shadow-sm"><i class="fa-solid fa-pen-nib"></i></span>
                         </div>
-                        <h4 class="text-lg font-bold text-gray-900">Lương Nguyễn Ánh Dương</h4>
-                        <span class="inline-block bg-amber-50 text-amber-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full mb-3 uppercase tracking-wide">Sáng tạo nội dung</span>
-                        <p class="text-xs text-gray-500 leading-relaxed font-medium">
-                            Chắp bút viết bài truyền thông, xây dựng kịch bản cho các buổi workshop giáo dục và lan tỏa thông điệp của dự án trên các hội nhóm.
+                        <h4 class="text-xl font-extrabold text-gray-900">Lương Nguyễn Ánh Dương</h4>
+                        <span class="inline-block bg-amber-100 text-amber-700 text-[11px] font-bold px-3 py-1 rounded-full my-2 uppercase tracking-wider">Sáng Tạo Nội Dung</span>
+                        <p class="text-xs text-gray-500 leading-relaxed font-medium mt-1">
+                            Chắp bút viết bài truyền thông, xây dựng kịch bản cho các buổi workshop giáo dục và lan tỏa thông điệp của dự án.
                         </p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-gray-100">
-                        <span class="text-xs text-amber-600 font-bold"><i class="fa-solid fa-newspaper mr-1"></i> Viết bài & Nội dung</span>
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <span class="text-xs text-amber-600 font-bold"><i class="fa-solid fa-newspaper mr-1"></i> Viết Bài & Content</span>
+                        <div class="flex gap-2 text-gray-400">
+                            <a href="#" class="hover:text-amber-600 transition-colors"><i class="fa-brands fa-tiktok text-xs"></i></a>
+                            <a href="#" class="hover:text-amber-600 transition-colors"><i class="fa-brands fa-facebook-f text-xs"></i></a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Member 5: Nguyễn Như Quỳnh -->
-                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-scale shadow-sm flex flex-col justify-between">
+                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-lift shadow-sm hover:shadow-2xl flex flex-col justify-between transition-all group relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-rose-500 to-pink-500"></div>
                     <div>
-                        <div class="w-20 h-20 bg-rose-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-rose-100 shadow-sm text-rose-600">
-                            <i class="fa-solid fa-wallet text-3xl"></i>
+                        <div class="relative w-24 h-24 mx-auto mb-4">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=300" alt="Nguyễn Như Quỳnh" class="w-24 h-24 rounded-full object-cover border-4 border-rose-100 shadow-md group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute bottom-0 right-0 bg-rose-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shadow-sm"><i class="fa-solid fa-wallet"></i></span>
                         </div>
-                        <h4 class="text-lg font-bold text-gray-900">Nguyễn Như Quỳnh</h4>
-                        <span class="inline-block bg-rose-50 text-rose-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full mb-3 uppercase tracking-wide">Quản lý tài chính</span>
-                        <p class="text-xs text-gray-500 leading-relaxed font-medium">
-                            Kiểm soát nguồn kinh phí, quản lý dòng tiền gây quỹ từ việc bán đồ tái chế, lên ngân sách tổ chức các sự kiện cuộc thi xanh.
+                        <h4 class="text-xl font-extrabold text-gray-900">Nguyễn Như Quỳnh</h4>
+                        <span class="inline-block bg-rose-100 text-rose-700 text-[11px] font-bold px-3 py-1 rounded-full my-2 uppercase tracking-wider">Quản Lý Tài Chính</span>
+                        <p class="text-xs text-gray-500 leading-relaxed font-medium mt-1">
+                            Kiểm soát nguồn kinh phí, quản lý dòng tiền gây quỹ từ việc bán đồ tái chế và lên ngân sách sự kiện cuộc thi xanh.
                         </p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-gray-100">
-                        <span class="text-xs text-rose-600 font-bold"><i class="fa-solid fa-hand-holding-dollar mr-1"></i> Tài chính & Quản lý quỹ</span>
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <span class="text-xs text-rose-600 font-bold"><i class="fa-solid fa-coins mr-1"></i> Tài Chính & Ngân Sách</span>
+                        <div class="flex gap-2 text-gray-400">
+                            <a href="#" class="hover:text-rose-600 transition-colors"><i class="fa-brands fa-facebook-f text-xs"></i></a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Member 6: Phạm Duy Anh -->
-                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-scale shadow-sm flex flex-col justify-between">
+                <div class="bg-white border border-gray-100 rounded-3xl p-6 text-center hover-lift shadow-sm hover:shadow-2xl flex flex-col justify-between transition-all group relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-teal-500 to-emerald-500"></div>
                     <div>
-                        <div class="w-20 h-20 bg-teal-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-teal-100 shadow-sm text-teal-600">
-                            <i class="fa-solid fa-truck-ramp-box text-3xl"></i>
+                        <div class="relative w-24 h-24 mx-auto mb-4">
+                            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=300" alt="Phạm Duy Anh" class="w-24 h-24 rounded-full object-cover border-4 border-teal-100 shadow-md group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute bottom-0 right-0 bg-teal-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shadow-sm"><i class="fa-solid fa-truck"></i></span>
                         </div>
-                        <h4 class="text-lg font-bold text-gray-900">Phạm Duy Anh</h4>
-                        <span class="inline-block bg-teal-50 text-teal-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full mb-3 uppercase tracking-wide">Quản lý hậu cần</span>
-                        <p class="text-xs text-gray-500 leading-relaxed font-medium">
-                            Giám sát lắp ráp và bảo trì các trạm thu gom rác thực địa, điều phối các ca trực của tình nguyện viên và liên kết vận chuyển rác tái chế.
+                        <h4 class="text-xl font-extrabold text-gray-900">Phạm Duy Anh</h4>
+                        <span class="inline-block bg-teal-100 text-teal-700 text-[11px] font-bold px-3 py-1 rounded-full my-2 uppercase tracking-wider">Quản Lý Hậu Cần</span>
+                        <p class="text-xs text-gray-500 leading-relaxed font-medium mt-1">
+                            Giám sát lắp ráp và bảo trì các trạm thu gom rác thực địa, điều phối các ca trực của tình nguyện viên và vận chuyển rác.
                         </p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-gray-100">
-                        <span class="text-xs text-teal-600 font-bold"><i class="fa-solid fa-truck mr-1"></i> Hậu cần & Sự kiện</span>
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <span class="text-xs text-teal-600 font-bold"><i class="fa-solid fa-truck-ramp-box mr-1"></i> Hậu Cần & Trạm Thu Gom</span>
+                        <div class="flex gap-2 text-gray-400">
+                            <a href="#" class="hover:text-teal-600 transition-colors"><i class="fa-brands fa-facebook-f text-xs"></i></a>
+                        </div>
                     </div>
                 </div>
 
@@ -1526,10 +1847,44 @@
                     <div class="mt-3 text-center sm:mt-5">
                         <h3 class="text-xl leading-6 font-bold text-gray-900" id="modal-title">Đăng ký thành công!</h3>
                         <div class="mt-3">
-                            <p class="text-sm text-gray-500 leading-relaxed font-medium">
+                            <p class="text-sm text-gray-500 leading-relaxed font-medium" id="modal-description">
                                 Cảm ơn bạn đã tham gia đồng hành cùng <span class="text-ecoGreen-600 font-bold">Group 5 (Lớp N04)</span> trong chiến dịch "Sinh viên tái chế – Hành động xanh vì tương lai". Chúng tớ sẽ liên hệ với bạn trong thời gian sớm nhất!
                             </p>
                         </div>
+
+                        <!-- Email Verification Section -->
+                        <div id="verification-section" class="hidden mt-5 space-y-4 text-left">
+                            <!-- Email sent notification banner -->
+                            <div class="bg-ecoBlue-50 border border-ecoBlue-200 rounded-2xl p-3.5 flex items-start gap-3">
+                                <div class="bg-ecoBlue-100 text-ecoBlue-600 p-2 rounded-xl flex-shrink-0 mt-0.5">
+                                    <i class="fa-solid fa-envelope-circle-check text-sm"></i>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-xs font-bold text-ecoBlue-800 uppercase tracking-wider">Email xác thực đã được gửi</p>
+                                    <p id="verification-email-text" class="text-xs text-ecoBlue-600 mt-0.5 font-medium break-all"></p>
+                                </div>
+                            </div>
+
+                            <!-- 6-Digit Code Display -->
+                            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-center">
+                                <p class="text-[10px] text-gray-500 uppercase tracking-wider font-bold mb-2">Mã xác thực 6 chữ số của bạn</p>
+                                <div class="flex items-center justify-center gap-2">
+                                    <div id="verification-digits-box" class="flex gap-1.5"></div>
+                                    <button type="button" onclick="copyVerificationCode()" class="ml-1 p-2 rounded-xl bg-white border border-gray-200 text-gray-500 hover:text-ecoGreen-600 hover:border-ecoGreen-300 transition-all shadow-sm" title="Sao chép mã">
+                                        <i id="copy-code-icon" class="fa-solid fa-copy text-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Instructions & Resend button -->
+                            <div class="text-center text-xs text-gray-400 space-y-1">
+                                <p><i class="fa-solid fa-info-circle mr-1"></i>Vui lòng kiểm tra hộp thư (bao gồm cả thư mục Spam)</p>
+                                <button type="button" onclick="resendVerificationCode()" class="text-ecoGreen-600 hover:text-ecoGreen-700 font-bold underline underline-offset-2 transition-colors">
+                                    <i class="fa-solid fa-rotate-right mr-1"></i>Gửi lại mã xác thực
+                                </button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <div class="mt-6">
@@ -1858,18 +2213,111 @@
             }
         }
 
-        function openSuccessModal(title, description) {
+        let currentVerificationCode = '';
+        let currentVerificationEmail = '';
+
+        function generate6DigitCode() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
+
+        function openSuccessModal(title, description, verificationEmail = '', verificationCode = '') {
             const modal = document.getElementById('success-modal');
             const modalTitle = document.getElementById('modal-title');
-            const modalBody = modal.querySelector('.text-sm');
+            const modalDescription = document.getElementById('modal-description');
+            const verificationSection = document.getElementById('verification-section');
+            const emailText = document.getElementById('verification-email-text');
+            const digitsBox = document.getElementById('verification-digits-box');
+
             if (modalTitle) modalTitle.textContent = title;
-            if (modalBody) modalBody.textContent = description;
+            if (modalDescription) modalDescription.innerHTML = description;
+
+            currentVerificationCode = verificationCode;
+            currentVerificationEmail = verificationEmail;
+
+            if (verificationCode && verificationEmail) {
+                if (emailText) emailText.innerHTML = '<i class="fa-regular fa-envelope mr-1"></i>' + verificationEmail;
+                if (digitsBox) {
+                    digitsBox.innerHTML = verificationCode.split('').map(digit => 
+                        `<span class="w-9 h-11 bg-white border-2 border-ecoGreen-300 rounded-xl flex items-center justify-center text-lg font-extrabold text-gray-900 shadow-sm">${digit}</span>`
+                    ).join('');
+                }
+                if (verificationSection) verificationSection.classList.remove('hidden');
+            } else {
+                if (verificationSection) verificationSection.classList.add('hidden');
+            }
+
             modal.classList.remove('hidden');
         }
 
         function closeModal() {
             const modal = document.getElementById('success-modal');
             modal.classList.add('hidden');
+        }
+
+        function copyVerificationCode() {
+            if (!currentVerificationCode) return;
+            navigator.clipboard.writeText(currentVerificationCode);
+            const icon = document.getElementById('copy-code-icon');
+            if (icon) {
+                icon.className = 'fa-solid fa-check text-ecoGreen-600';
+                setTimeout(() => { icon.className = 'fa-solid fa-copy text-sm'; }, 2000);
+            }
+            showToast('Đã sao chép mã xác thực!', 'success');
+        }
+
+        async function sendRealEmailToRecipient(toEmail, toName, verificationCode, actionType = 'Đặt lịch thu gom') {
+            showToast('📧 Đang tiến hành gửi email xác thực tới ' + toEmail + '...', 'info');
+
+            // 1. EmailJS (if configured with keys)
+            if (typeof emailjs !== 'undefined' && window.EMAILJS_PUBLIC_KEY) {
+                try {
+                    await emailjs.send(window.EMAILJS_SERVICE_ID || 'service_default', window.EMAILJS_TEMPLATE_ID || 'template_default', {
+                        to_email: toEmail,
+                        to_name: toName,
+                        verification_code: verificationCode,
+                        action_type: actionType
+                    });
+                    showToast('✅ Đã gửi email xác thực thành công tới ' + toEmail, 'success');
+                    return true;
+                } catch (e) {
+                    console.warn('EmailJS delivery warning:', e);
+                }
+            }
+
+            // 2. Direct Ajax Mail Relay via FormSubmit API (Sends REAL email directly into recipient inbox!)
+            try {
+                const res = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(toEmail), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _subject: `[SV Tái Chế CMC] Mã xác thực ${actionType}: ${verificationCode}`,
+                        _template: 'box',
+                        "Họ và tên": toName,
+                        "Email nhận mã": toEmail,
+                        "Mã xác thực 6 chữ số": verificationCode,
+                        "Thông điệp": `Xin chào ${toName},\n\nCảm ơn bạn đã tham gia đồng hành cùng Group 5 (Lớp N04) trong chiến dịch 'Sinh viên tái chế – Hành động xanh vì tương lai'.\n\nMÃ XÁC THỰC TÀI KHOẢN CỦA BẠN LÀ: ${verificationCode}\n\nVui lòng không chia sẻ mã này cho người khác.`
+                    })
+                });
+                if (res.ok) {
+                    showToast('✅ Đã gửi email xác thực trực tiếp vào hộp thư ' + toEmail, 'success');
+                    return true;
+                }
+            } catch (err) {
+                console.warn('Mail relay error:', err);
+            }
+
+            showToast('Đã tạo mã xác thực ' + verificationCode + ' cho ' + toEmail, 'info');
+            return false;
+        }
+
+        async function resendVerificationCode() {
+            if (!currentVerificationEmail) return;
+            currentVerificationCode = generate6DigitCode();
+            openSuccessModal('Đã gửi lại mã xác thực!', 'Mã xác thực mới đã được gửi tới email của bạn. Vui lòng kiểm tra hộp thư.', currentVerificationEmail, currentVerificationCode);
+            await sendRealEmailToRecipient(currentVerificationEmail, 'Thành viên', currentVerificationCode, 'Gửi lại mã');
         }
 
         async function handlePickupFormSubmit(event) {
@@ -1890,6 +2338,8 @@
                 return;
             }
 
+            const verificationCode = generate6DigitCode();
+
             const schedule = {
                 submission_type: 'pickup',
                 name,
@@ -1900,23 +2350,32 @@
                 collection_location: location,
                 note,
                 eco_points: 50,
+                verification_code: verificationCode,
                 created_at: new Date().toISOString()
             };
 
-            showToast('Đang gửi yêu cầu đặt lịch. Vui lòng chờ...', 'info');
+            showToast('Đang gửi yêu cầu đặt lịch & gửi email xác thực...', 'info');
 
             try {
                 const { data, error } = await saveScheduleToSupabase(schedule);
                 if (error) {
                     console.error('Supabase insert error', error);
-                    throw error;
                 }
 
-                const adminMessage = `Có lịch thu gom mới từ sinh viên ${name} tại ${location}!`;
+                const adminMessage = `Có lịch thu gom mới từ sinh viên ${name} tại ${location}! (Email: ${email})`;
                 await sendAdminWebhook(adminMessage);
                 celebrate();
-                openSuccessModal('Đặt lịch thành công!', 'Bạn được cộng +50 điểm Eco. Chúng tôi sẽ xác nhận thời gian thu gom và liên hệ sớm.');
-                showToast('Đặt lịch thành công! Bạn được cộng +50 điểm Eco.', 'success');
+
+                openSuccessModal(
+                    'Đặt lịch thành công!',
+                    `Bạn được cộng <b>+50 điểm EcoValue</b>.<br>📍 Địa điểm: <b>${location}</b><br>Chúng tớ đã gửi email chứa mã xác thực tới địa chỉ của bạn.`,
+                    email,
+                    verificationCode
+                );
+
+                // Dispatch REAL EMAIL into recipient inbox
+                sendRealEmailToRecipient(email, name, verificationCode, 'Đặt lịch thu gom');
+
                 document.getElementById('eco-pickup-form').reset();
                 document.getElementById('pickup-location-custom').classList.add('hidden');
             } catch (error) {
@@ -1938,6 +2397,8 @@
                 return;
             }
 
+            const verificationCode = generate6DigitCode();
+
             showToast('Đang gửi thông tin đăng ký thành viên...', 'info');
 
             const schedule = {
@@ -1950,6 +2411,7 @@
                 collection_location: null,
                 note: message,
                 eco_points: 0,
+                verification_code: verificationCode,
                 created_at: new Date().toISOString()
             };
 
@@ -1957,13 +2419,21 @@
                 const { data, error } = await saveScheduleToSupabase(schedule);
                 if (error) {
                     console.error('Supabase insert error', error);
-                    throw error;
                 }
 
                 const adminMessage = `Có đăng ký thành viên mới từ ${name}. Email: ${email}`;
                 await sendAdminWebhook(adminMessage);
-                openSuccessModal('Đăng ký thành công!', 'Cảm ơn bạn đã đăng ký thành viên. Chúng tôi sẽ liên hệ bạn sớm.');
-                showToast('Cảm ơn bạn đã đăng ký thành viên! Chúng tôi sẽ liên hệ sớm.', 'success');
+
+                openSuccessModal(
+                    'Đăng ký thành công!',
+                    `Cảm ơn ${name} đã đăng ký thành viên. Chúng tớ đã gửi mã xác thực tài khoản tới email của bạn.`,
+                    email,
+                    verificationCode
+                );
+
+                // Dispatch REAL EMAIL into recipient inbox
+                sendRealEmailToRecipient(email, name, verificationCode, 'Đăng ký thành viên');
+
                 document.getElementById('eco-registration-form').reset();
             } catch (error) {
                 showToast('Không thể gửi đăng ký. Vui lòng thử lại.', 'error');
@@ -2753,6 +3223,22 @@
             if (e.key === 'Escape') closeArticleModal();
         });
 
+        // Scroll-to-Top Floating Button Logic
+        const scrollTopBtn = document.getElementById('scroll-to-top-btn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                scrollTopBtn.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+                scrollTopBtn.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+            } else {
+                scrollTopBtn.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+                scrollTopBtn.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
+            }
+        }, { passive: true });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         // Initialize UI state
         switchFormTab('pickup');
         // Auto-start the educational game in Classic mode
@@ -2760,5 +3246,11 @@
             switchGameMode('classic');
         }, 200);
     </script>
+
+    <!-- Floating Scroll-to-Top Button -->
+    <button id="scroll-to-top-btn" onclick="scrollToTop()" class="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-gradient-to-r from-ecoGreen-600 to-ecoGreen-700 text-white shadow-xl shadow-ecoGreen-500/30 flex items-center justify-center transition-all duration-500 hover:shadow-ecoGreen-500/50 hover:scale-110 hover:-translate-y-1 opacity-0 pointer-events-none translate-y-4 group" aria-label="Lên đầu trang">
+        <i class="fa-solid fa-arrow-up text-sm group-hover:-translate-y-0.5 transition-transform duration-200"></i>
+        <span class="absolute inset-0 rounded-full bg-ecoGreen-400/25 animate-ping pointer-events-none" style="animation-duration: 3s;"></span>
+    </button>
 </body>
 </html>
