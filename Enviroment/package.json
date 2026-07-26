@@ -1,0 +1,16 @@
+{
+  "name": "sinhvien-taiche-html",
+  "version": "1.0.0",
+  "description": "Dự án Sinh Viên Tái Chế - CMC University",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "build": "echo 'Build successful'"
+  },
+  "dependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
