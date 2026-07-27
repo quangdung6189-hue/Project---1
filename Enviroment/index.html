@@ -4121,6 +4121,17 @@
             return LEVELS.find(l => pts >= l.min && pts <= l.max) || LEVELS[0];
         }
 
+        // Helper to generate valid RFC4122 UUID v4 for PostgreSQL UUID columns
+        function generateUUID() {
+            if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+                return crypto.randomUUID();
+            }
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
         // ============================================================
         // SUPABASE API LAYER — Fully Functional Cloud DB Integration
         // ============================================================
@@ -4129,12 +4140,15 @@
             await new Promise(r => setTimeout(r, 200));
             const db = getDb();
 
-            // 1. SEND OTP — Register user in Supabase Auth with password & send OTP
+            // 1. SEND OTP — Register user in Supabase Auth & create profile row
             if (path === '/auth/send-otp' && method === 'POST') {
                 const { email, password, name } = body;
+                const cleanEmail = email.trim().toLowerCase();
+                let createdUserId = null;
+
                 if (db) {
                     try {
-                        const { data: existing } = await db.from('profiles').select('id').eq('email', email).maybeSingle();
+                        const { data: existing } = await db.from('profiles').select('id').ilike('email', cleanEmail).maybeSingle();
                         if (existing) throw new Error('Email này đã được đăng ký.');
                     } catch (e) {
                         if (e.message && e.message.includes('đã được đăng ký')) throw e;
@@ -4142,30 +4156,49 @@
 
                     // Register user & password directly in Supabase Auth
                     try {
-                        await db.auth.signUp({
-                            email,
+                        const { data: signUpData } = await db.auth.signUp({
+                            email: cleanEmail,
                             password: password || 'EcoValues2026!',
                             options: { data: { full_name: name } }
                         });
+                        if (signUpData?.user) {
+                            createdUserId = signUpData.user.id;
+                        }
                     } catch (e) {
                         console.warn('Supabase Auth signUp note:', e);
+                    }
+
+                    if (!createdUserId) createdUserId = generateUUID();
+
+                    // Pre-insert profile into Supabase profiles table
+                    try {
+                        const { error: upsertErr } = await db.from('profiles').upsert({
+                            id: createdUserId,
+                            email: cleanEmail,
+                            full_name: name,
+                            phone: '',
+                            eco_points: 50,
+                        }, { onConflict: 'email' });
+                        if (upsertErr) console.warn('Supabase profile pre-insert note:', upsertErr.message);
+                    } catch (e) {
+                        console.warn('Supabase profile pre-insert error:', e);
                     }
                 }
 
                 // Generate local 6-digit OTP code
                 lastSentOtp = Math.floor(100000 + Math.random() * 900000).toString();
-                lastSentEmail = email;
+                lastSentEmail = cleanEmail;
 
                 // Send real email via EmailJS fallback
                 try {
-                    await sendRealEmailToRecipient(email, name || 'Thành viên', lastSentOtp, 'Đăng ký tài khoản');
+                    await sendRealEmailToRecipient(cleanEmail, name || 'Thành viên', lastSentOtp, 'Đăng ký tài khoản');
                 } catch (e) {}
 
-                console.log(`%c[EcoValues OTP Code]: ${lastSentOtp} for ${email}`, 'background:#16a34a;color:white;font-size:14px;padding:4px 8px;border-radius:4px;');
+                console.log(`%c[EcoValues OTP Code]: ${lastSentOtp} for ${cleanEmail}`, 'background:#16a34a;color:white;font-size:14px;padding:4px 8px;border-radius:4px;');
                 return { success: true };
             }
 
-            // 2. VERIFY OTP + REGISTER — Verify OTP & create profile
+            // 2. VERIFY OTP + REGISTER — Verify OTP & activate profile
             if (path === '/auth/verify-otp-and-register' && method === 'POST') {
                 const { email, otpCode, fullName, phone, password } = body;
                 const cleanEmail = email.trim().toLowerCase();
@@ -4198,10 +4231,18 @@
                     } catch(e) {}
                 }
 
+                // Lookup existing profile by email in Supabase
+                if (!userId && db) {
+                    try {
+                        const { data: prof } = await db.from('profiles').select('id').ilike('email', cleanEmail).maybeSingle();
+                        if (prof) userId = prof.id;
+                    } catch(e) {}
+                }
+
                 // Fallback to local OTP match if Supabase OTP email is disabled
                 if (!userId) {
                     if (cleanEmail === lastSentEmail?.toLowerCase() && otpCode === lastSentOtp) {
-                        userId = 'usr_' + Math.random().toString(36).substr(2, 9);
+                        userId = generateUUID();
                         sessionToken = 'token_' + btoa(userId);
                     } else {
                         throw new Error('Mã OTP không hợp lệ hoặc đã hết hạn.');
@@ -4211,13 +4252,14 @@
                 // Upsert profile into Supabase profiles table
                 if (db) {
                     try {
-                        await db.from('profiles').upsert({
+                        const { error: saveErr } = await db.from('profiles').upsert({
                             id: userId,
                             email: cleanEmail,
                             full_name: fullName,
                             phone: phone || '',
                             eco_points: 50,
-                        });
+                        }, { onConflict: 'email' });
+                        if (saveErr) console.warn('Supabase profile upsert note:', saveErr.message);
                     } catch (e) {
                         console.warn('Profile save note:', e);
                     }
