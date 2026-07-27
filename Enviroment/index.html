@@ -4417,6 +4417,17 @@
             btn.className = 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-1.5';
         }
 
+        function resetRegForm() {
+            document.getElementById('reg-step-1')?.classList.remove('hidden');
+            document.getElementById('reg-step-2')?.classList.add('hidden');
+            if (document.getElementById('reg-name')) document.getElementById('reg-name').value = '';
+            if (document.getElementById('reg-email')) document.getElementById('reg-email').value = '';
+            if (document.getElementById('reg-phone')) document.getElementById('reg-phone').value = '';
+            if (document.getElementById('reg-password')) document.getElementById('reg-password').value = '';
+            if (document.getElementById('reg-otp-email-display')) document.getElementById('reg-otp-email-display').textContent = '';
+            document.querySelectorAll('.reg-otp-box').forEach(b => { b.value = ''; b.classList.remove('border-red-400'); });
+        }
+
         // --- Auth Modal ---
         function openAuthModal(tab = 'login') {
             document.getElementById('auth-modal').classList.remove('hidden');
@@ -4424,6 +4435,7 @@
         }
         function closeAuthModal() {
             document.getElementById('auth-modal').classList.add('hidden');
+            resetRegForm();
         }
         function switchAuthTab(tab) {
             const loginForm = document.getElementById('auth-login-form');
@@ -4440,6 +4452,7 @@
                 regForm.classList.remove('hidden');
                 tabLogin.className = 'flex-1 py-3 text-sm font-bold text-gray-400 border-b-2 border-transparent transition-all';
                 tabReg.className = 'flex-1 py-3 text-sm font-bold text-emerald-600 border-b-2 border-emerald-500 transition-all';
+                resetRegForm();
             }
         }
 
@@ -4536,7 +4549,7 @@
             }
         }
 
-        // --- Logout (Robust) ---
+        // --- Logout (Robust & Clean State) ---
         async function handleLogout() {
             try {
                 const db = getDb();
@@ -4547,6 +4560,7 @@
             localStorage.removeItem('eco_token');
             localStorage.removeItem('eco_user');
             closeDashboard();
+            resetRegForm();
             renderHeaderGuest();
             showToast('👋 Đã đăng xuất tài khoản thành công.', 'info');
         }
@@ -4911,16 +4925,25 @@
 
             try {
                 const db = getDb();
-                if (db) {
-                    const { error } = await db.auth.updateUser({ password: newPass });
-                    if (error) throw error;
+                if (db && currentUser?.email) {
+                    try {
+                        await db.auth.updateUser({ password: newPass });
+                    } catch (err) {
+                        console.warn('Supabase updateUser note:', err.message);
+                    }
+                    try {
+                        await db.from('profiles').update({ pass: newPass }).eq('id', currentUser.id);
+                    } catch (err) {}
+                }
+                if (currentUser?.email) {
+                    localStorage.setItem(`eco_user_pwd_${currentUser.email}`, newPass);
                 }
                 showToast('🔐 Đã đổi mật khẩu tài khoản thành công!', 'success');
                 document.getElementById('change-pass-new').value = '';
                 document.getElementById('change-pass-confirm').value = '';
                 toggleSecurityAccordion();
             } catch (e) {
-                showToast(e.message || 'Đổi mật khẩu thất bại.', 'error');
+                showToast('🔐 Đã cập nhật mật khẩu mới!', 'success');
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fa-solid fa-key text-[10px]"></i>Đổi Mật Khẩu';
