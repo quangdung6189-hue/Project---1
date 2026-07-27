@@ -4176,6 +4176,7 @@
                     if (e.message && e.message.includes('đăng ký')) throw e;
                 }
 
+                if (db) {
                     // Register user & password directly in Supabase Auth
                     try {
                         const { data: signUpData } = await db.auth.signUp({
