@@ -250,11 +250,12 @@
                     <a href="#contact" class="nav-link hover:text-ecoGreen-600 transition-colors">Liên Hệ</a>
                 </nav>
 
-                <!-- CTA Button Header -->
+                <!-- Auth Button Header -->
                 <div class="hidden md:block">
-                    <a href="#contact" class="bg-gradient-to-r from-ecoGreen-600 to-emerald-600 hover:from-ecoGreen-700 hover:to-emerald-700 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-ecoGreen-500/25 hover:shadow-ecoGreen-500/40 hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2">
-                        <i class="fa-solid fa-leaf text-xs"></i>Tham gia ngay
-                    </a>
+                    <button id="header-auth-btn" onclick="openAuthModal('login')"
+                        class="bg-gradient-to-r from-ecoGreen-600 to-emerald-600 hover:from-ecoGreen-700 hover:to-emerald-700 text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-1.5">
+                        <i class="fa-solid fa-right-to-bracket mr-1.5 text-xs"></i>Đăng nhập
+                    </button>
                 </div>
 
                 <!-- Mobile menu button -->
@@ -4515,18 +4516,18 @@
                 const { pointsAwarded, newTotal } = data.data;
                 currentUser.eco_points = newTotal;
                 renderHeaderMember();
+                populateDashboard();
+                loadRecyclingHistory();
                 showToast(`🎉 +${pointsAwarded} EcoPoints! Tổng: ${newTotal} điểm`, 'success');
                 // Reset form
                 document.getElementById('rec-waste-type').value = '';
                 document.getElementById('rec-weight').value = '';
                 document.getElementById('rec-note').value = '';
                 document.getElementById('rec-image-preview').classList.add('hidden');
-                document.getElementById('rec-image-placeholder').classList.remove('hidden');
+                document.getElementById('rec-image-placeholder').classList.add('hidden');
                 document.getElementById('rec-image-input').value = '';
                 document.getElementById('rec-points-preview').classList.add('hidden');
                 recyclingImageBase64 = null;
-                populateDashboard();
-                loadRecyclingHistory();
             } catch (e) {
                 showToast(e.message || 'Nộp rác thất bại.', 'error');
             } finally {
