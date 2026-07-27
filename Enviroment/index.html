@@ -3971,24 +3971,59 @@
         // MEMBERSHIP SYSTEM — Auth + Dashboard
         // ============================================================
 
-        // Backend API URL — update after deploying on Render
-        const API_BASE = window.location.hostname === 'localhost'
-            ? 'http://localhost:4000/api'
-            : 'https://ecovalues-backend.onrender.com/api';
-
         // Local auth state
         let currentUser = null;
         let authToken = localStorage.getItem('eco_token') || null;
 
-        // --- LOCAL STORAGE DATABASE FOR ZERO COST (FREE FOREVER) ---
+        // Level config (MUST be declared before apiCall and renderHeaderMember)
+        const LEVELS = [
+            { min: 0,    max: 199,  name: 'Mầm Xanh',        icon: '🌱' },
+            { min: 200,  max: 499,  name: 'Chiến Binh Xanh',  icon: '⚡' },
+            { min: 500,  max: 999,  name: 'Đại Sứ Xanh',      icon: '🌿' },
+            { min: 1000, max: 1999, name: 'Anh Hùng Tái Chế', icon: '🏆' },
+            { min: 2000, max: Infinity, name: 'Huyền Thoại Xanh', icon: '💎' },
+        ];
+        const POINTS_TABLE = { plastic: 80, paper: 60, metal: 100, glass: 70, electronic: 150, organic: 40, other: 50 };
+        function getLevel(pts) {
+            return LEVELS.find(l => pts >= l.min && pts <= l.max) || LEVELS[0];
+        }
+
+        // --- LOCAL STORAGE DATABASE (Miễn phí, không cần server) ---
         const DB = {
-            getUsers() { return JSON.parse(localStorage.getItem('eco_users') || '[]'); },
-            saveUsers(users) { localStorage.setItem('eco_users', JSON.stringify(users)); },
+            getUsers()       { return JSON.parse(localStorage.getItem('eco_users') || '[]'); },
+            saveUsers(u)     { localStorage.setItem('eco_users', JSON.stringify(u)); },
             getSubmissions() { return JSON.parse(localStorage.getItem('eco_recycling_submissions') || '[]'); },
-            saveSubmissions(subs) { localStorage.setItem('eco_recycling_submissions', JSON.stringify(subs)); },
-            getOtps() { return JSON.parse(localStorage.getItem('eco_otps') || '[]'); },
-            saveOtps(otps) { localStorage.setItem('eco_otps', JSON.stringify(otps)); }
+            saveSubmissions(s){ localStorage.setItem('eco_recycling_submissions', JSON.stringify(s)); },
+            getOtps()        { return JSON.parse(localStorage.getItem('eco_otps') || '[]'); },
+            saveOtps(o)      { localStorage.setItem('eco_otps', JSON.stringify(o)); }
         };
+
+        // --- Gửi email thật qua EmailJS (không cần server) ---
+        // Để kích hoạt: Đăng ký tài khoản miễn phí tại https://emailjs.com
+        // Sau đó thay 3 giá trị SERVICE_ID, TEMPLATE_ID, PUBLIC_KEY bên dưới
+        const EMAILJS_SERVICE_ID  = 'service_ecovalues'; // Thay bằng Service ID của bạn
+        const EMAILJS_TEMPLATE_ID = 'template_otp';      // Thay bằng Template ID của bạn
+        const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // Thay bằng Public Key của bạn
+
+        async function sendRealEmailToRecipient(toEmail, toName, otpCode, purpose) {
+            // Chỉ gửi email thật nếu EmailJS đã được cấu hình
+            if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+                // Chưa cấu hình EmailJS → Chỉ log ra console, OTP vẫn lưu trong localStorage
+                console.log(`%c[OTP DEBUG] Code: ${otpCode} for ${toEmail}`, 'background:#16a34a;color:white;font-size:14px;padding:4px 8px;border-radius:4px;');
+                return; // Không throw lỗi
+            }
+            // Gửi email thật
+            const params = {
+                to_email: toEmail,
+                to_name: toName,
+                otp_code: otpCode,
+                purpose: purpose,
+            };
+            // emailjs phải được load từ CDN trong <head> (tự động thêm bên dưới)
+            if (window.emailjs) {
+                await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params, EMAILJS_PUBLIC_KEY);
+            }
+        }
 
         // Simulated Local API call layer
         async function apiCall(path, method = 'GET', body = null) {
