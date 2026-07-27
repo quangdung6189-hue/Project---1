@@ -2563,36 +2563,155 @@
                 </div>
             </div>
 
-            <!-- PROFILE TAB -->
-            <div id="dpanel-profile" class="hidden p-4 space-y-4">
+            <!-- PROFILE TAB (SUPERCHARGED UI) -->
+            <div id="dpanel-profile" class="hidden p-4 space-y-5 overflow-y-auto max-h-[calc(100vh-140px)]">
+                
+                <!-- Avatar Avatar Selector -->
+                <div class="bg-gradient-to-br from-emerald-50 via-teal-50 to-ecoGreen-50 p-4 rounded-2xl border border-emerald-100/80 shadow-sm text-center">
+                    <p class="text-xs font-bold text-emerald-800 mb-2 uppercase tracking-wider">
+                        <i class="fa-solid fa-face-smile text-emerald-600 mr-1.5"></i>Chọn Linh Vật / Avatar Xanh
+                    </p>
+                    <div class="flex items-center justify-center gap-2 flex-wrap" id="avatar-picker">
+                        <button onclick="selectAvatarEmoji('🌱')" class="avatar-opt text-xl w-9 h-9 rounded-xl bg-white border border-emerald-200 hover:scale-110 hover:border-emerald-500 transition-all flex items-center justify-center shadow-sm">🌱</button>
+                        <button onclick="selectAvatarEmoji('⚡')" class="avatar-opt text-xl w-9 h-9 rounded-xl bg-white border border-emerald-200 hover:scale-110 hover:border-emerald-500 transition-all flex items-center justify-center shadow-sm">⚡</button>
+                        <button onclick="selectAvatarEmoji('🌿')" class="avatar-opt text-xl w-9 h-9 rounded-xl bg-white border border-emerald-200 hover:scale-110 hover:border-emerald-500 transition-all flex items-center justify-center shadow-sm">🌿</button>
+                        <button onclick="selectAvatarEmoji('💎')" class="avatar-opt text-xl w-9 h-9 rounded-xl bg-white border border-emerald-200 hover:scale-110 hover:border-emerald-500 transition-all flex items-center justify-center shadow-sm">💎</button>
+                        <button onclick="selectAvatarEmoji('🏆')" class="avatar-opt text-xl w-9 h-9 rounded-xl bg-white border border-emerald-200 hover:scale-110 hover:border-emerald-500 transition-all flex items-center justify-center shadow-sm">🏆</button>
+                        <button onclick="selectAvatarEmoji('🦁')" class="avatar-opt text-xl w-9 h-9 rounded-xl bg-white border border-emerald-200 hover:scale-110 hover:border-emerald-500 transition-all flex items-center justify-center shadow-sm">🦁</button>
+                        <button onclick="selectAvatarEmoji('🚀')" class="avatar-opt text-xl w-9 h-9 rounded-xl bg-white border border-emerald-200 hover:scale-110 hover:border-emerald-500 transition-all flex items-center justify-center shadow-sm">🚀</button>
+                        <button onclick="selectAvatarEmoji('🤖')" class="avatar-opt text-xl w-9 h-9 rounded-xl bg-white border border-emerald-200 hover:scale-110 hover:border-emerald-500 transition-all flex items-center justify-center shadow-sm">🤖</button>
+                    </div>
+                </div>
+
+                <!-- Personal Info Form -->
                 <div class="space-y-3">
                     <div>
-                        <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Họ và tên</label>
-                        <input id="profile-name" type="text" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                        <label class="text-xs font-bold text-gray-600 uppercase tracking-wider flex items-center gap-1">
+                            <i class="fa-solid fa-user text-emerald-600 text-xs"></i>Họ và tên *
+                        </label>
+                        <input id="profile-name" type="text" placeholder="Nguyễn Văn A" class="mt-1 w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
                     </div>
+
                     <div>
-                        <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Email</label>
-                        <input id="profile-email" type="email" readonly class="mt-1 w-full border border-gray-100 bg-gray-50 rounded-xl px-3 py-2.5 text-sm text-gray-400 cursor-not-allowed">
+                        <label class="text-xs font-bold text-gray-600 uppercase tracking-wider flex items-center gap-1">
+                            <i class="fa-solid fa-envelope text-emerald-600 text-xs"></i>Email (Đã xác thực)
+                        </label>
+                        <div class="relative mt-1">
+                            <input id="profile-email" type="email" readonly class="w-full border border-gray-100 bg-gray-50 rounded-xl px-3.5 py-2.5 text-sm text-gray-500 font-medium cursor-not-allowed pr-8">
+                            <i class="fa-solid fa-circle-check absolute right-3 top-1/2 -translate-y-1/2 text-emerald-500 text-sm"></i>
+                        </div>
                     </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-xs font-bold text-gray-600 uppercase tracking-wider flex items-center gap-1">
+                                <i class="fa-solid fa-phone text-emerald-600 text-xs"></i>Số điện thoại
+                            </label>
+                            <input id="profile-phone" type="tel" placeholder="0912345678" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-gray-600 uppercase tracking-wider flex items-center gap-1">
+                                <i class="fa-solid fa-graduation-cap text-emerald-600 text-xs"></i>Lớp / Khoa
+                            </label>
+                            <input id="profile-class" type="text" placeholder="Lớp N04 - CMC" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
+                        </div>
+                    </div>
+
                     <div>
-                        <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Số điện thoại</label>
-                        <input id="profile-phone" type="tel" class="mt-1 w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                        <label class="text-xs font-bold text-gray-600 uppercase tracking-wider flex items-center gap-1">
+                            <i class="fa-solid fa-quote-left text-emerald-600 text-xs"></i>Châm ngôn sống xanh
+                        </label>
+                        <input id="profile-bio" type="text" placeholder="Gom từng vỏ chai vì môi trường CMC sạch đẹp!" class="mt-1 w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
                     </div>
-                    <button onclick="saveProfile()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-2.5 rounded-xl text-sm transition-all shadow-md">
-                        <i class="fa-solid fa-floppy-disk mr-2"></i>Lưu thông tin
+
+                    <button onclick="saveProfile()" id="save-profile-btn"
+                        class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold py-3 rounded-xl text-sm transition-all shadow-md shadow-emerald-500/20 hover:shadow-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-floppy-disk"></i>Lưu Thông Tin Cá Nhân
                     </button>
                 </div>
-                <div class="border-t border-gray-100 pt-4 space-y-2">
-                    <p class="text-xs font-bold text-gray-600 uppercase tracking-wider">Tài khoản</p>
-                    <div class="bg-gray-50 rounded-xl p-3 text-xs text-gray-500 space-y-1">
-                        <p><i class="fa-solid fa-calendar mr-2"></i>Ngày tham gia: <span id="profile-joined" class="font-semibold text-gray-700">...</span></p>
-                        <p><i class="fa-solid fa-shield-check mr-2 text-emerald-500"></i>Tài khoản đã xác thực</p>
+
+                <!-- Green Achievements & Badges Showcase -->
+                <div class="border-t border-gray-100 pt-4 space-y-3">
+                    <p class="text-xs font-extrabold text-gray-700 uppercase tracking-wider flex items-center justify-between">
+                        <span><i class="fa-solid fa-award text-amber-500 mr-1.5"></i>Huy Chương Thành Tích</span>
+                        <span id="badge-count" class="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">2/4 Đạt</span>
+                    </p>
+                    <div class="grid grid-cols-2 gap-2" id="profile-achievements">
+                        <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200/80 rounded-xl p-2.5 flex items-center gap-2 shadow-sm">
+                            <span class="text-2xl">🌱</span>
+                            <div>
+                                <p class="text-xs font-extrabold text-emerald-900 leading-tight">Mầm Xanh</p>
+                                <p class="text-[10px] text-emerald-600 font-medium">Đã tham gia dự án</p>
+                            </div>
+                        </div>
+                        <div id="badge-recycler" class="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200/80 rounded-xl p-2.5 flex items-center gap-2 shadow-sm">
+                            <span class="text-2xl">📦</span>
+                            <div>
+                                <p class="text-xs font-extrabold text-emerald-900 leading-tight">Tay Gom Sạch</p>
+                                <p class="text-[10px] text-emerald-600 font-medium">Nộp rác thành công</p>
+                            </div>
+                        </div>
+                        <div id="badge-master" class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 flex items-center gap-2 opacity-50">
+                            <span class="text-2xl filter grayscale">⚡</span>
+                            <div>
+                                <p class="text-xs font-extrabold text-gray-700 leading-tight">Chiến Binh Eco</p>
+                                <p class="text-[10px] text-gray-400 font-medium">Cần 200 điểm</p>
+                            </div>
+                        </div>
+                        <div id="badge-legend" class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 flex items-center gap-2 opacity-50">
+                            <span class="text-2xl filter grayscale">💎</span>
+                            <div>
+                                <p class="text-xs font-extrabold text-gray-700 leading-tight">Huyền Thoại</p>
+                                <p class="text-[10px] text-gray-400 font-medium">Cần 500 điểm</p>
+                            </div>
+                        </div>
                     </div>
+                </div>
+
+                <!-- Security Section: Change Password Accordion -->
+                <div class="border-t border-gray-100 pt-4 space-y-3">
+                    <div class="flex items-center justify-between cursor-pointer" onclick="toggleSecurityAccordion()">
+                        <p class="text-xs font-extrabold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-shield-halved text-emerald-600"></i>Bảo Mật Tài Khoản
+                        </p>
+                        <i id="sec-accordion-icon" class="fa-solid fa-chevron-down text-xs text-gray-400 transition-transform"></i>
+                    </div>
+
+                    <div id="sec-accordion-content" class="hidden bg-gray-50 rounded-2xl p-3.5 space-y-3 border border-gray-200/80">
+                        <div>
+                            <label class="text-[11px] font-bold text-gray-600">Mật khẩu mới</label>
+                            <input id="change-pass-new" type="password" placeholder="Tối thiểu 6 ký tự" class="mt-1 w-full border border-gray-200 bg-white rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-emerald-500">
+                        </div>
+                        <div>
+                            <label class="text-[11px] font-bold text-gray-600">Xác nhận mật khẩu mới</label>
+                            <input id="change-pass-confirm" type="password" placeholder="Nhập lại mật khẩu mới" class="mt-1 w-full border border-gray-200 bg-white rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-emerald-500">
+                        </div>
+                        <button onclick="handleChangePassword()" id="change-pass-btn"
+                            class="w-full bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 rounded-xl text-xs transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                            <i class="fa-solid fa-key text-[10px]"></i>Đổi Mật Khẩu
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Account Info & Logout Button -->
+                <div class="border-t border-gray-100 pt-4 space-y-3">
+                    <div class="bg-gray-50/80 rounded-2xl p-3 text-xs text-gray-500 space-y-1.5 border border-gray-100">
+                        <p class="flex items-center justify-between">
+                            <span><i class="fa-solid fa-calendar-day mr-1.5 text-gray-400"></i>Ngày gia nhập:</span>
+                            <span id="profile-joined" class="font-bold text-gray-800">...</span>
+                        </p>
+                        <p class="flex items-center justify-between">
+                            <span><i class="fa-solid fa-shield-check mr-1.5 text-emerald-500"></i>Trạng thái tài khoản:</span>
+                            <span class="font-bold text-emerald-600 bg-emerald-100/80 px-2 py-0.5 rounded-full text-[10px]">Đã xác thực OTP</span>
+                        </p>
+                    </div>
+
                     <button onclick="handleLogout()"
-                        class="w-full bg-red-50 hover:bg-red-100 border border-red-200 text-red-600 font-bold py-2.5 rounded-xl text-sm transition-all">
-                        <i class="fa-solid fa-right-from-bracket mr-2"></i>Đăng xuất
+                        class="w-full bg-rose-50 hover:bg-rose-100 border border-rose-200/80 text-rose-600 font-extrabold py-3 rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md">
+                        <i class="fa-solid fa-right-from-bracket"></i>Đăng Xuất Tài Khoản
                     </button>
                 </div>
+
             </div>
 
         </div>
@@ -4256,9 +4375,10 @@
             const btn = document.getElementById('header-auth-btn');
             if (!btn) return;
             const level = getLevel(currentUser.eco_points || 0);
+            const avatar = currentUser.avatar_emoji || level.icon;
             btn.innerHTML = `
-                <span class="text-base">${level.icon}</span>
-                <span class="max-w-[80px] truncate font-bold">${currentUser.full_name.split(' ').pop()}</span>
+                <span class="text-base">${avatar}</span>
+                <span class="max-w-[90px] truncate font-bold">${currentUser.full_name ? currentUser.full_name.split(' ').pop() : 'Thành viên'}</span>
                 <span class="bg-white/20 px-1.5 py-0.5 rounded-full text-[10px] font-extrabold">⚡${currentUser.eco_points || 0}</span>
             `;
             btn.onclick = openDashboard;
@@ -4305,7 +4425,7 @@
                 localStorage.setItem('eco_token', authToken);
                 closeAuthModal();
                 renderHeaderMember();
-                showToast(`🎉 Chào mừng trở lại, ${currentUser.full_name.split(' ').pop()}!`, 'success');
+                showToast(`🎉 Chào mừng trở lại, ${currentUser.full_name ? currentUser.full_name.split(' ').pop() : ''}!`, 'success');
             } catch (e) {
                 showToast(e.message || 'Email hoặc mật khẩu không đúng.', 'error');
             } finally {
@@ -4430,17 +4550,29 @@
                 currentUser = data.data;
             } catch {}
 
+            // Load local extended profile if available
+            try {
+                const ext = JSON.parse(localStorage.getItem(`eco_prof_ext_${currentUser.id}`) || '{}');
+                if (ext.avatar_emoji) currentUser.avatar_emoji = ext.avatar_emoji;
+                if (ext.student_class) currentUser.student_class = ext.student_class;
+                if (ext.bio) currentUser.bio = ext.bio;
+            } catch(e) {}
+
             const pts = currentUser.eco_points || 0;
             const level = getLevel(pts);
             const nextLevel = LEVELS[LEVELS.indexOf(level) + 1];
+            const avatarEmoji = currentUser.avatar_emoji || selectedAvatarEmoji || level.icon;
 
-            document.getElementById('dash-name').textContent = currentUser.full_name;
+            document.getElementById('dash-name').textContent = currentUser.full_name || 'Thành viên Eco';
             document.getElementById('dash-email').textContent = currentUser.email;
             document.getElementById('dash-points').textContent = pts;
             document.getElementById('dash-level').textContent = level.name;
             document.getElementById('dash-level-icon').textContent = level.icon;
-            document.getElementById('dash-avatar').textContent = currentUser.full_name.charAt(0).toUpperCase();
+            document.getElementById('dash-avatar').textContent = avatarEmoji;
             document.getElementById('reward-pts-balance').textContent = pts;
+
+            // Highlight avatar picker
+            selectAvatarEmoji(avatarEmoji);
 
             // Level progress
             if (nextLevel) {
@@ -4454,13 +4586,39 @@
                 document.getElementById('level-next-pts').textContent = 'Cấp tối đa!';
             }
 
-            // Profile tab
-            document.getElementById('profile-name').value = currentUser.full_name;
-            document.getElementById('profile-email').value = currentUser.email;
+            // Profile tab inputs
+            document.getElementById('profile-name').value = currentUser.full_name || '';
+            document.getElementById('profile-email').value = currentUser.email || '';
             document.getElementById('profile-phone').value = currentUser.phone || '';
+            if (document.getElementById('profile-class')) document.getElementById('profile-class').value = currentUser.student_class || 'Lớp N04 - CMC';
+            if (document.getElementById('profile-bio')) document.getElementById('profile-bio').value = currentUser.bio || 'Quyết tâm gom vỏ chai vì CMC xanh!';
             if (currentUser.created_at) {
                 document.getElementById('profile-joined').textContent = new Date(currentUser.created_at).toLocaleDateString('vi-VN');
             }
+
+            // Update Achievement Badges
+            let unlockedCount = 2;
+            const masterBadge = document.getElementById('badge-master');
+            const legendBadge = document.getElementById('badge-legend');
+
+            if (masterBadge && pts >= 200) {
+                masterBadge.className = 'bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200/80 rounded-xl p-2.5 flex items-center gap-2 shadow-sm';
+                masterBadge.querySelector('span').className = 'text-2xl';
+                masterBadge.querySelector('p:last-child').className = 'text-[10px] text-amber-600 font-medium';
+                masterBadge.querySelector('p:last-child').textContent = 'Đã đạt thành tựu';
+                unlockedCount++;
+            }
+
+            if (legendBadge && pts >= 500) {
+                legendBadge.className = 'bg-gradient-to-br from-cyan-50 to-blue-50 border border-cyan-200/80 rounded-xl p-2.5 flex items-center gap-2 shadow-sm';
+                legendBadge.querySelector('span').className = 'text-2xl';
+                legendBadge.querySelector('p:last-child').className = 'text-[10px] text-cyan-600 font-medium';
+                legendBadge.querySelector('p:last-child').textContent = 'Huyền thoại xuất sắc';
+                unlockedCount++;
+            }
+
+            const badgeCountEl = document.getElementById('badge-count');
+            if (badgeCountEl) badgeCountEl.textContent = `${unlockedCount}/4 Đạt`;
 
             // Load overview stats
             loadOverviewStats();
@@ -4670,37 +4828,122 @@
             showToast(`🎁 Đã đổi thành công: ${title}! Còn lại ${currentUser.eco_points} pts`, 'success');
         }
 
-        // --- Save Profile ---
-        async function saveProfile() {
-            const fullName = document.getElementById('profile-name').value.trim();
-            const phone = document.getElementById('profile-phone').value.trim();
-            if (!fullName) { showToast('Họ tên không được để trống.', 'error'); return; }
-            try {
-                const data = await apiCall('/auth/profile', 'PUT', { fullName, phone });
-                currentUser = { ...currentUser, ...data.data };
-                renderHeaderMember();
-                showToast('✅ Đã lưu thông tin thành công!', 'success');
-            } catch (e) {
-                showToast(e.message || 'Lưu thất bại.', 'error');
+        // --- Avatar & Security Accordion Helpers ---
+        let selectedAvatarEmoji = '🌱';
+
+        function selectAvatarEmoji(emoji) {
+            selectedAvatarEmoji = emoji;
+            document.querySelectorAll('.avatar-opt').forEach(btn => {
+                if (btn.textContent.trim() === emoji) {
+                    btn.className = 'avatar-opt text-xl w-9 h-9 rounded-xl bg-emerald-100 border-2 border-emerald-500 scale-110 transition-all flex items-center justify-center shadow-md';
+                } else {
+                    btn.className = 'avatar-opt text-xl w-9 h-9 rounded-xl bg-white border border-emerald-200 hover:scale-110 hover:border-emerald-500 transition-all flex items-center justify-center shadow-sm';
+                }
+            });
+            const avatarEl = document.getElementById('dash-avatar');
+            if (avatarEl) avatarEl.textContent = emoji;
+        }
+
+        function toggleSecurityAccordion() {
+            const content = document.getElementById('sec-accordion-content');
+            const icon = document.getElementById('sec-accordion-icon');
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
             }
         }
 
-        // --- Update Header HTML to have the auth button ---
-        (function injectAuthButton() {
-            // Replace the "Tham gia ngay" desktop button
-            const desktopCtaWrap = document.querySelector('header .hidden.md\\:block');
-            if (desktopCtaWrap) {
-                desktopCtaWrap.innerHTML = `
-                    <button id="header-auth-btn"
-                        class="bg-gradient-to-r from-ecoGreen-600 to-emerald-600 hover:from-ecoGreen-700 hover:to-emerald-700 text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-1.5">
-                        <i class="fa-solid fa-right-to-bracket mr-1.5 text-xs"></i>Đăng nhập
-                    </button>`;
+        async function handleChangePassword() {
+            const newPass = document.getElementById('change-pass-new').value;
+            const confirmPass = document.getElementById('change-pass-confirm').value;
+
+            if (!newPass || newPass.length < 6) {
+                showToast('Mật khẩu mới phải có tối thiểu 6 ký tự.', 'error');
+                return;
             }
-        })();
+            if (newPass !== confirmPass) {
+                showToast('Mật khẩu xác nhận không khớp.', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('change-pass-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1.5"></i>Đang đổi mật khẩu...';
+
+            try {
+                const db = getDb();
+                if (db) {
+                    const { error } = await db.auth.updateUser({ password: newPass });
+                    if (error) throw error;
+                }
+                showToast('🔐 Đã đổi mật khẩu tài khoản thành công!', 'success');
+                document.getElementById('change-pass-new').value = '';
+                document.getElementById('change-pass-confirm').value = '';
+                toggleSecurityAccordion();
+            } catch (e) {
+                showToast(e.message || 'Đổi mật khẩu thất bại.', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-key text-[10px]"></i>Đổi Mật Khẩu';
+            }
+        }
+
+        // --- Save Profile ---
+        async function saveProfile() {
+            if (!currentUser) return;
+            const fullName = document.getElementById('profile-name').value.trim();
+            const phone = document.getElementById('profile-phone').value.trim();
+            const studentClass = document.getElementById('profile-class')?.value.trim() || '';
+            const bio = document.getElementById('profile-bio')?.value.trim() || '';
+
+            if (!fullName) { showToast('Họ tên không được để trống.', 'error'); return; }
+
+            const btn = document.getElementById('save-profile-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang lưu...';
+
+            try {
+                const data = await apiCall('/auth/profile', 'PUT', {
+                    fullName,
+                    phone,
+                    studentClass,
+                    bio,
+                    avatarEmoji: selectedAvatarEmoji
+                });
+                currentUser = {
+                    ...currentUser,
+                    full_name: fullName,
+                    phone,
+                    student_class: studentClass,
+                    bio,
+                    avatar_emoji: selectedAvatarEmoji,
+                    ...data.data
+                };
+
+                // Save extended profile fields in local state
+                localStorage.setItem(`eco_prof_ext_${currentUser.id}`, JSON.stringify({
+                    student_class: studentClass,
+                    bio,
+                    avatar_emoji: selectedAvatarEmoji
+                }));
+
+                renderHeaderMember();
+                populateDashboard();
+                showToast('✅ Đã lưu thông tin cá nhân thành công!', 'success');
+                celebrate();
+            } catch (e) {
+                showToast(e.message || 'Lưu thông tin thất bại.', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-floppy-disk mr-2"></i>Lưu Thông Tin Cá Nhân';
+            }
+        }
 
         // Initialize on load
         initAuth();
-
     </script>
 
 
