@@ -3968,14 +3968,19 @@
         }, 200);
 
         // ============================================================
-        // MEMBERSHIP SYSTEM — Auth + Dashboard
+        // MEMBERSHIP SYSTEM — Auth + Dashboard (Supabase Cloud DB)
         // ============================================================
+
+        // ✅ SUPABASE CONFIG — Cloud PostgreSQL miễn phí
+        const SUPABASE_URL = 'https://tuirsbzkhyrqekwvdaji.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_frBNloV_qo-nAOSaLpg8Zg_A67kaOhU';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Local auth state
         let currentUser = null;
-        let authToken = localStorage.getItem('eco_token') || null;
+        let authToken = null;
 
-        // Level config (MUST be declared before apiCall and renderHeaderMember)
+        // Level config
         const LEVELS = [
             { min: 0,    max: 199,  name: 'Mầm Xanh',        icon: '🌱' },
             { min: 200,  max: 499,  name: 'Chiến Binh Xanh',  icon: '⚡' },
@@ -3988,219 +3993,218 @@
             return LEVELS.find(l => pts >= l.min && pts <= l.max) || LEVELS[0];
         }
 
-        // --- LOCAL STORAGE DATABASE (Miễn phí, không cần server) ---
-        const DB = {
-            getUsers()       { return JSON.parse(localStorage.getItem('eco_users') || '[]'); },
-            saveUsers(u)     { localStorage.setItem('eco_users', JSON.stringify(u)); },
-            getSubmissions() { return JSON.parse(localStorage.getItem('eco_recycling_submissions') || '[]'); },
-            saveSubmissions(s){ localStorage.setItem('eco_recycling_submissions', JSON.stringify(s)); },
-            getOtps()        { return JSON.parse(localStorage.getItem('eco_otps') || '[]'); },
-            saveOtps(o)      { localStorage.setItem('eco_otps', JSON.stringify(o)); }
-        };
+        // ============================================================
+        // SUPABASE API LAYER — Thay thế hoàn toàn localStorage mock
+        // ============================================================
 
-        // --- Gửi email thật qua EmailJS (không cần server) ---
-        // Để kích hoạt: Đăng ký tài khoản miễn phí tại https://emailjs.com
-        // Sau đó thay 3 giá trị SERVICE_ID, TEMPLATE_ID, PUBLIC_KEY bên dưới
-        const EMAILJS_SERVICE_ID  = 'service_ecovalues'; // Thay bằng Service ID của bạn
-        const EMAILJS_TEMPLATE_ID = 'template_otp';      // Thay bằng Template ID của bạn
-        const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // Thay bằng Public Key của bạn
-
-        async function sendRealEmailToRecipient(toEmail, toName, otpCode, purpose) {
-            // Chỉ gửi email thật nếu EmailJS đã được cấu hình
-            if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
-                // Chưa cấu hình EmailJS → Chỉ log ra console, OTP vẫn lưu trong localStorage
-                console.log(`%c[OTP DEBUG] Code: ${otpCode} for ${toEmail}`, 'background:#16a34a;color:white;font-size:14px;padding:4px 8px;border-radius:4px;');
-                return; // Không throw lỗi
-            }
-            // Gửi email thật
-            const params = {
-                to_email: toEmail,
-                to_name: toName,
-                otp_code: otpCode,
-                purpose: purpose,
-            };
-            // emailjs phải được load từ CDN trong <head> (tự động thêm bên dưới)
-            if (window.emailjs) {
-                await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params, EMAILJS_PUBLIC_KEY);
-            }
-        }
-
-        // Simulated Local API call layer
+        // Gửi OTP qua Supabase Auth (tự gửi email thật)
         async function apiCall(path, method = 'GET', body = null) {
-            // Add a small artificial network latency (300ms) for high-fidelity loading animations
-            await new Promise(r => setTimeout(r, 300));
+            await new Promise(r => setTimeout(r, 200)); // UX: loading feel
 
-            // 1. SEND OTP
+            // 1. SEND OTP — Supabase tự gửi email OTP về Gmail của người dùng
             if (path === '/auth/send-otp' && method === 'POST') {
                 const { email } = body;
-                const users = DB.getUsers();
-                if (users.find(u => u.email === email)) throw new Error('Email này đã được đăng ký.');
-                
-                // Generate a real OTP code
-                const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
-                const otps = DB.getOtps().filter(o => o.email !== email); // clear old
-                otps.push({ email, code: otpCode, expires: Date.now() + 600000 });
-                DB.saveOtps(otps);
+                // Check email chưa tồn tại trong profiles
+                const { data: existing } = await supabase
+                    .from('profiles')
+                    .select('id')
+                    .eq('email', email)
+                    .maybeSingle();
+                if (existing) throw new Error('Email này đã được đăng ký.');
 
-                // Dispatch real email via FormSubmit or EmailJS if possible, or fallback gracefully
-                try {
-                    await sendRealEmailToRecipient(email, 'Thành viên', otpCode, 'Đăng ký tài khoản');
-                } catch (err) {
-                    console.warn('Real email dispatch failed, fallback to alert.', err);
-                }
-                
-                // For local debug/testing, also log in console
-                console.log(`[EcoValues OTP]: ${otpCode} sent to ${email}`);
-                return { success: true, message: 'Đã gửi mã OTP thành công.' };
-            }
-
-            // 2. VERIFY OTP
-            if (path === '/auth/verify-otp' && method === 'POST') {
-                const { email, otpCode } = body;
-                const otps = DB.getOtps();
-                const record = otps.find(o => o.email === email && o.code === otpCode && o.expires > Date.now());
-                if (!record) throw new Error('Mã OTP không hợp lệ hoặc đã hết hạn.');
+                // Dùng Supabase signInWithOtp để gửi OTP thật về Gmail
+                const { error } = await supabase.auth.signInWithOtp({
+                    email,
+                    options: { shouldCreateUser: true }
+                });
+                if (error) throw new Error(error.message);
                 return { success: true };
             }
 
-            // 3. REGISTER
-            if (path === '/auth/register' && method === 'POST') {
-                const { email, password, fullName, phone } = body;
-                const users = DB.getUsers();
-                if (users.find(u => u.email === email)) throw new Error('Email này đã được đăng ký.');
+            // 2. VERIFY OTP + REGISTER — Supabase verify OTP sau đó cập nhật profile
+            if (path === '/auth/verify-otp-and-register' && method === 'POST') {
+                const { email, otpCode, fullName, phone, password } = body;
 
-                const newUser = {
-                    id: 'usr_' + Math.random().toString(36).substr(2, 9),
+                // Verify OTP với Supabase
+                const { data: verifyData, error: verifyErr } = await supabase.auth.verifyOtp({
                     email,
-                    password, // local plain/hashed
+                    token: otpCode,
+                    type: 'email',
+                });
+                if (verifyErr) throw new Error('Mã OTP không hợp lệ hoặc đã hết hạn.');
+
+                const userId = verifyData.user?.id;
+                if (!userId) throw new Error('Xác thực thất bại.');
+
+                // Cập nhật password nếu có
+                if (password) {
+                    await supabase.auth.updateUser({ password });
+                }
+
+                // Upsert profile với thông tin đầy đủ
+                const { error: profileErr } = await supabase
+                    .from('profiles')
+                    .upsert({
+                        id: userId,
+                        email,
+                        full_name: fullName,
+                        phone,
+                        eco_points: 50, // 50 điểm chào mừng
+                    });
+                if (profileErr) throw new Error('Không thể lưu thông tin: ' + profileErr.message);
+
+                const session = verifyData.session;
+                authToken = session?.access_token || null;
+
+                // Tạo currentUser object
+                const user = {
+                    id: userId,
+                    email,
                     full_name: fullName,
                     phone,
-                    eco_points: 50, // 50 welcome points
-                    created_at: new Date().toISOString()
+                    eco_points: 50,
+                    created_at: new Date().toISOString(),
                 };
-                users.push(newUser);
-                DB.saveUsers(users);
-
-                // Generate mock JWT token
-                const token = 'jwt_' + btoa(newUser.id);
-                return { success: true, data: { user: newUser, token } };
+                return { success: true, data: { user, token: authToken } };
             }
 
-            // 4. LOGIN
+            // 3. LOGIN — Email + Password qua Supabase Auth
             if (path === '/auth/login' && method === 'POST') {
                 const { email, password } = body;
-                const users = DB.getUsers();
-                const user = users.find(u => u.email === email && u.password === password);
-                if (!user) throw new Error('Email hoặc mật khẩu không chính xác.');
+                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+                if (error) throw new Error('Email hoặc mật khẩu không chính xác.');
 
-                const token = 'jwt_' + btoa(user.id);
-                return { success: true, data: { user, token } };
+                authToken = data.session?.access_token;
+                // Lấy profile từ DB
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', data.user.id)
+                    .single();
+
+                const user = profile || {
+                    id: data.user.id,
+                    email: data.user.email,
+                    full_name: data.user.user_metadata?.full_name || data.user.email,
+                    eco_points: 0,
+                };
+                return { success: true, data: { user, token: authToken } };
             }
 
-            // 5. GET PROFILE
+            // 4. GET PROFILE
             if (path === '/auth/profile' && method === 'GET') {
-                if (!authToken) throw new Error('Unauthorized');
-                const userId = atob(authToken.replace('jwt_', ''));
-                const users = DB.getUsers();
-                const user = users.find(u => u.id === userId);
-                if (!user) throw new Error('User not found');
-                return { success: true, data: user };
+                const { data: { user: authUser }, error } = await supabase.auth.getUser();
+                if (error || !authUser) throw new Error('Phiên đăng nhập hết hạn.');
+
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', authUser.id)
+                    .single();
+
+                return { success: true, data: profile || { id: authUser.id, email: authUser.email, full_name: authUser.email, eco_points: 0 } };
             }
 
-            // 6. UPDATE PROFILE
+            // 5. UPDATE PROFILE
             if (path === '/auth/profile' && method === 'PUT') {
-                if (!authToken) throw new Error('Unauthorized');
-                const userId = atob(authToken.replace('jwt_', ''));
+                const { data: { user: authUser } } = await supabase.auth.getUser();
+                if (!authUser) throw new Error('Unauthorized');
+
                 const { fullName, phone } = body;
-                const users = DB.getUsers();
-                const index = users.findIndex(u => u.id === userId);
-                if (index === -1) throw new Error('User not found');
-                
-                users[index].full_name = fullName;
-                users[index].phone = phone;
-                DB.saveUsers(users);
-                return { success: true, data: users[index] };
+                const { data, error } = await supabase
+                    .from('profiles')
+                    .update({ full_name: fullName, phone })
+                    .eq('id', authUser.id)
+                    .select()
+                    .single();
+                if (error) throw new Error('Cập nhật thất bại: ' + error.message);
+                return { success: true, data };
             }
 
-            // 7. SUBMIT RECYCLING
+            // 6. SUBMIT RECYCLING — Lưu vào Supabase + Cộng điểm
             if (path === '/recycling/submit' && method === 'POST') {
-                if (!authToken) throw new Error('Unauthorized');
-                const userId = atob(authToken.replace('jwt_', ''));
-                const { wasteType, estimatedWeight, imageUrl, note } = body;
+                const { data: { user: authUser } } = await supabase.auth.getUser();
+                if (!authUser) throw new Error('Vui lòng đăng nhập lại.');
 
+                const { wasteType, estimatedWeight, imageUrl, note } = body;
                 const basePoints = POINTS_TABLE[wasteType] || 50;
                 const weightMultiplier = Math.min(3, Math.max(1, Math.floor(parseFloat(estimatedWeight) / 3)));
                 const pointsAwarded = basePoints * weightMultiplier;
 
-                // Add to history
-                const submissions = DB.getSubmissions();
-                const newSub = {
-                    id: 'sub_' + Math.random().toString(36).substr(2, 9),
-                    user_id: userId,
-                    waste_type: wasteType,
-                    estimated_weight: parseFloat(estimatedWeight),
-                    image_url: imageUrl,
-                    points_awarded: pointsAwarded,
-                    note,
-                    created_at: new Date().toISOString()
-                };
-                submissions.push(newSub);
-                DB.saveSubmissions(submissions);
+                // Insert submission
+                const { data: sub, error: subErr } = await supabase
+                    .from('recycling_submissions')
+                    .insert({
+                        user_id: authUser.id,
+                        waste_type: wasteType,
+                        estimated_weight: parseFloat(estimatedWeight),
+                        image_url: imageUrl || null,
+                        points_awarded: pointsAwarded,
+                        note: note || null,
+                    })
+                    .select()
+                    .single();
+                if (subErr) throw new Error('Không thể lưu: ' + subErr.message);
 
-                // Update user points
-                const users = DB.getUsers();
-                const uIndex = users.findIndex(u => u.id === userId);
-                if (uIndex !== -1) {
-                    users[uIndex].eco_points = (users[uIndex].eco_points || 0) + pointsAwarded;
-                    DB.saveUsers(users);
+                // Cộng điểm vào profile (increment)
+                const { data: updatedProfile, error: ptErr } = await supabase.rpc('increment_eco_points', {
+                    user_id_param: authUser.id,
+                    points_to_add: pointsAwarded,
+                });
+                // Fallback nếu RPC chưa setup: update trực tiếp
+                if (ptErr) {
+                    const { data: prof } = await supabase.from('profiles').select('eco_points').eq('id', authUser.id).single();
+                    const newPts = (prof?.eco_points || 0) + pointsAwarded;
+                    await supabase.from('profiles').update({ eco_points: newPts }).eq('id', authUser.id);
+                    if (currentUser) currentUser.eco_points = newPts;
+                    return { success: true, data: { submission: sub, pointsAwarded, newTotal: newPts } };
                 }
 
-                return {
-                    success: true,
-                    data: {
-                        submission: newSub,
-                        pointsAwarded,
-                        newTotal: users[uIndex].eco_points
-                    }
-                };
+                const newTotal = updatedProfile;
+                if (currentUser) currentUser.eco_points = newTotal;
+                return { success: true, data: { submission: sub, pointsAwarded, newTotal } };
             }
 
-            // 8. GET RECYCLING HISTORY
+            // 7. GET RECYCLING HISTORY
             if (path.startsWith('/recycling/history') && method === 'GET') {
-                if (!authToken) throw new Error('Unauthorized');
-                const userId = atob(authToken.replace('jwt_', ''));
-                const submissions = DB.getSubmissions().filter(s => s.user_id === userId);
-                
-                // Sort descending by date
-                submissions.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                const { data: { user: authUser } } = await supabase.auth.getUser();
+                if (!authUser) throw new Error('Unauthorized');
+
+                const { data: submissions, error } = await supabase
+                    .from('recycling_submissions')
+                    .select('*')
+                    .eq('user_id', authUser.id)
+                    .order('created_at', { ascending: false })
+                    .limit(20);
+                if (error) throw new Error(error.message);
 
                 return {
                     success: true,
                     data: {
-                        submissions,
-                        pagination: {
-                            total: submissions.length
-                        }
+                        submissions: submissions || [],
+                        pagination: { total: (submissions || []).length }
                     }
                 };
             }
 
-            throw new Error('Endpoint not found');
+            throw new Error('Endpoint not found: ' + path);
         }
 
-        // --- Init: restore session ---
+        // --- Init: restore Supabase session ---
         async function initAuth() {
-            if (!authToken) { renderHeaderGuest(); return; }
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) { renderHeaderGuest(); return; }
+            authToken = session.access_token;
             try {
                 const data = await apiCall('/auth/profile');
                 currentUser = data.data;
                 renderHeaderMember();
             } catch {
-                authToken = null;
-                localStorage.removeItem('eco_token');
                 renderHeaderGuest();
             }
         }
+
+
 
         // --- Header render ---
         function renderHeaderGuest() {
@@ -4315,7 +4319,7 @@
             if (boxes[0]) boxes[0].focus();
         }
 
-        // --- Register: Step 2 — Verify OTP + Create Account ---
+        // --- Register: Step 2 — Verify Supabase OTP + Create Account ---
         async function verifyAndRegister() {
             const email = document.getElementById('reg-email').value.trim();
             const name = document.getElementById('reg-name').value.trim();
@@ -4327,17 +4331,15 @@
             const btn = document.getElementById('reg-verify-btn');
             btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang xác thực...';
             try {
-                // Verify OTP
-                await apiCall('/auth/verify-otp', 'POST', { email, otpCode });
-                // Register
-                const data = await apiCall('/auth/register', 'POST', { email, password, fullName: name, phone });
-                authToken = data.data.token;
+                // Supabase: verify OTP + tạo profile trong 1 bước
+                const data = await apiCall('/auth/verify-otp-and-register', 'POST', {
+                    email, otpCode, fullName: name, phone, password
+                });
                 currentUser = data.data.user;
-                localStorage.setItem('eco_token', authToken);
+                authToken = data.data.token;
                 closeAuthModal();
                 renderHeaderMember();
                 showToast(`🎉 Chào mừng bạn gia nhập EcoValues, ${name.split(' ').pop()}! +50 điểm khởi đầu!`, 'success');
-                // Award welcome points
                 setTimeout(() => openDashboard(), 800);
             } catch (e) {
                 showToast(e.message || 'Xác thực thất bại. Kiểm tra lại mã OTP.', 'error');
@@ -4347,11 +4349,11 @@
             }
         }
 
-        // --- Logout ---
-        function handleLogout() {
+        // --- Logout (Supabase) ---
+        async function handleLogout() {
+            await supabase.auth.signOut();
             authToken = null;
             currentUser = null;
-            localStorage.removeItem('eco_token');
             closeDashboard();
             renderHeaderGuest();
             showToast('Đã đăng xuất thành công.', 'info');
