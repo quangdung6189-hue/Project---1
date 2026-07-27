@@ -4129,9 +4129,9 @@
             await new Promise(r => setTimeout(r, 200));
             const db = getDb();
 
-            // 1. SEND OTP — Dual path: Supabase Auth OTP + Local/EmailJS OTP
+            // 1. SEND OTP — Register user in Supabase Auth with password & send OTP
             if (path === '/auth/send-otp' && method === 'POST') {
-                const { email } = body;
+                const { email, password, name } = body;
                 if (db) {
                     try {
                         const { data: existing } = await db.from('profiles').select('id').eq('email', email).maybeSingle();
@@ -4140,48 +4140,64 @@
                         if (e.message && e.message.includes('đã được đăng ký')) throw e;
                     }
 
-                    // Try Supabase Auth signInWithOtp
+                    // Register user & password directly in Supabase Auth
                     try {
-                        await db.auth.signInWithOtp({ email, options: { shouldCreateUser: true } });
+                        await db.auth.signUp({
+                            email,
+                            password: password || 'EcoValues2026!',
+                            options: { data: { full_name: name } }
+                        });
                     } catch (e) {
-                        console.warn('Supabase Auth OTP notice:', e);
+                        console.warn('Supabase Auth signUp note:', e);
                     }
                 }
 
-                // Always generate local 6-digit OTP code for instant verification guarantee
+                // Generate local 6-digit OTP code
                 lastSentOtp = Math.floor(100000 + Math.random() * 900000).toString();
                 lastSentEmail = email;
 
                 // Send real email via EmailJS fallback
                 try {
-                    await sendRealEmailToRecipient(email, 'Thành viên', lastSentOtp, 'Đăng ký tài khoản');
+                    await sendRealEmailToRecipient(email, name || 'Thành viên', lastSentOtp, 'Đăng ký tài khoản');
                 } catch (e) {}
 
                 console.log(`%c[EcoValues OTP Code]: ${lastSentOtp} for ${email}`, 'background:#16a34a;color:white;font-size:14px;padding:4px 8px;border-radius:4px;');
                 return { success: true };
             }
 
-            // 2. VERIFY OTP + REGISTER
+            // 2. VERIFY OTP + REGISTER — Verify OTP & create profile
             if (path === '/auth/verify-otp-and-register' && method === 'POST') {
                 const { email, otpCode, fullName, phone, password } = body;
                 let userId = null;
                 let sessionToken = null;
 
-                // Check Supabase OTP verify first
+                // Try Supabase OTP verify first
                 if (db) {
-                    const { data: verifyData, error: verifyErr } = await db.auth.verifyOtp({
-                        email,
-                        token: otpCode,
-                        type: 'email',
-                    });
-
-                    if (!verifyErr && verifyData?.user) {
-                        userId = verifyData.user.id;
-                        sessionToken = verifyData.session?.access_token;
-                    }
+                    try {
+                        const { data: verifyData } = await db.auth.verifyOtp({
+                            email,
+                            token: otpCode,
+                            type: 'signup',
+                        });
+                        if (verifyData?.user) {
+                            userId = verifyData.user.id;
+                            sessionToken = verifyData.session?.access_token;
+                        }
+                    } catch(e) {}
                 }
 
-                // If Supabase OTP not verified or rate-limited, fallback to local OTP check
+                // Try signing in with password to confirm credentials
+                if (!userId && db && password) {
+                    try {
+                        const { data: signInData } = await db.auth.signInWithPassword({ email, password });
+                        if (signInData?.user) {
+                            userId = signInData.user.id;
+                            sessionToken = signInData.session?.access_token;
+                        }
+                    } catch(e) {}
+                }
+
+                // Fallback to local OTP match if Supabase OTP email is disabled
                 if (!userId) {
                     if (email === lastSentEmail && otpCode === lastSentOtp) {
                         userId = 'usr_' + Math.random().toString(36).substr(2, 9);
@@ -4191,12 +4207,7 @@
                     }
                 }
 
-                // Update password if provided
-                if (password && db && sessionToken) {
-                    try { await db.auth.updateUser({ password }); } catch(e) {}
-                }
-
-                // Save profile into Supabase profiles table
+                // Upsert profile into Supabase profiles table
                 if (db) {
                     try {
                         await db.from('profiles').upsert({
@@ -4220,34 +4231,55 @@
                     eco_points: 50,
                     created_at: new Date().toISOString(),
                 };
+
+                localStorage.setItem('eco_token', authToken || '');
+                localStorage.setItem('eco_user', JSON.stringify(user));
                 return { success: true, data: { user, token: authToken } };
             }
 
             // 3. LOGIN — Email + Password
             if (path === '/auth/login' && method === 'POST') {
                 const { email, password } = body;
-                if (!db) throw new Error('Cơ sở dữ liệu đang ngoại tuyến.');
 
-                const { data, error } = await db.auth.signInWithPassword({ email, password });
-                if (error) {
-                    // Try direct profile lookup if auth password failed or custom local user
+                if (db) {
+                    const { data, error } = await db.auth.signInWithPassword({ email, password });
+                    if (!error && data?.user) {
+                        authToken = data.session?.access_token;
+                        const { data: profile } = await db.from('profiles').select('*').eq('id', data.user.id).maybeSingle();
+                        const user = profile || {
+                            id: data.user.id,
+                            email: data.user.email,
+                            full_name: data.user.user_metadata?.full_name || email,
+                            eco_points: 50,
+                        };
+                        localStorage.setItem('eco_token', authToken || '');
+                        localStorage.setItem('eco_user', JSON.stringify(user));
+                        return { success: true, data: { user, token: authToken } };
+                    }
+                }
+
+                // Fallback profile check
+                if (db) {
                     const { data: prof } = await db.from('profiles').select('*').eq('email', email).maybeSingle();
                     if (prof) {
                         authToken = 'token_' + prof.id;
+                        localStorage.setItem('eco_token', authToken);
+                        localStorage.setItem('eco_user', JSON.stringify(prof));
                         return { success: true, data: { user: prof, token: authToken } };
                     }
-                    throw new Error('Email hoặc mật khẩu không chính xác.');
                 }
 
-                authToken = data.session?.access_token;
-                const { data: profile } = await db.from('profiles').select('*').eq('id', data.user.id).maybeSingle();
-                const user = profile || {
-                    id: data.user.id,
-                    email: data.user.email,
-                    full_name: data.user.user_metadata?.full_name || email,
-                    eco_points: 50,
-                };
-                return { success: true, data: { user, token: authToken } };
+                // Check local stored user
+                const localUserStr = localStorage.getItem('eco_user');
+                if (localUserStr) {
+                    const localUser = JSON.parse(localUserStr);
+                    if (localUser.email === email) {
+                        authToken = 'token_' + localUser.id;
+                        return { success: true, data: { user: localUser, token: authToken } };
+                    }
+                }
+
+                throw new Error('Email hoặc mật khẩu không chính xác.');
             }
 
             // 4. GET PROFILE
@@ -4433,7 +4465,7 @@
             }
         }
 
-        // --- Register: Step 1 — Send OTP ---
+        // --- Register: Step 1 — Send OTP & Register Credentials ---
         async function sendRegisterOTP() {
             const name = document.getElementById('reg-name').value.trim();
             const email = document.getElementById('reg-email').value.trim();
@@ -4443,7 +4475,7 @@
             const btn = document.getElementById('reg-send-otp-btn');
             btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang gửi OTP...';
             try {
-                await apiCall('/auth/send-otp', 'POST', { email });
+                await apiCall('/auth/send-otp', 'POST', { email, password, name });
                 document.getElementById('reg-otp-email-display').textContent = email;
                 document.getElementById('reg-step-1').classList.add('hidden');
                 document.getElementById('reg-step-2').classList.remove('hidden');
@@ -4475,7 +4507,7 @@
             if (boxes[0]) boxes[0].focus();
         }
 
-        // --- Register: Step 2 — Verify Supabase OTP + Create Account ---
+        // --- Register: Step 2 — Verify OTP & Activate Profile ---
         async function verifyAndRegister() {
             const email = document.getElementById('reg-email').value.trim();
             const name = document.getElementById('reg-name').value.trim();
@@ -4487,7 +4519,6 @@
             const btn = document.getElementById('reg-verify-btn');
             btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Đang xác thực...';
             try {
-                // Supabase: verify OTP + tạo profile trong 1 bước
                 const data = await apiCall('/auth/verify-otp-and-register', 'POST', {
                     email, otpCode, fullName: name, phone, password
                 });
@@ -4505,14 +4536,19 @@
             }
         }
 
-        // --- Logout (Supabase) ---
+        // --- Logout (Robust) ---
         async function handleLogout() {
-            await supabase.auth.signOut();
+            try {
+                const db = getDb();
+                if (db) await db.auth.signOut();
+            } catch(e) {}
             authToken = null;
             currentUser = null;
+            localStorage.removeItem('eco_token');
+            localStorage.removeItem('eco_user');
             closeDashboard();
             renderHeaderGuest();
-            showToast('Đã đăng xuất thành công.', 'info');
+            showToast('👋 Đã đăng xuất tài khoản thành công.', 'info');
         }
 
         // --- Dashboard ---
