@@ -2446,6 +2446,54 @@
 
             <!-- OVERVIEW TAB -->
             <div id="dpanel-overview" class="p-4 space-y-4">
+                <!-- Daily Check-in & Flame Streak Card -->
+                <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-emerald-600 rounded-2xl p-3.5 text-white shadow-lg relative overflow-hidden flex items-center justify-between">
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-1.5 mb-1">
+                            <span class="bg-white/20 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold flex items-center gap-1">
+                                <i class="fa-solid fa-fire text-amber-300 animate-bounce"></i> <span id="dash-streak-count">🔥 1 ngày chuỗi</span>
+                            </span>
+                        </div>
+                        <p class="text-xs font-extrabold">Điểm danh xanh hôm nay!</p>
+                        <p class="text-[10px] text-amber-100 font-medium">Duy trì liên tục để x2 điểm thưởng</p>
+                    </div>
+                    <button onclick="handleDailyCheckin()" id="daily-checkin-btn"
+                        class="relative z-10 bg-white hover:bg-amber-50 text-orange-600 font-extrabold px-3 py-2 rounded-xl text-xs shadow-md transition-all flex items-center gap-1 hover:scale-105 active:scale-95 flex-shrink-0">
+                        <i class="fa-solid fa-calendar-check text-emerald-600"></i>
+                        <span id="checkin-btn-text">+10 Pts</span>
+                    </button>
+                </div>
+
+                <!-- Eco Plant Companion Widget -->
+                <div class="bg-gradient-to-br from-emerald-50 via-teal-50 to-green-50 border border-emerald-200/80 rounded-2xl p-3.5 shadow-sm relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                            <span class="text-xs font-extrabold text-emerald-900">Cây Xanh Ảo Của Bạn</span>
+                        </div>
+                        <span id="plant-stage-badge" class="text-[10px] font-extrabold bg-emerald-200/70 text-emerald-800 px-2.5 py-0.5 rounded-full">🌱 Mầm Non</span>
+                    </div>
+                    <div class="flex items-center justify-between px-2 py-1">
+                        <!-- Plant Avatar & Bubble -->
+                        <div class="relative text-center flex-1">
+                            <div id="plant-speech-bubble" class="absolute -top-7 left-1/2 -translate-x-1/2 bg-white text-emerald-900 text-[10px] font-bold px-2.5 py-1 rounded-full shadow-md whitespace-nowrap border border-emerald-200 transition-all">
+                                Tưới nước cho tớ nhé! 💧
+                            </div>
+                            <div id="plant-emoji" class="text-5xl transition-all duration-300 transform hover:scale-125 cursor-pointer mt-3" onclick="waterPlant()">
+                                🌱
+                            </div>
+                        </div>
+                        <!-- Water Control Button -->
+                        <div class="space-y-1 text-right flex-shrink-0">
+                            <p class="text-[10px] text-gray-500 font-semibold">Chăm sóc mỗi ngày</p>
+                            <button onclick="waterPlant()" id="water-plant-btn"
+                                class="bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white text-xs font-extrabold px-3 py-2 rounded-xl shadow-md hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center gap-1.5">
+                                <i class="fa-solid fa-droplet text-blue-200 animate-pulse"></i> Tưới nước (+15 pts)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Stats grid -->
                 <div class="grid grid-cols-3 gap-2">
                     <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-3 text-center">
@@ -2557,6 +2605,27 @@
                     <p id="reward-pts-balance" class="text-3xl font-extrabold">0</p>
                     <p class="text-xs opacity-80">EcoPoints</p>
                 </div>
+
+                <!-- Lucky Wheel Widget Card -->
+                <div class="bg-gradient-to-br from-purple-700 via-indigo-600 to-pink-600 rounded-2xl p-4 text-white text-center shadow-lg relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="bg-white/20 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full">🎡 Vòng Quay Eco</span>
+                        <span class="text-[10px] text-pink-200 font-bold">20 Pts / Lần</span>
+                    </div>
+                    <!-- Wheel Visual Box -->
+                    <div class="relative w-40 h-40 mx-auto my-2">
+                        <canvas id="lucky-wheel-canvas" width="160" height="160" class="w-full h-full rounded-full shadow-xl border-4 border-amber-300/80 transition-transform duration-300"></canvas>
+                        <!-- Pointer Arrow -->
+                        <div class="absolute -top-2 left-1/2 -translate-x-1/2 text-yellow-300 text-2xl font-extrabold z-10 drop-shadow-md">
+                            ▼
+                        </div>
+                    </div>
+                    <button onclick="spinLuckyWheel()" id="spin-wheel-btn"
+                        class="mt-2 w-full bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-500 hover:to-yellow-500 text-gray-900 font-extrabold py-2.5 rounded-xl text-xs shadow-md hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-1.5">
+                        <span>🎲 Quay Thử Vòng Quay (-20 Pts)</span>
+                    </button>
+                </div>
+
                 <!-- Reward catalog -->
                 <div id="reward-catalog" class="space-y-3">
                     <!-- Populated by JS -->
@@ -4803,8 +4872,244 @@
             const badgeCountEl = document.getElementById('badge-count');
             if (badgeCountEl) badgeCountEl.textContent = `${unlockedCount}/4 Đạt`;
 
+            // Update Daily Checkin Streak UI
+            updateCheckinStreakUI();
+
+            // Update Plant Companion UI
+            updatePlantUI();
+
+            // Init Lucky Wheel Canvas
+            initLuckyWheel();
+
             // Load overview stats
             loadOverviewStats();
+        }
+
+        // --- FEATURE 1: Daily Check-in & Flame Streak ---
+        function updateCheckinStreakUI() {
+            if (!currentUser) return;
+            const today = new Date().toISOString().split('T')[0];
+            const checkinKey = `eco_checkin_${currentUser.id}`;
+            const streakKey = `eco_streak_${currentUser.id}`;
+
+            const lastCheckin = localStorage.getItem(checkinKey);
+            const streakCount = parseInt(localStorage.getItem(streakKey) || '1');
+
+            const streakEl = document.getElementById('dash-streak-count');
+            if (streakEl) streakEl.textContent = `🔥 ${streakCount} ngày chuỗi`;
+
+            const btn = document.getElementById('daily-checkin-btn');
+            const btnText = document.getElementById('checkin-btn-text');
+
+            if (lastCheckin === today) {
+                if (btn) btn.className = 'relative z-10 bg-emerald-100 text-emerald-800 font-extrabold px-3 py-2 rounded-xl text-xs shadow-none flex items-center gap-1 cursor-default opacity-80';
+                if (btnText) btnText.textContent = 'Đã điểm danh ✔️';
+            } else {
+                if (btn) btn.className = 'relative z-10 bg-white hover:bg-amber-50 text-orange-600 font-extrabold px-3 py-2 rounded-xl text-xs shadow-md transition-all flex items-center gap-1 hover:scale-105 active:scale-95 flex-shrink-0';
+                if (btnText) btnText.textContent = '+10 Pts';
+            }
+        }
+
+        async function handleDailyCheckin() {
+            if (!currentUser) return;
+            const today = new Date().toISOString().split('T')[0];
+            const checkinKey = `eco_checkin_${currentUser.id}`;
+            const streakKey = `eco_streak_${currentUser.id}`;
+
+            const lastCheckin = localStorage.getItem(checkinKey);
+            if (lastCheckin === today) {
+                showToast('🔥 Bạn đã điểm danh hôm nay rồi! Vui lòng quay lại vào ngày mai.', 'info');
+                return;
+            }
+
+            let streak = parseInt(localStorage.getItem(streakKey) || '0');
+            const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+
+            if (lastCheckin === yesterday) {
+                streak += 1;
+            } else {
+                streak = 1;
+            }
+
+            localStorage.setItem(checkinKey, today);
+            localStorage.setItem(streakKey, streak.toString());
+
+            currentUser.eco_points = (currentUser.eco_points || 0) + 10;
+            renderHeaderMember();
+            populateDashboard();
+
+            showToast(`🎉 Điểm danh thành công! +10 EcoPoints & duy trì chuỗi 🔥 ${streak} ngày!`, 'success');
+        }
+
+        // --- FEATURE 2: Eco Plant Companion ---
+        function updatePlantUI() {
+            if (!currentUser) return;
+            const pts = currentUser.eco_points || 0;
+            const plantEmoji = document.getElementById('plant-emoji');
+            const badge = document.getElementById('plant-stage-badge');
+            const bubble = document.getElementById('plant-speech-bubble');
+
+            if (!plantEmoji || !badge || !bubble) return;
+
+            if (pts < 100) {
+                plantEmoji.textContent = '🌱';
+                badge.textContent = '🌱 Mầm Non';
+                bubble.textContent = 'Tưới nước cho tớ nhé! 💧';
+            } else if (pts < 300) {
+                plantEmoji.textContent = '🌿';
+                badge.textContent = '🌿 Cây Xanh';
+                bubble.textContent = 'Tớ đang lớn rất nhanh! ✨';
+            } else if (pts < 600) {
+                plantEmoji.textContent = '🌸';
+                badge.textContent = '🌸 Cây Nở Hoa';
+                bubble.textContent = 'Tớ đã nở hoa rực rỡ! 🌺';
+            } else {
+                plantEmoji.textContent = '🌳';
+                badge.textContent = '🌳 Thần Rừng';
+                bubble.textContent = 'Bạn là Đại Sứ Thần Rừng! 👑';
+            }
+        }
+
+        function waterPlant() {
+            if (!currentUser) return;
+            const today = new Date().toISOString().split('T')[0];
+            const waterKey = `eco_water_${currentUser.id}_${today}`;
+
+            const waterCount = parseInt(localStorage.getItem(waterKey) || '0');
+            if (waterCount >= 3) {
+                showToast('💧 Cây của bạn đã đủ nước hôm nay rồi! Hãy tưới tiếp vào ngày mai nhé.', 'info');
+                return;
+            }
+
+            localStorage.setItem(waterKey, (waterCount + 1).toString());
+            currentUser.eco_points = (currentUser.eco_points || 0) + 15;
+
+            const plantEmoji = document.getElementById('plant-emoji');
+            const bubble = document.getElementById('plant-speech-bubble');
+
+            if (plantEmoji) {
+                plantEmoji.classList.add('animate-bounce');
+                setTimeout(() => plantEmoji.classList.remove('animate-bounce'), 1000);
+            }
+            if (bubble) {
+                bubble.textContent = 'Cảm ơn bạn! Cây tươi xanh 💧🌱';
+            }
+
+            renderHeaderMember();
+            populateDashboard();
+            showToast('💧 Đã tưới nước cho cây xanh! +15 EcoPoints!', 'success');
+        }
+
+        // --- FEATURE 3: Eco Lucky Wheel ---
+        const WHEEL_PRIZES = [
+            { label: '+50 Pts', points: 50, color: '#10b981' },
+            { label: '🧋 Voucher 30K', points: 0, color: '#8b5cf6' },
+            { label: '🎁 Quà Mini', points: 0, color: '#ec4899' },
+            { label: '+100 Pts', points: 100, color: '#f59e0b' },
+            { label: '🎟️ X2 Điểm', points: 0, color: '#3b82f6' },
+            { label: '🍀 May Mắn', points: 10, color: '#f97316' },
+        ];
+        let isSpinning = false;
+        let wheelAngle = 0;
+
+        function initLuckyWheel() {
+            const canvas = document.getElementById('lucky-wheel-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const numSlices = WHEEL_PRIZES.length;
+            const sliceAngle = (2 * Math.PI) / numSlices;
+            const radius = canvas.width / 2;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < numSlices; i++) {
+                const angle = i * sliceAngle + wheelAngle;
+                ctx.beginPath();
+                ctx.fillStyle = WHEEL_PRIZES[i].color;
+                ctx.moveTo(radius, radius);
+                ctx.arc(radius, radius, radius, angle, angle + sliceAngle);
+                ctx.lineTo(radius, radius);
+                ctx.fill();
+
+                // Draw label text
+                ctx.save();
+                ctx.translate(radius, radius);
+                ctx.rotate(angle + sliceAngle / 2);
+                ctx.textAlign = 'right';
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 11px Inter, sans-serif';
+                ctx.fillText(WHEEL_PRIZES[i].label, radius - 10, 4);
+                ctx.restore();
+            }
+
+            // Draw center cap
+            ctx.beginPath();
+            ctx.fillStyle = '#ffffff';
+            ctx.arc(radius, radius, 16, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#10b981';
+            ctx.font = 'bold 12px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('ECO', radius, radius);
+        }
+
+        async function spinLuckyWheel() {
+            if (!currentUser) return;
+            if (isSpinning) return;
+            const pts = currentUser.eco_points || 0;
+            if (pts < 20) {
+                showToast('Bạn cần tối thiểu 20 EcoPoints để quay vòng quay!', 'error');
+                return;
+            }
+
+            isSpinning = true;
+            currentUser.eco_points -= 20;
+            renderHeaderMember();
+            document.getElementById('reward-pts-balance').textContent = currentUser.eco_points;
+
+            const btn = document.getElementById('spin-wheel-btn');
+            if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i>Đang quay...'; }
+
+            // Choose winning index
+            const winIdx = Math.floor(Math.random() * WHEEL_PRIZES.length);
+            const prize = WHEEL_PRIZES[winIdx];
+
+            // Calculate target angle
+            const numSlices = WHEEL_PRIZES.length;
+            const sliceAngle = (2 * Math.PI) / numSlices;
+            const targetRotation = (3 * 2 * Math.PI) + ((numSlices - winIdx - 0.5) * sliceAngle);
+
+            const startAngle = wheelAngle;
+            const startTime = performance.now();
+            const duration = 3000;
+
+            function animateSpin(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease out cubic
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                wheelAngle = startAngle + targetRotation * easeOut;
+
+                initLuckyWheel();
+
+                if (progress < 1) {
+                    requestAnimationFrame(animateSpin);
+                } else {
+                    isSpinning = false;
+                    if (btn) { btn.disabled = false; btn.innerHTML = '<span>🎲 Quay Thử Vòng Quay (-20 Pts)</span>'; }
+
+                    if (prize.points > 0) {
+                        currentUser.eco_points += prize.points;
+                        renderHeaderMember();
+                        populateDashboard();
+                    }
+
+                    showToast(`🎉 CHÚC MỪNG! Bạn đã trúng phần thưởng: ${prize.label}!`, 'success');
+                }
+            }
+
+            requestAnimationFrame(animateSpin);
         }
 
         async function loadOverviewStats() {
