@@ -4168,6 +4168,7 @@
             // 2. VERIFY OTP + REGISTER — Verify OTP & create profile
             if (path === '/auth/verify-otp-and-register' && method === 'POST') {
                 const { email, otpCode, fullName, phone, password } = body;
+                const cleanEmail = email.trim().toLowerCase();
                 let userId = null;
                 let sessionToken = null;
 
@@ -4175,7 +4176,7 @@
                 if (db) {
                     try {
                         const { data: verifyData } = await db.auth.verifyOtp({
-                            email,
+                            email: cleanEmail,
                             token: otpCode,
                             type: 'signup',
                         });
@@ -4189,7 +4190,7 @@
                 // Try signing in with password to confirm credentials
                 if (!userId && db && password) {
                     try {
-                        const { data: signInData } = await db.auth.signInWithPassword({ email, password });
+                        const { data: signInData } = await db.auth.signInWithPassword({ email: cleanEmail, password });
                         if (signInData?.user) {
                             userId = signInData.user.id;
                             sessionToken = signInData.session?.access_token;
@@ -4199,7 +4200,7 @@
 
                 // Fallback to local OTP match if Supabase OTP email is disabled
                 if (!userId) {
-                    if (email === lastSentEmail && otpCode === lastSentOtp) {
+                    if (cleanEmail === lastSentEmail?.toLowerCase() && otpCode === lastSentOtp) {
                         userId = 'usr_' + Math.random().toString(36).substr(2, 9);
                         sessionToken = 'token_' + btoa(userId);
                     } else {
@@ -4212,7 +4213,7 @@
                     try {
                         await db.from('profiles').upsert({
                             id: userId,
-                            email,
+                            email: cleanEmail,
                             full_name: fullName,
                             phone: phone || '',
                             eco_points: 50,
@@ -4222,17 +4223,24 @@
                     }
                 }
 
-                authToken = sessionToken;
+                authToken = sessionToken || ('token_' + userId);
                 const user = {
                     id: userId,
-                    email,
+                    email: cleanEmail,
                     full_name: fullName,
                     phone: phone || '',
                     eco_points: 50,
                     created_at: new Date().toISOString(),
                 };
 
-                localStorage.setItem('eco_token', authToken || '');
+                // Store in local accounts registry
+                try {
+                    const registry = JSON.parse(localStorage.getItem('eco_accounts_registry') || '{}');
+                    registry[cleanEmail] = { user, token: authToken, password };
+                    localStorage.setItem('eco_accounts_registry', JSON.stringify(registry));
+                } catch(e) {}
+
+                localStorage.setItem('eco_token', authToken);
                 localStorage.setItem('eco_user', JSON.stringify(user));
                 return { success: true, data: { user, token: authToken } };
             }
@@ -4240,46 +4248,73 @@
             // 3. LOGIN — Email + Password
             if (path === '/auth/login' && method === 'POST') {
                 const { email, password } = body;
+                const cleanEmail = email.trim().toLowerCase();
+                let user = null;
+                let token = null;
 
+                // 1. Supabase Auth signInWithPassword
                 if (db) {
-                    const { data, error } = await db.auth.signInWithPassword({ email, password });
-                    if (!error && data?.user) {
-                        authToken = data.session?.access_token;
-                        const { data: profile } = await db.from('profiles').select('*').eq('id', data.user.id).maybeSingle();
-                        const user = profile || {
-                            id: data.user.id,
-                            email: data.user.email,
-                            full_name: data.user.user_metadata?.full_name || email,
-                            eco_points: 50,
-                        };
-                        localStorage.setItem('eco_token', authToken || '');
-                        localStorage.setItem('eco_user', JSON.stringify(user));
-                        return { success: true, data: { user, token: authToken } };
-                    }
+                    try {
+                        const { data, error } = await db.auth.signInWithPassword({ email: cleanEmail, password });
+                        if (!error && data?.user) {
+                            token = data.session?.access_token;
+                            const { data: profile } = await db.from('profiles').select('*').ilike('email', cleanEmail).maybeSingle();
+                            user = profile || {
+                                id: data.user.id,
+                                email: data.user.email,
+                                full_name: data.user.user_metadata?.full_name || cleanEmail,
+                                eco_points: 50,
+                            };
+                        }
+                    } catch(e) {}
                 }
 
-                // Fallback profile check
-                if (db) {
-                    const { data: prof } = await db.from('profiles').select('*').eq('email', email).maybeSingle();
-                    if (prof) {
-                        authToken = 'token_' + prof.id;
-                        localStorage.setItem('eco_token', authToken);
-                        localStorage.setItem('eco_user', JSON.stringify(prof));
-                        return { success: true, data: { user: prof, token: authToken } };
-                    }
+                // 2. Supabase DB Profiles Table Lookup (case-insensitive)
+                if (!user && db) {
+                    try {
+                        const { data: prof } = await db.from('profiles').select('*').ilike('email', cleanEmail).maybeSingle();
+                        if (prof) {
+                            user = prof;
+                            token = 'token_' + prof.id;
+                        }
+                    } catch(e) {}
                 }
 
-                // Check local stored user
-                const localUserStr = localStorage.getItem('eco_user');
-                if (localUserStr) {
-                    const localUser = JSON.parse(localUserStr);
-                    if (localUser.email === email) {
-                        authToken = 'token_' + localUser.id;
-                        return { success: true, data: { user: localUser, token: authToken } };
-                    }
+                // 3. Local accounts registry lookup
+                if (!user) {
+                    try {
+                        const registry = JSON.parse(localStorage.getItem('eco_accounts_registry') || '{}');
+                        const acc = registry[cleanEmail];
+                        if (acc) {
+                            user = acc.user;
+                            token = acc.token || ('token_' + user.id);
+                        }
+                    } catch(e) {}
                 }
 
-                throw new Error('Email hoặc mật khẩu không chính xác.');
+                // 4. Stored single user fallback
+                if (!user) {
+                    try {
+                        const localUserStr = localStorage.getItem('eco_user');
+                        if (localUserStr) {
+                            const localUser = JSON.parse(localUserStr);
+                            if (localUser.email?.toLowerCase() === cleanEmail) {
+                                user = localUser;
+                                token = 'token_' + localUser.id;
+                            }
+                        }
+                    } catch(e) {}
+                }
+
+                if (!user) {
+                    throw new Error('Email hoặc mật khẩu không chính xác.');
+                }
+
+                authToken = token;
+                currentUser = user;
+                localStorage.setItem('eco_token', authToken);
+                localStorage.setItem('eco_user', JSON.stringify(currentUser));
+                return { success: true, data: { user, token: authToken } };
             }
 
             // 4. GET PROFILE
