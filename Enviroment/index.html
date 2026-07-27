@@ -2397,65 +2397,83 @@
     <div id="dashboard-overlay" class="hidden fixed inset-0 z-[55] bg-gray-900/50 backdrop-blur-sm" onclick="closeDashboard()"></div>
 
     <!-- Dashboard Panel -->
-    <div id="member-dashboard" class="fixed top-0 right-0 h-full w-full max-w-sm bg-white shadow-2xl z-[56] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
-        <!-- Dashboard Header -->
-        <div class="bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-600 p-5 text-white flex-shrink-0">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="font-extrabold text-base">Trang cá nhân</h3>
-                <button onclick="closeDashboard()" class="text-white/70 hover:text-white transition-colors">
-                    <i class="fa-solid fa-xmark text-xl"></i>
+    <!-- MEMBER DASHBOARD DRAWER (EXPANDED MODERN UI) -->
+    <div id="member-dashboard" class="fixed top-0 right-0 h-full w-full sm:w-[540px] md:w-[620px] bg-white shadow-2xl z-[56] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col font-sans">
+        <!-- Dashboard Header (Futuristic Glassmorphism) -->
+        <div class="bg-gradient-to-br from-emerald-700 via-teal-700 to-cyan-700 p-6 sm:p-7 text-white flex-shrink-0 relative overflow-hidden shadow-lg">
+            <!-- Background Ambient Glow -->
+            <div class="absolute -top-12 -right-12 w-48 h-48 bg-emerald-400/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-cyan-400/20 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div class="flex items-center justify-between mb-5 relative z-10">
+                <div class="flex items-center gap-2">
+                    <span class="bg-white/20 text-white text-[10px] font-extrabold px-3 py-1 rounded-full border border-white/30 uppercase tracking-widest flex items-center gap-1.5">
+                        <i class="fa-solid fa-id-card text-amber-300"></i> Thành Viên EcoValues
+                    </span>
+                </div>
+                <button onclick="closeDashboard()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80 hover:text-white transition-all shadow-sm">
+                    <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
-            <!-- User info card -->
-            <div class="flex items-center gap-3">
-                <div id="dash-avatar" class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center text-2xl font-extrabold border-2 border-white/30">
-                    ?
+
+            <!-- User Info Card -->
+            <div class="flex items-center gap-4 relative z-10">
+                <div class="relative">
+                    <div id="dash-avatar" class="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-3xl font-extrabold border-2 border-white/40 shadow-inner">
+                        🌱
+                    </div>
+                    <span class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-400 border-2 border-emerald-800 rounded-full" title="Tài khoản hoạt động"></span>
                 </div>
-                <div class="min-w-0">
-                    <p id="dash-name" class="font-extrabold text-sm truncate">...</p>
-                    <p id="dash-email" class="text-emerald-100 text-xs truncate">...</p>
+                <div class="min-w-0 flex-1">
+                    <h3 id="dash-name" class="font-black text-lg sm:text-xl truncate text-white tracking-tight">Loading...</h3>
+                    <p id="dash-email" class="text-emerald-100/90 text-xs sm:text-sm truncate font-medium">...</p>
                 </div>
             </div>
-            <!-- Points & Level -->
-            <div class="mt-3 flex items-center gap-3">
-                <div class="bg-white/15 rounded-2xl px-3 py-2 flex items-center gap-2 flex-1">
-                    <i class="fa-solid fa-bolt text-yellow-300 text-sm"></i>
+
+            <!-- Points & Level Metrics -->
+            <div class="mt-5 grid grid-cols-2 gap-3 relative z-10">
+                <div class="bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-3.5 flex items-center gap-3 shadow-sm">
+                    <div class="w-10 h-10 rounded-xl bg-amber-400/20 border border-amber-300/40 flex items-center justify-center text-amber-300 text-lg shadow-inner">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
                     <div>
-                        <p id="dash-points" class="text-lg font-extrabold leading-none">0</p>
-                        <p class="text-emerald-100 text-[10px]">EcoPoints</p>
+                        <p id="dash-points" class="text-xl sm:text-2xl font-black leading-none text-white">0</p>
+                        <p class="text-emerald-100 text-[11px] font-semibold mt-0.5">EcoPoints</p>
                     </div>
                 </div>
-                <div class="bg-white/15 rounded-2xl px-3 py-2 flex items-center gap-2 flex-1">
-                    <span id="dash-level-icon" class="text-base">🌱</span>
+                <div class="bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-3.5 flex items-center gap-3 shadow-sm">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-400/20 border border-emerald-300/40 flex items-center justify-center text-emerald-200 text-lg shadow-inner">
+                        <span id="dash-level-icon">🌱</span>
+                    </div>
                     <div>
-                        <p id="dash-level" class="text-xs font-bold leading-none">Mầm Xanh</p>
-                        <p class="text-emerald-100 text-[10px]">Cấp độ</p>
+                        <p id="dash-level" class="text-xs sm:text-sm font-extrabold leading-none text-white">Mầm Xanh</p>
+                        <p class="text-emerald-100 text-[11px] font-semibold mt-0.5">Cấp độ thành viên</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Tab Nav -->
-        <div class="flex border-b border-gray-100 flex-shrink-0 bg-white">
+        <!-- Tab Navigation Bar (Modern Pill Design) -->
+        <div class="flex border-b border-gray-100 flex-shrink-0 bg-gray-50/80 p-2 gap-1.5">
             <button onclick="switchDashTab('overview')" id="dtab-overview"
-                class="flex-1 py-2.5 text-xs font-bold text-emerald-600 border-b-2 border-emerald-500">
-                <i class="fa-solid fa-house block text-base mb-0.5"></i>Tổng quan
+                class="flex-1 py-2.5 px-2 rounded-xl text-xs sm:text-sm font-bold text-emerald-700 bg-white shadow-sm border border-gray-100 transition-all flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-house text-emerald-600"></i><span>Tổng quan</span>
             </button>
             <button onclick="switchDashTab('submit')" id="dtab-submit"
-                class="flex-1 py-2.5 text-xs font-bold text-gray-400 border-b-2 border-transparent">
-                <i class="fa-solid fa-camera block text-base mb-0.5"></i>Nộp rác
+                class="flex-1 py-2.5 px-2 rounded-xl text-xs sm:text-sm font-bold text-gray-500 hover:text-gray-800 transition-all flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-camera"></i><span>Nộp rác</span>
             </button>
             <button onclick="switchDashTab('rewards')" id="dtab-rewards"
-                class="flex-1 py-2.5 text-xs font-bold text-gray-400 border-b-2 border-transparent">
-                <i class="fa-solid fa-gift block text-base mb-0.5"></i>Đổi quà
+                class="flex-1 py-2.5 px-2 rounded-xl text-xs sm:text-sm font-bold text-gray-500 hover:text-gray-800 transition-all flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-gift"></i><span>Đổi quà</span>
             </button>
             <button onclick="switchDashTab('profile')" id="dtab-profile"
-                class="flex-1 py-2.5 text-xs font-bold text-gray-400 border-b-2 border-transparent">
-                <i class="fa-solid fa-user block text-base mb-0.5"></i>Hồ sơ
+                class="flex-1 py-2.5 px-2 rounded-xl text-xs sm:text-sm font-bold text-gray-500 hover:text-gray-800 transition-all flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-user"></i><span>Hồ sơ</span>
             </button>
         </div>
 
-        <!-- Tab Contents -->
+        <!-- Tab Contents (Spacious & Clean) -->
         <div class="flex-1 overflow-y-auto">
 
             <!-- OVERVIEW TAB -->
@@ -2608,35 +2626,41 @@
             </div>
 
             <!-- REWARDS TAB -->
-            <div id="dpanel-rewards" class="hidden p-4 space-y-4">
-                <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3 text-center">
-                    <p class="text-sm font-bold text-amber-800">🎁 Kho quà EcoValues</p>
-                    <p class="text-xs text-amber-600 mt-0.5">Dùng EcoPoints để đổi quà hấp dẫn</p>
-                </div>
-                <!-- My points balance -->
-                <div class="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl p-4 text-white text-center">
-                    <p class="text-xs opacity-80">Điểm hiện tại</p>
-                    <p id="reward-pts-balance" class="text-3xl font-extrabold">0</p>
-                    <p class="text-xs opacity-80">EcoPoints</p>
+            <div id="dpanel-rewards" class="hidden p-5 sm:p-6 space-y-5">
+                <div class="bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-amber-500/10 border border-amber-200/80 rounded-2xl p-4 text-center">
+                    <p class="text-sm font-bold text-amber-900 flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-gift text-amber-600"></i> <span>Kho quà EcoValues</span>
+                    </p>
+                    <p class="text-xs text-amber-700 mt-1">Sử dụng điểm tích lũy EcoPoints để nhận các phần quà hấp dẫn</p>
                 </div>
 
-                <!-- Lucky Wheel Widget Card -->
-                <div class="bg-gradient-to-br from-purple-700 via-indigo-600 to-pink-600 rounded-2xl p-4 text-white text-center shadow-lg relative overflow-hidden">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="bg-white/20 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full">🎡 Vòng Quay Eco</span>
-                        <span class="text-[10px] text-pink-200 font-bold">20 Pts / Lần</span>
+                <!-- My points balance -->
+                <div class="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 rounded-2xl p-5 text-white text-center shadow-md relative overflow-hidden">
+                    <p class="text-xs text-emerald-100 uppercase tracking-widest font-bold">Điểm hiện tại của bạn</p>
+                    <p id="reward-pts-balance" class="text-4xl sm:text-5xl font-black my-1 text-yellow-300 drop-shadow-sm">0</p>
+                    <p class="text-xs text-emerald-100 font-semibold">EcoPoints khả dụng</p>
+                </div>
+
+                <!-- Lucky Wheel Widget Card (EXPANDED & HIGH END) -->
+                <div class="bg-gradient-to-br from-purple-800 via-indigo-700 to-pink-700 rounded-3xl p-5 sm:p-6 text-white text-center shadow-xl relative overflow-hidden border border-purple-400/30">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="bg-white/20 text-white text-xs font-extrabold px-3 py-1 rounded-full border border-white/30 flex items-center gap-1">
+                            <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> Vòng Quay Eco May Mắn
+                        </span>
+                        <span class="text-xs text-pink-200 font-bold bg-pink-500/30 px-2.5 py-1 rounded-full border border-pink-400/40">20 Pts / Lần</span>
                     </div>
-                    <!-- Wheel Visual Box -->
-                    <div class="relative w-40 h-40 mx-auto my-2">
-                        <canvas id="lucky-wheel-canvas" width="160" height="160" class="w-full h-full rounded-full shadow-xl border-4 border-amber-300/80 transition-transform duration-300"></canvas>
+                    <!-- Wheel Visual Box (220px Canvas) -->
+                    <div class="relative w-56 h-56 mx-auto my-3">
+                        <canvas id="lucky-wheel-canvas" width="220" height="220" class="w-full h-full rounded-full shadow-2xl border-4 border-amber-300 transition-transform duration-300"></canvas>
                         <!-- Pointer Arrow -->
-                        <div class="absolute -top-2 left-1/2 -translate-x-1/2 text-yellow-300 text-2xl font-extrabold z-10 drop-shadow-md">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 text-yellow-300 text-3xl font-black z-10 drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)]">
                             ▼
                         </div>
                     </div>
                     <button onclick="spinLuckyWheel()" id="spin-wheel-btn"
-                        class="mt-2 w-full bg-gradient-to-r from-amber-400 to-yellow-400 hover:from-amber-500 hover:to-yellow-500 text-gray-900 font-extrabold py-2.5 rounded-xl text-xs shadow-md hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-1.5">
-                        <span>🎲 Quay Thử Vòng Quay (-20 Pts)</span>
+                        class="mt-3 w-full bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-500 hover:to-yellow-500 text-gray-950 font-black py-3 rounded-2xl text-sm shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-dice text-base"></i>
+                        <span>Quay Thử Vòng Quay (-20 EcoPoints)</span>
                     </button>
                 </div>
 
@@ -4949,11 +4973,11 @@
             ['overview','submit','rewards','profile'].forEach(t => {
                 document.getElementById(`dpanel-${t}`).classList.add('hidden');
                 const btn = document.getElementById(`dtab-${t}`);
-                btn.className = 'flex-1 py-2.5 text-xs font-bold text-gray-400 border-b-2 border-transparent';
+                if (btn) btn.className = 'flex-1 py-2.5 px-2 rounded-xl text-xs sm:text-sm font-bold text-gray-500 hover:text-gray-800 transition-all flex items-center justify-center gap-1.5';
             });
             document.getElementById(`dpanel-${tab}`).classList.remove('hidden');
             const activeBtn = document.getElementById(`dtab-${tab}`);
-            activeBtn.className = 'flex-1 py-2.5 text-xs font-bold text-emerald-600 border-b-2 border-emerald-500';
+            if (activeBtn) activeBtn.className = 'flex-1 py-2.5 px-2 rounded-xl text-xs sm:text-sm font-bold text-emerald-700 bg-white shadow-sm border border-gray-100 transition-all flex items-center justify-center gap-1.5';
 
             if (tab === 'submit') loadRecyclingHistory();
             if (tab === 'rewards') loadRewardCatalog();
