@@ -881,6 +881,16 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
+                            <!-- Sound SFX Toggle Button -->
+                            <button onclick="toggleGameSound()" id="game-sound-btn" class="bg-white/10 hover:bg-white/20 text-xs font-bold px-2.5 py-1 rounded-full text-white/90 transition-all flex items-center gap-1" title="Bật/Tắt Âm Thanh Game">
+                                <i id="sound-icon" class="fa-solid fa-volume-high text-emerald-300"></i> <span id="sound-text">Âm thanh</span>
+                            </button>
+
+                            <!-- Convert Game Score to Real EcoPoints Button -->
+                            <button onclick="convertGameScoreToPoints()" id="game-convert-btn" class="bg-gradient-to-r from-amber-400 to-yellow-400 text-gray-900 text-xs font-extrabold px-3 py-1 rounded-full shadow-md hover:scale-105 transition-all flex items-center gap-1">
+                                <i class="fa-solid fa-bolt text-xs"></i> <span>Quy đổi EcoPoints</span>
+                            </button>
+
                             <span id="game-timer-display" class="hidden text-xs font-bold text-cyan-300">
                                 <i class="fa-solid fa-hourglass-half mr-1"></i><span id="game-timer">60</span>s
                             </span>
@@ -900,10 +910,11 @@
 
                     <!-- Game board -->
                     <div id="game-board" class="space-y-5">
-                        <!-- Object to sort -->
-                        <div id="waste-card" class="flex flex-col items-center justify-center py-8 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 transition-all duration-300">
-                            <p class="text-xs text-ecoGreen-300 uppercase tracking-widest font-semibold mb-2">
-                                <span id="item-counter" class="bg-white/10 px-2 py-0.5 rounded-full">Vật phẩm #1</span>
+                        <!-- Object to sort (Interactive Draggable Card) -->
+                        <div id="waste-card" draggable="true" ondragstart="handleDragStart(event)" class="flex flex-col items-center justify-center py-8 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 transition-all duration-300 cursor-grab active:cursor-grabbing hover:bg-white/15">
+                            <p class="text-xs text-ecoGreen-300 uppercase tracking-widest font-semibold mb-2 flex items-center gap-2">
+                                <span id="item-counter" class="bg-white/10 px-2.5 py-0.5 rounded-full">Vật phẩm #1</span>
+                                <span class="bg-emerald-500/20 text-emerald-300 text-[10px] px-2 py-0.5 rounded-full font-bold"><i class="fa-solid fa-hand-pointer mr-1"></i>Có thể kéo thả</span>
                             </p>
                             <div id="waste-item-container" class="flex flex-col items-center">
                                 <i id="waste-icon" class="fa-solid fa-bottle-water text-6xl text-ecoBlue-300 transition-all duration-300"></i>
@@ -912,10 +923,11 @@
                             </div>
                         </div>
 
-                        <!-- Waste Bins -->
+                        <!-- Waste Bins (Drop Targets + Keyboard Shortcut Labels) -->
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                             <!-- Recyclable Bin -->
-                            <button onclick="checkSort('recyclable')" id="bin-recyclable" class="bin-btn bg-ecoBlue-600 hover:bg-ecoBlue-700 border-2 border-ecoBlue-400/50 rounded-2xl p-4 flex flex-col items-center space-y-2 shadow-lg transition-all duration-200 active:scale-95 group">
+                            <button onclick="checkSort('recyclable')" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'recyclable')" id="bin-recyclable" class="bin-btn bg-ecoBlue-600 hover:bg-ecoBlue-700 border-2 border-ecoBlue-400/50 rounded-2xl p-4 flex flex-col items-center space-y-2 shadow-lg transition-all duration-200 active:scale-95 group relative">
+                                <span class="absolute top-2 right-2 bg-white/20 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded border border-white/30">[Phím 1 / 🡨]</span>
                                 <div class="bg-white/10 p-3 rounded-xl group-hover:scale-110 transition-transform duration-200">
                                     <i class="fa-solid fa-recycle text-3xl text-white"></i>
                                 </div>
@@ -924,7 +936,8 @@
                             </button>
 
                             <!-- Organic Bin -->
-                            <button onclick="checkSort('organic')" id="bin-organic" class="bin-btn bg-ecoGreen-600 hover:bg-ecoGreen-700 border-2 border-ecoGreen-400/50 rounded-2xl p-4 flex flex-col items-center space-y-2 shadow-lg transition-all duration-200 active:scale-95 group">
+                            <button onclick="checkSort('organic')" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'organic')" id="bin-organic" class="bin-btn bg-ecoGreen-600 hover:bg-ecoGreen-700 border-2 border-ecoGreen-400/50 rounded-2xl p-4 flex flex-col items-center space-y-2 shadow-lg transition-all duration-200 active:scale-95 group relative">
+                                <span class="absolute top-2 right-2 bg-white/20 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded border border-white/30">[Phím 2 / 🡫]</span>
                                 <div class="bg-white/10 p-3 rounded-xl group-hover:scale-110 transition-transform duration-200">
                                     <i class="fa-solid fa-seedling text-3xl text-white"></i>
                                 </div>
@@ -933,7 +946,8 @@
                             </button>
 
                             <!-- Remaining Bin -->
-                            <button onclick="checkSort('remaining')" id="bin-remaining" class="bin-btn bg-gray-600 hover:bg-gray-700 border-2 border-gray-400/50 rounded-2xl p-4 flex flex-col items-center space-y-2 shadow-lg transition-all duration-200 active:scale-95 group">
+                            <button onclick="checkSort('remaining')" ondragover="handleDragOver(event)" ondrop="handleDrop(event, 'remaining')" id="bin-remaining" class="bin-btn bg-gray-600 hover:bg-gray-700 border-2 border-gray-400/50 rounded-2xl p-4 flex flex-col items-center space-y-2 shadow-lg transition-all duration-200 active:scale-95 group relative">
+                                <span class="absolute top-2 right-2 bg-white/20 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded border border-white/30">[Phím 3 / 🡪]</span>
                                 <div class="bg-white/10 p-3 rounded-xl group-hover:scale-110 transition-transform duration-200">
                                     <i class="fa-solid fa-trash-can text-3xl text-white"></i>
                                 </div>
@@ -3518,6 +3532,147 @@
             gameState.isLocked = false;
         }
 
+        // --- Web Audio SFX & Keyboard & Drag-Drop Extensions ---
+        let gameSoundEnabled = localStorage.getItem('eco_game_sound') !== 'false';
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) audioCtx = new AudioContext();
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function toggleGameSound() {
+            gameSoundEnabled = !gameSoundEnabled;
+            localStorage.setItem('eco_game_sound', gameSoundEnabled.toString());
+            const icon = document.getElementById('sound-icon');
+            const text = document.getElementById('sound-text');
+            if (gameSoundEnabled) {
+                if (icon) icon.className = 'fa-solid fa-volume-high text-emerald-300';
+                if (text) text.textContent = 'Âm thanh';
+                playSFX('correct');
+            } else {
+                if (icon) icon.className = 'fa-solid fa-volume-xmark text-gray-400';
+                if (text) text.textContent = 'Tắt tiếng';
+            }
+        }
+
+        function playSFX(type) {
+            if (!gameSoundEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                const now = ctx.currentTime;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                if (type === 'correct') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.15);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                } else if (type === 'combo') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.setValueAtTime(659.25, now + 0.1);
+                    osc.frequency.setValueAtTime(783.99, now + 0.2);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.exponentialRampToValueAtTime(160, now + 0.2);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                } else if (type === 'convert') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(659.25, now);
+                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.2);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                }
+            } catch(e) {}
+        }
+
+        // --- Drag & Drop Handlers ---
+        function handleDragStart(e) {
+            e.dataTransfer.setData('text/plain', gameState.currentItem ? gameState.currentItem.category : '');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDrop(e, targetCategory) {
+            e.preventDefault();
+            checkSort(targetCategory);
+        }
+
+        // --- Keyboard Shortcuts ---
+        window.addEventListener('keydown', (e) => {
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
+            const gameBoard = document.getElementById('game-board');
+            if (!gameBoard) return;
+
+            if (e.key === '1' || e.key === 'ArrowLeft') {
+                checkSort('recyclable');
+            } else if (e.key === '2' || e.key === 'ArrowDown') {
+                checkSort('organic');
+            } else if (e.key === '3' || e.key === 'ArrowRight') {
+                checkSort('remaining');
+            }
+        });
+
+        // --- Convert Game Score to Real EcoPoints ---
+        async function convertGameScoreToPoints() {
+            if (!currentUser) {
+                showToast('🔑 Vui lòng Đăng nhập để quy đổi điểm game vào tài khoản!', 'info');
+                openAuthModal('login');
+                return;
+            }
+
+            if (gameState.score < 50) {
+                showToast('⚡ Cần đạt tối thiểu 50 điểm game để quy đổi điểm thưởng!', 'info');
+                return;
+            }
+
+            const today = new Date().toISOString().split('T')[0];
+            const convertKey = `eco_game_convert_${currentUser.id}_${today}`;
+            const convertedToday = localStorage.getItem(convertKey);
+
+            if (convertedToday) {
+                showToast('⚡ Bạn đã nhận điểm thưởng game hôm nay rồi! Hãy quay lại vào ngày mai.', 'info');
+                return;
+            }
+
+            const bonusPoints = 25;
+            currentUser.eco_points = (currentUser.eco_points || 0) + bonusPoints;
+            localStorage.setItem(convertKey, 'true');
+
+            renderHeaderMember();
+            populateDashboard();
+            playSFX('convert');
+
+            showToast(`🎉 QUY ĐỔI THÀNH CÔNG! +${bonusPoints} EcoPoints đã thêm vào tài khoản của bạn!`, 'success');
+        }
+
         function checkSort(category) {
             if (!gameState.isPlaying || gameState.isLocked) return;
             if (!gameState.currentItem) return;
@@ -3541,6 +3696,13 @@
                 gameState.score += points;
                 gameState.correct++;
                 
+                // Play sound effect
+                if (gameState.streak >= 3) {
+                    playSFX('combo');
+                } else {
+                    playSFX('correct');
+                }
+
                 // Visual feedback: green glow
                 binEl.classList.add('ring-4', 'ring-emerald-400', 'scale-105');
                 messageEl.textContent = `✅ Chính xác! +${points} điểm${comboMultiplier > 1 ? ` (Combo x${comboMultiplier})` : ''}`;
@@ -3564,6 +3726,9 @@
             } else {
                 gameState.streak = 0;
                 gameState.wrong++;
+
+                // Play wrong sound
+                playSFX('wrong');
                 
                 // Show correct bin
                 const correctBin = document.getElementById(`bin-${gameState.currentItem.category}`);
