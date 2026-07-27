@@ -2263,7 +2263,7 @@
                                 <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Email</label>
                                 <div class="relative mt-1">
                                     <i class="fa-regular fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                                    <input id="login-email" type="email" placeholder="email@cmc.edu.vn"
+                                    <input id="login-email" type="email" autocomplete="off" value="" placeholder="email@cmc.edu.vn"
                                         class="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
                                 </div>
                             </div>
@@ -2271,8 +2271,12 @@
                                 <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Mật khẩu</label>
                                 <div class="relative mt-1">
                                     <i class="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                                    <input id="login-password" type="password" placeholder="••••••••"
-                                        class="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
+                                    <input id="login-password" type="password" autocomplete="new-password" value="" placeholder="••••••••"
+                                        class="w-full pl-9 pr-10 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
+                                    <button type="button" onclick="togglePasswordVisibility('login-password', 'login-pass-icon')"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-emerald-600 transition-colors p-1">
+                                        <i id="login-pass-icon" class="fa-solid fa-eye text-xs"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -2295,15 +2299,15 @@
                                     <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Họ và tên *</label>
                                     <div class="relative mt-1">
                                         <i class="fa-solid fa-user absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                                        <input id="reg-name" type="text" placeholder="Nguyễn Văn A"
+                                        <input id="reg-name" type="text" autocomplete="off" value="" placeholder="Nguyễn Văn A"
                                             class="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Email *</label>
+                                    <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Email * (Duy nhất)</label>
                                     <div class="relative mt-1">
                                         <i class="fa-regular fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                                        <input id="reg-email" type="email" placeholder="email@cmc.edu.vn"
+                                        <input id="reg-email" type="email" autocomplete="off" value="" placeholder="email@cmc.edu.vn"
                                             class="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
                                     </div>
                                 </div>
@@ -2311,7 +2315,7 @@
                                     <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Số điện thoại</label>
                                     <div class="relative mt-1">
                                         <i class="fa-solid fa-phone absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                                        <input id="reg-phone" type="tel" placeholder="0912345678"
+                                        <input id="reg-phone" type="tel" autocomplete="off" value="" placeholder="0912345678"
                                             class="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
                                     </div>
                                 </div>
@@ -2319,8 +2323,12 @@
                                     <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">Mật khẩu *</label>
                                     <div class="relative mt-1">
                                         <i class="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                                        <input id="reg-password" type="password" placeholder="Tối thiểu 6 ký tự"
-                                            class="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
+                                        <input id="reg-password" type="password" autocomplete="new-password" value="" placeholder="Tối thiểu 6 ký tự"
+                                            class="w-full pl-9 pr-10 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 transition-all">
+                                        <button type="button" onclick="togglePasswordVisibility('reg-password', 'reg-pass-icon')"
+                                            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-emerald-600 transition-colors p-1">
+                                            <i id="reg-pass-icon" class="fa-solid fa-eye text-xs"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -4146,13 +4154,27 @@
                 const cleanEmail = email.trim().toLowerCase();
                 let createdUserId = null;
 
+                // Check duplicate email in Supabase profiles
                 if (db) {
                     try {
                         const { data: existing } = await db.from('profiles').select('id').ilike('email', cleanEmail).maybeSingle();
-                        if (existing) throw new Error('Email này đã được đăng ký.');
+                        if (existing) {
+                            throw new Error('⚠️ Email này đã được đăng ký tài khoản. Vui lòng chuyển sang tab Đăng nhập!');
+                        }
                     } catch (e) {
-                        if (e.message && e.message.includes('đã được đăng ký')) throw e;
+                        if (e.message && e.message.includes('đăng ký')) throw e;
                     }
+                }
+
+                // Check duplicate email in local registry
+                try {
+                    const registry = JSON.parse(localStorage.getItem('eco_accounts_registry') || '{}');
+                    if (registry[cleanEmail]) {
+                        throw new Error('⚠️ Email này đã được đăng ký tài khoản. Vui lòng chuyển sang tab Đăng nhập!');
+                    }
+                } catch(e) {
+                    if (e.message && e.message.includes('đăng ký')) throw e;
+                }
 
                     // Register user & password directly in Supabase Auth
                     try {
@@ -4494,6 +4516,34 @@
             btn.className = 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-1.5';
         }
 
+        // Password Eye Toggle Helper
+        function togglePasswordVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (!input || !icon) return;
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-solid fa-eye-slash text-xs text-emerald-600';
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-solid fa-eye text-xs text-gray-400';
+            }
+        }
+
+        function clearAuthInputs() {
+            if (document.getElementById('login-email')) document.getElementById('login-email').value = '';
+            if (document.getElementById('login-password')) {
+                document.getElementById('login-password').value = '';
+                document.getElementById('login-password').type = 'password';
+            }
+            if (document.getElementById('login-pass-icon')) document.getElementById('login-pass-icon').className = 'fa-solid fa-eye text-xs';
+
+            if (document.getElementById('reg-password')) {
+                document.getElementById('reg-password').type = 'password';
+            }
+            if (document.getElementById('reg-pass-icon')) document.getElementById('reg-pass-icon').className = 'fa-solid fa-eye text-xs';
+        }
+
         function resetRegForm() {
             document.getElementById('reg-step-1')?.classList.remove('hidden');
             document.getElementById('reg-step-2')?.classList.add('hidden');
@@ -4503,18 +4553,23 @@
             if (document.getElementById('reg-password')) document.getElementById('reg-password').value = '';
             if (document.getElementById('reg-otp-email-display')) document.getElementById('reg-otp-email-display').textContent = '';
             document.querySelectorAll('.reg-otp-box').forEach(b => { b.value = ''; b.classList.remove('border-red-400'); });
+            clearAuthInputs();
         }
 
         // --- Auth Modal ---
         function openAuthModal(tab = 'login') {
+            clearAuthInputs();
+            resetRegForm();
             document.getElementById('auth-modal').classList.remove('hidden');
             switchAuthTab(tab);
         }
         function closeAuthModal() {
             document.getElementById('auth-modal').classList.add('hidden');
             resetRegForm();
+            clearAuthInputs();
         }
         function switchAuthTab(tab) {
+            clearAuthInputs();
             const loginForm = document.getElementById('auth-login-form');
             const regForm = document.getElementById('auth-register-form');
             const tabLogin = document.getElementById('auth-tab-login');
