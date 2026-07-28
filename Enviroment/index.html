@@ -141,6 +141,25 @@
             border-radius: 6px;
         }
 
+        /* Mobile Touch & Cross-Device Responsive Rules */
+        html, body {
+            overflow-x: hidden;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            width: 100%;
+        }
+
+        button, a, input, select, textarea {
+            touch-action: manipulation;
+        }
+
+        /* Prevent auto-zoom on mobile inputs */
+        @media screen and (max-width: 767px) {
+            input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="number"], select, textarea {
+                font-size: 16px !important;
+            }
+        }
+
         /* 3D Kinetic Ecosystem (Hologram Motion Graphics) Animations */
         @keyframes crystalSpin {
             0% { transform: rotate3d(1, 1, 1, 0deg) rotate(45deg); }
@@ -264,24 +283,26 @@
 
                 <!-- Mobile menu button -->
                 <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="p-2 rounded-xl text-gray-600 hover:text-ecoGreen-600 hover:bg-ecoGreen-50 focus:outline-none transition-all">
-                        <i class="fa-solid fa-bars text-xl"></i>
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="p-2.5 rounded-xl text-gray-700 hover:text-ecoGreen-600 hover:bg-ecoGreen-50 focus:outline-none transition-all flex items-center justify-center" aria-label="Menu">
+                        <i id="mobile-menu-icon" class="fa-solid fa-bars text-2xl"></i>
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- Mobile Menu (Hidden by default) -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl border-b border-gray-100 py-4 px-6 space-y-3 shadow-xl">
-            <a href="#hero" class="block font-semibold text-gray-700 hover:text-ecoGreen-600 py-1.5 border-b border-gray-50">Trang Chủ</a>
-            <a href="#problem" class="block font-semibold text-gray-700 hover:text-ecoGreen-600 py-1.5 border-b border-gray-50">Thực Trạng</a>
-            <a href="#solution" class="block font-semibold text-gray-700 hover:text-ecoGreen-600 py-1.5 border-b border-gray-50">Giải Pháp</a>
-            <a href="#roadmap" class="block font-semibold text-gray-700 hover:text-ecoGreen-600 py-1.5 border-b border-gray-50">Kế Hoạch</a>
-            <a href="#team" class="block font-semibold text-gray-700 hover:text-ecoGreen-600 py-1.5 border-b border-gray-50">Đội Ngũ</a>
-            <a href="#contact" class="block font-semibold text-gray-700 hover:text-ecoGreen-600 py-1.5">Liên Hệ</a>
-            <a href="#contact" class="block text-center bg-gradient-to-r from-ecoGreen-600 to-emerald-600 text-white font-bold py-3 rounded-xl shadow-md">
-                <i class="fa-solid fa-leaf mr-2"></i>Tham Gia Ngay
-            </a>
+        <div id="mobile-menu" class="hidden md:hidden bg-white/98 backdrop-blur-2xl border-b border-gray-200 py-4 px-6 space-y-3 shadow-2xl transition-all">
+            <a href="#hero" onclick="toggleMobileMenu(false)" class="flex items-center gap-2.5 font-bold text-gray-800 hover:text-ecoGreen-600 py-2 border-b border-gray-100"><i class="fa-solid fa-house text-ecoGreen-500 text-sm"></i> Trang Chủ</a>
+            <a href="#problem" onclick="toggleMobileMenu(false)" class="flex items-center gap-2.5 font-bold text-gray-800 hover:text-ecoGreen-600 py-2 border-b border-gray-100"><i class="fa-solid fa-map-location-dot text-emerald-500 text-sm"></i> Bản Đồ Live</a>
+            <a href="#solution" onclick="toggleMobileMenu(false)" class="flex items-center gap-2.5 font-bold text-gray-800 hover:text-ecoGreen-600 py-2 border-b border-gray-100"><i class="fa-solid fa-wand-magic-sparkles text-teal-500 text-sm"></i> Giải Pháp</a>
+            <a href="#roadmap" onclick="toggleMobileMenu(false)" class="flex items-center gap-2.5 font-bold text-gray-800 hover:text-ecoGreen-600 py-2 border-b border-gray-100"><i class="fa-solid fa-timeline text-cyan-500 text-sm"></i> Kế Hoạch</a>
+            <a href="#contact" onclick="toggleMobileMenu(false)" class="flex items-center gap-2.5 font-bold text-gray-800 hover:text-ecoGreen-600 py-2 border-b border-gray-100"><i class="fa-solid fa-hand-holding-heart text-amber-500 text-sm"></i> Trạm Hỗ Trợ</a>
+            
+            <div class="pt-2 flex flex-col gap-2">
+                <button id="mobile-auth-btn" onclick="toggleMobileMenu(false); openAuthModal('login')" class="w-full text-center bg-gradient-to-r from-ecoGreen-600 to-emerald-600 text-white font-black py-3 rounded-2xl shadow-lg flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-right-to-bracket text-xs"></i><span>Đăng Nhập / Đăng Ký</span>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -4619,28 +4640,62 @@
 
 
 
+        // --- Mobile Menu Toggle Helper ---
+        function toggleMobileMenu(forceState) {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('mobile-menu-icon');
+            if (!menu) return;
+            const isHidden = menu.classList.contains('hidden');
+            const newState = typeof forceState === 'boolean' ? forceState : isHidden;
+            if (newState) {
+                menu.classList.remove('hidden');
+                if (icon) icon.className = 'fa-solid fa-xmark text-2xl text-emerald-600';
+            } else {
+                menu.classList.add('hidden');
+                if (icon) icon.className = 'fa-solid fa-bars text-2xl text-gray-700';
+            }
+        }
+
         // --- Header render ---
         function renderHeaderGuest() {
             const btn = document.getElementById('header-auth-btn');
-            if (!btn) return;
-            btn.innerHTML = `<i class="fa-solid fa-right-to-bracket mr-1.5 text-xs"></i>Đăng nhập`;
-            btn.onclick = () => openAuthModal('login');
-            btn.className = 'bg-gradient-to-r from-ecoGreen-600 to-emerald-600 hover:from-ecoGreen-700 hover:to-emerald-700 text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-1.5';
+            const mBtn = document.getElementById('mobile-auth-btn');
+            if (btn) {
+                btn.innerHTML = `<i class="fa-solid fa-right-to-bracket mr-1.5 text-xs"></i>Đăng nhập`;
+                btn.onclick = () => openAuthModal('login');
+                btn.className = 'bg-gradient-to-r from-ecoGreen-600 to-emerald-600 hover:from-ecoGreen-700 hover:to-emerald-700 text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-1.5';
+            }
+            if (mBtn) {
+                mBtn.innerHTML = `<i class="fa-solid fa-right-to-bracket text-xs"></i><span>Đăng Nhập / Đăng Ký</span>`;
+                mBtn.onclick = () => { toggleMobileMenu(false); openAuthModal('login'); };
+            }
         }
 
         function renderHeaderMember() {
             if (!currentUser) return;
             const btn = document.getElementById('header-auth-btn');
-            if (!btn) return;
+            const mBtn = document.getElementById('mobile-auth-btn');
             const level = getLevel(currentUser.eco_points || 0);
             const avatar = currentUser.avatar_emoji || level.icon;
-            btn.innerHTML = `
-                <span class="text-base">${avatar}</span>
-                <span class="max-w-[90px] truncate font-bold">${currentUser.full_name ? currentUser.full_name.split(' ').pop() : 'Thành viên'}</span>
-                <span class="bg-white/20 px-1.5 py-0.5 rounded-full text-[10px] font-extrabold">⚡${currentUser.eco_points || 0}</span>
-            `;
-            btn.onclick = openDashboard;
-            btn.className = 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-1.5';
+            const nameStr = currentUser.full_name ? currentUser.full_name.split(' ').pop() : 'Thành viên';
+
+            if (btn) {
+                btn.innerHTML = `
+                    <span class="text-base">${avatar}</span>
+                    <span class="max-w-[90px] truncate font-bold">${nameStr}</span>
+                    <span class="bg-white/20 px-1.5 py-0.5 rounded-full text-[10px] font-extrabold">⚡${currentUser.eco_points || 0}</span>
+                `;
+                btn.onclick = openDashboard;
+                btn.className = 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-1.5';
+            }
+
+            if (mBtn) {
+                mBtn.innerHTML = `
+                    <span class="text-base">${avatar}</span>
+                    <span>${nameStr} (⚡${currentUser.eco_points || 0} pts)</span>
+                `;
+                mBtn.onclick = () => { toggleMobileMenu(false); openDashboard(); };
+            }
         }
 
         // Password Eye Toggle Helper
