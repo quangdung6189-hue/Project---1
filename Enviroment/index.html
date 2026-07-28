@@ -3076,27 +3076,29 @@
             showToast('Đã sao chép mã xác thực!', 'success');
         }
 
-        async function sendRealEmailToRecipient(toEmail, toName, verificationCode, actionType = 'Đặt lịch thu gom') {
-            showToast('📧 Đang tiến hành gửi email xác thực tới ' + toEmail + '...', 'info');
+        async function sendRealEmailToRecipient(toEmail, toName, verificationCode, actionType = 'Xác thực tài khoản') {
+            showToast('📧 Đang gửi mã OTP bảo mật tới ' + toEmail + '...', 'info');
 
-            // 1. EmailJS (if configured with keys)
+            // 1. EmailJS Integration (Supports HTML Template like Google/Apple)
             if (typeof emailjs !== 'undefined' && window.EMAILJS_PUBLIC_KEY) {
                 try {
                     await emailjs.send(window.EMAILJS_SERVICE_ID || 'service_default', window.EMAILJS_TEMPLATE_ID || 'template_default', {
                         to_email: toEmail,
                         to_name: toName,
                         verification_code: verificationCode,
-                        action_type: actionType
+                        action_type: actionType,
+                        reply_to: 'support@cmc.edu.vn'
                     });
-                    showToast('✅ Đã gửi email xác thực thành công tới ' + toEmail, 'success');
+                    showToast('✅ Đã gửi email xác thực OTP tới ' + toEmail, 'success');
                     return true;
                 } catch (e) {
                     console.warn('EmailJS delivery warning:', e);
                 }
             }
 
-            // 2. Direct Ajax Mail Relay via FormSubmit API (Sends REAL email directly into recipient inbox!)
+            // 2. FormSubmit Corporate-Grade Security Email Relay
             try {
+                const nowStr = new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
                 const res = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(toEmail), {
                     method: 'POST',
                     headers: {
@@ -3104,23 +3106,28 @@
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify({
-                        _subject: `[SV Tái Chế CMC] Mã xác thực ${actionType}: ${verificationCode}`,
-                        _template: 'box',
-                        "Họ và tên": toName,
-                        "Email nhận mã": toEmail,
-                        "Mã xác thực 6 chữ số": verificationCode,
-                        "Thông điệp": `Xin chào ${toName},\n\nCảm ơn bạn đã tham gia đồng hành cùng GreenHub trong chiến dịch 'Sinh viên tái chế – Hành động xanh vì tương lai'.\n\nMÃ XÁC THỰC TÀI KHOẢN CỦA BẠN LÀ: ${verificationCode}\n\nVui lòng không chia sẻ mã này cho người khác.`
+                        _subject: `🔒 [GreenHub CMC] Mã xác thực bảo mật OTP: ${verificationCode}`,
+                        _template: 'table',
+                        _captcha: 'false',
+                        _autorespond: `Kính gửi ${toName},\n\nCảm ơn bạn đã đồng hành cùng GreenHub - Dự án Sinh Viên Tái Chế CMC University.\n\nMÃ XÁC THỰC BẢO MẬT (OTP) CỦA BẠN LÀ:\n\n👉  ${verificationCode}  👈\n\n(Mã có hiệu lực trong 5 phút. Vui lòng không chia sẻ mã này cho bất kỳ ai).\n\nTrân trọng,\nĐội ngũ GreenHub CMC`,
+                        "Hệ thống": "GreenHub Security Mailer",
+                        "Thành viên nhận": toName,
+                        "Email": toEmail,
+                        "MÃ OTP BẢO MẬT": `[  ${verificationCode}  ]`,
+                        "Mục đích": actionType,
+                        "Thời gian khởi tạo": nowStr,
+                        "Cảnh báo bảo mật": "Mã này chỉ dùng cho tài khoản của bạn. Tuyệt đối KHÔNG chia sẻ mã OTP cho người khác."
                     })
                 });
                 if (res.ok) {
-                    showToast('✅ Đã gửi email xác thực trực tiếp vào hộp thư ' + toEmail, 'success');
+                    showToast('✅ Đã gửi mã OTP bảo mật vào hộp thư ' + toEmail, 'success');
                     return true;
                 }
             } catch (err) {
                 console.warn('Mail relay error:', err);
             }
 
-            showToast('Đã tạo mã xác thực ' + verificationCode + ' cho ' + toEmail, 'info');
+            showToast('Mã OTP của bạn là: ' + verificationCode, 'info');
             return false;
         }
 
